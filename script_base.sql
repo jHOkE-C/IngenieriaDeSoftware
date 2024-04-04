@@ -43,7 +43,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `mydb`.`curso`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mydb`.`curso` (
+CREATE TABLE IF NOT EXISTS `estuprime`.`curso` (
   `id` INT NOT NULL,
   `duracion` VARCHAR(45) NULL,
   `descripcion` VARCHAR(45) NULL,
