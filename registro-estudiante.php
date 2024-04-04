@@ -66,12 +66,12 @@
 
         <div class="inline-flex items-center gap-2 list-none lg:ml-auto">
           <a
-            href="/signup"
+            href="registro.php"
             class="inline-flex items-center h-8 justify-center px-4 py-2 text-sm font-medium text-fondo bg-boton rounded-lg group focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 hover:bg-fondo active:bg-gray-200 active:text-input focus-visible:outline-black hover:text-boton">
             Registrarse
           </a>
           <a
-            href="/login.php"
+            href="login.php"
             class="inline-flex items-center h-8 justify-center px-4 py-2 text-sm font-medium text-fondo bg-boton rounded-lg group focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 hover:bg-fondo active:bg-gray-200 active:text-input focus-visible:outline-black hover:text-boton">
             Iniciar Sesion  
           </a>
@@ -88,10 +88,10 @@
           <div>
             <h2 class="font-medium leading-tight text-black text-xl font-display">
               <div class="inline-flex items-center gap-7 list-none lg:ml-auto">
-              <a href="login-estudiante.php" >
+              <a href="registro-estudiante.php" >
                   Registro de Estudiante
                 </a>
-                <a href="login.php" class="inline-flex items-center h-8 w-150 justify-center px-4 py-2 text-sm font-medium text-fondo bg-boton rounded-lg group focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 hover:bg-fondo duration-150 active:bg-gray-200 active:text-input focus-visible:outline-black hover:text-boton ">
+                <a href="registro.php" class="inline-flex items-center h-8 w-150 justify-center px-4 py-2 text-sm font-medium text-fondo bg-boton rounded-lg group focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 hover:bg-fondo duration-150 active:bg-gray-200 active:text-input focus-visible:outline-black hover:text-boton ">
                   Registro de Docente
                 </a>
               </div>
@@ -121,7 +121,7 @@
             </div>
           </div>
         </div>
-        <form action="registro.php" method="post">
+        <form action="validar.php" method="get">
 
           <div class="space-y-6">
             <div class="w-full flex flex-row gap-3">
@@ -152,7 +152,7 @@
               <button class="items-center justify-center h-12 rounded-xl focus-visible:outline-black focus:outline-none inline-flex bg-boton border-2 border-black duration-150 focus-visible:ring-black hover:bg-transparent hover:border-black hover:text-black px-6 py-3 text-center text-white w-full" type="submit">Crear Cuenta</button>
             </div>
             <div class="space-y-4">
-              <p class="font-medium text-sm leading-tight text-black">Ya eres miembro? <a class="text-accent-500 hover:text-accent-400 ml-3" href="/login">Inicia Sesion</a></p>
+              <p class="font-medium text-sm leading-tight text-black">Ya eres miembro? <a class="text-accent-500 hover:text-accent-400 ml-3" href="login.php">Inicia Sesion</a></p>
             </div>
           </div>
         </form>
