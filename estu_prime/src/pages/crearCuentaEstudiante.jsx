@@ -1,12 +1,9 @@
 import React from 'react'
-import NavB from '../components/navbar.jsx'
+import FormE from '../components/formE';
 const crearCuentaEstudiante = () => {
   return (
     <div>
-      <NavB/>
-      <div>
-        <div>crearCuentaEstudiante</div>
-      </div>
+      <FormE/>
     </div> 
   )
 }
