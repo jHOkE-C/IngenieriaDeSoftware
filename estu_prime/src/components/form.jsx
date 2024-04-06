@@ -26,7 +26,7 @@ function form() {
                         <input type="password" placeholder='Contraseña'className='caja1' required minLength={8}/>
                     </div>
                     <div className='contenedor'>
-                        <input type="checkbox" />
+                        <input type="checkbox" required/>
                         <p>Creating an account means you’re okay with our Terms of
                             Service, Privacy Policy, and our default Notification Settings</p>
                     </div>
