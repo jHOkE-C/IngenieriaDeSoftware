@@ -46,11 +46,6 @@ export default form
 
 
 const FormContainer = styled.nav`
-    #checkterms{
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
     p{
         font-size: 10px;
     }
@@ -65,11 +60,12 @@ const FormContainer = styled.nav`
         border-radius: 5px;
     }
     .caja2{
-        width: 80%;
+        width: 83%;
         background-color: #B4D2DA;
         border: none;
         padding: 12px;
         margin: 5px;
+        margin-left: 25px;
         border-radius: 5px;
     }
     #divLinks{
@@ -97,8 +93,7 @@ const FormContainer = styled.nav`
         justify-content: center;
         align-content: center;
         height: calc(80vh);
-        width: calc(33vw);
-        background-color: beige;
+        width: calc(33vw);  
     }
     .buttonE{
         color: white;
@@ -120,10 +115,11 @@ const FormContainer = styled.nav`
         align-items: center;
     }
     .contenedor2{
-        width: 60%;
+        width: 65%;
         display: flex;
         justify-content: center;
         align-items: center;
+        margin-left: 80px;
     }
     .contenedor3{
         width: 100%;
