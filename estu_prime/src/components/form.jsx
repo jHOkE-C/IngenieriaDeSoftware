@@ -26,6 +26,11 @@ function form() {
                         <input type="password" placeholder='Contraseña'className='caja1' required minLength={8}/>
                     </div>
                     <div className='contenedor'>
+                        <input type="checkbox" />
+                        <p>Creating an account means you’re okay with our Terms of
+                            Service, Privacy Policy, and our default Notification Settings</p>
+                    </div>
+                    <div className='contenedor'>
                         <button className='buttonG' type='submit' >CrearCuenta</button>
                     </div>
                 </form>
@@ -39,6 +44,9 @@ export default form
 
 
 const FormContainer = styled.nav`
+    p{
+        font-size: 10px;
+    }
     #radius{
         width: 10px;
     }
