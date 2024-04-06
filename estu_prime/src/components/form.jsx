@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import Google from '../assents/google.jpg'
 function form() {
   return (
     <FormContainer>
@@ -12,8 +13,7 @@ function form() {
                         <Link className='buttonE' to={'/CrearCuentaEstu'}>Crear Cuenta Estudiante</Link>
                     </div>
                     <div className='contenedor'>
-                        <button className='buttonG'>Iniciar Sesion con:</button> 
-            
+                        <button className='buttonG'>Iniciar Sesion con: <img src={Google} alt="" className='img'/></button>                      
                     </div>
                     <div className='contenedor'>
                         <p>O continuar con:</p>           
@@ -30,7 +30,7 @@ function form() {
                     <br />
                     <div className='contenedor2'>
                         <input id='checkterms' type="checkbox" required/>
-                        <p class p>Creating an account means you’re okay with our Terms of Service, Privacy Policy, and our default Notification Settings</p>
+                        <p class p>Creando una cuenta significa que estas deacuerdo con nuestros Terminos de servicio, Politicas de Privacidad y nuestra Configuracion Predeterminada de Notificaciones</p>
                     </div>
                     <div className='contenedor'>
                         <button className='buttonG' type='submit' >Crear Cuenta</button>
@@ -46,6 +46,10 @@ export default form
 
 
 const FormContainer = styled.nav`
+    .img{
+        width: 15px;
+        height: 15px;
+    }
     p{
         font-size: 10px;
     }
@@ -93,7 +97,7 @@ const FormContainer = styled.nav`
         justify-content: center;
         align-content: center;
         height: calc(80vh);
-        width: calc(33vw);  
+        width: calc(33vw);
     }
     .buttonE{
         color: white;
@@ -130,6 +134,9 @@ const FormContainer = styled.nav`
         background-color: #15292E;
         color: white;
         margin: 10px;
+        display: flex;
+        align-content: center;
+        justify-content: center;
         border-radius: 5px;
         padding-top: 15px;
         padding-bottom: 15px;
