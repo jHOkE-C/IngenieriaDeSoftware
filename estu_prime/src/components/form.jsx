@@ -18,15 +18,15 @@ function form() {
                         <p>O continuar con:</p>           
                     </div>
                     <div className='contenedor'>
-                        <input type="text" placeholder='Nombres' className='caja1'/>
-                        <input type="text" placeholder='Apellidos' className='caja1'/>
+                        <input type="text" placeholder='Nombres' className='caja1' required minLength={4}/>
+                        <input type="text" placeholder='Apellidos' className='caja1' required minLength={5}/>
                     </div>
                     <div>
-                        <input type="email " placeholder='Email'className='caja1'/>
-                        <input type="password" placeholder='Contraseña'className='caja1'/>
+                        <input type="email " placeholder='Email'className='caja1' required/>
+                        <input type="password" placeholder='Contraseña'className='caja1' required minLength={8}/>
                     </div>
                     <div className='contenedor'>
-                        <button className='buttonG' type='submit'>CrearCuenta</button>
+                        <button className='buttonG' type='submit' >CrearCuenta</button>
                     </div>
                 </form>
             </div>
