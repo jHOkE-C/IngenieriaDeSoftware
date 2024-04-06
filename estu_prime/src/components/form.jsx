@@ -8,11 +8,12 @@ function form() {
             <div id='formD'>
                 <form action="">
                     <div id ="divLinks">
-                        <Link className='buttonE' to={'/iniciarSesion'}>Crearr Cuenta Docente</Link>
+                        <Link className='buttonE' to={'/iniciarSesion'}>Crear Cuenta Docente</Link>
                         <Link className='buttonE' to={'/CrearCuentaEstu'}>Crear Cuenta Estudiante</Link>
                     </div>
                     <div className='contenedor'>
-                        <button className='buttonG'>Iniciar Sesion con:</button>             
+                        <button className='buttonG'>Iniciar Sesion con:</button> 
+            
                     </div>
                     <div className='contenedor'>
                         <p>O continuar con:</p>           
@@ -21,17 +22,18 @@ function form() {
                         <input type="text" placeholder='Nombres' className='caja1' required minLength={4}/>
                         <input type="text" placeholder='Apellidos' className='caja1' required minLength={5}/>
                     </div>
-                    <div>
-                        <input type="email " placeholder='Email'className='caja1' required/>
-                        <input type="password" placeholder='Contraseña'className='caja1' required minLength={8}/>
+                    <div className='contenedor3'>
+                        <input type="email " placeholder='Email'className='caja2' required/>
+                        <input type="password" placeholder='Contraseña'className='caja2' required minLength={8}/>
+                    </div>
+                    <br />
+                    <br />
+                    <div className='contenedor2'>
+                        <input id='checkterms' type="checkbox" required/>
+                        <p class p>Creating an account means you’re okay with our Terms of Service, Privacy Policy, and our default Notification Settings</p>
                     </div>
                     <div className='contenedor'>
-                        <input type="checkbox" required/>
-                        <p>Creating an account means you’re okay with our Terms of
-                            Service, Privacy Policy, and our default Notification Settings</p>
-                    </div>
-                    <div className='contenedor'>
-                        <button className='buttonG' type='submit' >CrearCuenta</button>
+                        <button className='buttonG' type='submit' >Crear Cuenta</button>
                     </div>
                 </form>
             </div>
@@ -44,6 +46,11 @@ export default form
 
 
 const FormContainer = styled.nav`
+    #checkterms{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
     p{
         font-size: 10px;
     }
@@ -51,6 +58,14 @@ const FormContainer = styled.nav`
         width: 10px;
     }
     .caja1{
+        background-color: #B4D2DA;
+        border: none;
+        padding: 12px;
+        margin: 5px;
+        border-radius: 5px;
+    }
+    .caja2{
+        width: 80%;
         background-color: #B4D2DA;
         border: none;
         padding: 12px;
@@ -66,14 +81,13 @@ const FormContainer = styled.nav`
        text-decoration : none;
        color: #B4D2DA;
     }
-    input{
-        width: 80%;
-    }
+
     #formD{
         margin: 10px;
         display: flex;
+        flex-direction: column;
         justify-content: center;
-        align-content: center;
+        align-items: center;
         height: calc(80vh);
         width: calc(98vw);
     }
@@ -81,12 +95,14 @@ const FormContainer = styled.nav`
         display: block;
         align-items: center;
         justify-content: center;
+        align-content: center;
         height: calc(80vh);
-        width: calc(35vw);
+        width: calc(33vw);
+        background-color: beige;
     }
     .buttonE{
         color: white;
-        margin: 10px;
+        margin: 5px;
         padding: 10px;
         border: none;
         background-color: #15292E;
@@ -102,6 +118,16 @@ const FormContainer = styled.nav`
         display: flex;
         justify-content: center;
         align-items: center;
+    }
+    .contenedor2{
+        width: 60%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .contenedor3{
+        width: 100%;
+        height: 10%;
     }
     .buttonG{
         border: none;
