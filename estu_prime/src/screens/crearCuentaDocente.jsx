@@ -1,12 +1,13 @@
 import React from 'react'
-import NavB from './navbar';
-
+import NavB from '../components/navbar.jsx'
 const crearCuentaDocente = () => {
   return (
     <div>
       <NavB/>
-      <div>crearCuentaDocente</div>
-    </div>
+      <div>
+        <div>crearCuentaDocente</div>
+      </div>
+    </div> 
   );
 }
 
