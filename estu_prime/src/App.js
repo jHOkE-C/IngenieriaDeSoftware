@@ -1,21 +1,16 @@
 import React from 'react';
 import styled from 'styled-components'
 import NavB from './components/navbar';
-import FormE from './components/form';
+import Header from './components/header'
 
+const isLogged = true;
 function App() {
   return (
-    <General>
-      <div>
-        <NavB/>
-        <FormE/>
-      </div>
-    </General>
+    <>
+     <Header/>
+     <NavB/>
+    </>
   );
 }
 
 export default App;
-
-const General = styled.nav`
-  
-`

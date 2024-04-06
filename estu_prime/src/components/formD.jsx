@@ -1,16 +1,15 @@
 import React from 'react'
 import styled from 'styled-components';
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import Google from '../assents/google.jpg'
-function form() {
+function formD() {
   return (
     <FormContainer>
-        <Router>
+  
             <div id='formD'>
                 <form action="">
                     <div id ="divLinks">
-                        <Link className='buttonE' to={'/iniciarSesion'}>Crear Cuenta Docente</Link>
-                        <Link className='buttonE' to={'/CrearCuentaEstu'}>Crear Cuenta Estudiante</Link>
+                        <a className='buttonE' href='/CrearCuentaDoc'>Crear Cuenta Docente</a>
+                        <a className='buttonE' href='/CrearCuentaEstu'>Crear Cuenta Estudiante</a>
                     </div>
                     <div className='contenedor'>
                         <button className='buttonG'>Iniciar Sesion con: <img src={Google} alt="" className='img'/></button>                      
@@ -37,12 +36,11 @@ function form() {
                     </div>
                 </form>
             </div>
-        </Router>
     </FormContainer>
   )
 }
 
-export default form
+export default formD
 
 
 const FormContainer = styled.nav`
