@@ -47,10 +47,6 @@ const footer = () => {
 export default footer
 
 const FooterContainer = styled.nav`
-  #divUltimo{
-    display: flex;
-    justify-content: space-between;
-  }
   #luDiv{
     display: flex;
   }
