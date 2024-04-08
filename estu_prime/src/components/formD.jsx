@@ -4,7 +4,6 @@ import Google from '../assents/google.jpg'
 function formD() {
   return (
     <FormContainer>
-  
             <div id='formD'>
                 <form action="">
                     <div id ="divLinks">
@@ -55,6 +54,7 @@ const FormContainer = styled.nav`
         width: 10px;
     }
     .caja1{
+        width: 38%;
         background-color: #B4D2DA;
         border: none;
         padding: 12px;
@@ -76,6 +76,8 @@ const FormContainer = styled.nav`
         justify-content: center;
     }
     a{
+        text-align: center;
+        font-size: 1rem;
        text-decoration : none;
        color: #B4D2DA;
     }
@@ -98,20 +100,27 @@ const FormContainer = styled.nav`
         width: calc(33vw);
     }
     .buttonE{
+        width: 45%  ;
         color: white;
         margin: 5px;
         padding: 10px;
         border: none;
         background-color: #15292E;
-        border-radius: 5px
+        border-radius: 5px;
+        border: #035058 solid 1px;
     }
     .buttonE:hover{
         background-color: #F2E9E4;
         color: #15292E;
+        border: #035058 solid 1px;
+    }
+    .buttonE:active{
+        background-color: #035058;
+        color: white;
+        border: #035058 solid 1px;
     }
     .contenedor{
         width: 100%;
-        height: 10%;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -128,6 +137,7 @@ const FormContainer = styled.nav`
         height: 10%;
     }
     .buttonG{
+        width: 90%;
         border: none;
         background-color: #15292E;
         color: white;
@@ -140,9 +150,16 @@ const FormContainer = styled.nav`
         padding-bottom: 15px;
         padding-left: 30%;
         padding-right: 30%;
+        border: #035058 solid 1px;
     }
-    .buttonG:hover{
+    .buttonG:hover{     
         background-color: #F2E9E4;
         color: #15292E;
+        border: #035058 solid 1px;
+    }
+    .buttonG:active{
+        background-color: #035058;
+        color: white;
+        border: #035058 solid 1px;
     }
 `

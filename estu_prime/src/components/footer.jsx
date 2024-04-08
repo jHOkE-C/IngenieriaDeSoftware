@@ -79,8 +79,10 @@ const FooterContainer = styled.nav`
     margin: 10px;
     text-decoration : none;
     color: #B4D2DA;
+    font-size: 1rem;
   }
   a:hover{
+
     color: #F2E9E4;
   }
 `
