@@ -1,19 +1,20 @@
 import React from 'react';
 import styled from 'styled-components';
 import Logo from './logo'
+import { Link } from 'react-router-dom';
 function header() {
   return (
     <HeaderContainer>
         <header id='navC'>
             <Logo/>
             <div>
-                <a href="">Acerca de Nosotros</a>
-                <a href="">Precios</a>
-                <a href="">Como Enseñar</a>
+                <Link href="">Acerca de Nosotros</Link>
+                <Link href="">Precios</Link>
+                <Link href="">Como Enseñar</Link>
             </div>
             <div>
-                <a className='buttonE' href='/iniciarSesion'>Iniciar Sesion</a>
-                <a className='buttonE' href='/CrearCuentaEstu'>Crear Cuenta</a>
+                <Link className='buttonE' to='/iniciarSesion'>Iniciar Sesion</Link>
+                <Link className='buttonE' to='/CrearCuentaEstu'>Crear Cuenta</Link>
             </div>
         </header>
     </HeaderContainer>

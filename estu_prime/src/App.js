@@ -19,8 +19,7 @@ export default App;
 
 const MainFrame = styled.nav`
   .main{
-    width: 100vw;
-    height: 100vh;
+    min-height: 768px;
     background-color: black
   }
 `
