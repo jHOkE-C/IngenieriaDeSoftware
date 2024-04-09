@@ -1,5 +1,5 @@
 import React from 'react'
-import FormDO from '../components/formD';
+import FormDO from '../../components/form/formD';
 const crearCuentaDocente = () => {
   return (
     <div>

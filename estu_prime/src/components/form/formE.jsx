@@ -1,15 +1,15 @@
 import React from 'react'
 import styled from 'styled-components';
-import Google from '../assents/google.jpg'
-import { Link } from 'react-router-dom';
-function formD() {
+import Google from '../../assents/google.jpg'
+function formE() {
   return (
-    <FormContainer className='formContainer'>
+    <FormContainerD>
+  
             <div id='formD'>
                 <form action="">
                     <div id ="divLinks">
-                        <Link className='buttonE' to='/CrearCuentaDoc'>Crear Cuenta Docente</Link>
-                        <Link className='buttonE' to='/CrearCuentaEstu'>Crear Cuenta Estudiante</Link>
+                        <a className='buttonE' href='/CrearCuentaDoc'>Crear Cuenta Docente</a>
+                        <a className='buttonE' href='/CrearCuentaEstu'>Crear Cuenta Estudiante</a>
                     </div>
                     <div className='contenedor'>
                         <button className='buttonG'>Iniciar Sesion con: <img src={Google} alt="" className='img'/></button>                      
@@ -36,14 +36,13 @@ function formD() {
                     </div>
                 </form>
             </div>
-    </FormContainer>
+    </FormContainerD>
   )
 }
 
-export default formD
+export default formE
 
-
-const FormContainer = styled.nav`
+const FormContainerD = styled.nav`
     .img{
         width: 15px;
         height: 15px;

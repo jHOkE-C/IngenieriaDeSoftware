@@ -1,5 +1,5 @@
 import React from 'react'
-import FormE from '../components/formE';
+import FormE from '../../components/form/formE';
 const crearCuentaEstudiante = () => {
   return (
     <div>
