@@ -6,10 +6,10 @@ import CrearDoc from '../pages/Home/crearCuentaDocente.jsx';
 import IniciarS from '../pages/Home/iniciarSesion.jsx' ;
 function Navbar() {
   return ( 
-      <Routes>     
+      <Routes>
+        <Route path="/IniciarSe" element={<IniciarS/>}/>  
         <Route path="/CrearCuentaDoc" element={<CrearDoc/>}/>
         <Route path="/CrearCuentaEstu" element={<CrearEstu/>}/>
-        <Route path="/IniciarSesion" elemen={<IniciarS/>}/>
       </Routes>
   );
 }
