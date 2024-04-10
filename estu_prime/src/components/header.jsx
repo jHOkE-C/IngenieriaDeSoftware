@@ -13,7 +13,7 @@ function header() {
                 <Link href="">Como Enseñar</Link>
             </div>
             <div>
-                <Link className='buttonE' to='/IniciarSesion'>Iniciar Sesion</Link>
+                <Link className='buttonE' to='/IniciarSe'>Iniciar Sesion</Link>
                 <Link className='buttonE' to='/CrearCuentaEstu'>Crear Cuenta</Link>
             </div>
         </header>
