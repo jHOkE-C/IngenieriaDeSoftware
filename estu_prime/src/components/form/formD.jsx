@@ -44,6 +44,11 @@ export default formD
 
 
 const FormContainer = styled.nav`
+    display: flex;
+    align-items: center;
+    align-content: center;
+    justify-content: center;
+    margin: 50px;
     .img{
         width: 15px;
         height: 15px;
