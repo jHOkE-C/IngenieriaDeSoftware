@@ -1,4 +1,5 @@
 <?php
+header('Access-Control-Allow-Origin: http://localhost:3000');
 session_start();
 # `id`, `correo`, `username`, `password`, `nombre`, `apellido`, `celular`
 
@@ -38,7 +39,7 @@ if ($result && $result->num_rows > 0) {
     $query_insert = "INSERT INTO `docente` (`firstname`, `lastname`, `email`, `password`) VALUES ('$nombre', '$apellido', '$correo_escapado', '$password')";
     if ($conn->query($query_insert) === TRUE) {
         // Registro exitoso
-        header('Location: docente.php?success=Registro exitoso');
+        header('Location: http://localhost:3000/IniciarSe');
         exit;
     } else {
         // Error en la consulta SQL
@@ -72,7 +73,7 @@ if ($result && $result->num_rows > 0) {
     $query_insert = "INSERT INTO `estudiante` (`firstname`, `lastname`, `email`, `password`) VALUES ('$nombreE', '$apellidoE', '$correo_escapado', '$passwordE')";
     if ($conn->query($query_insert) === TRUE) {
         // Registro exitoso
-        header('Location: estudiante.php?success=Registro exitoso');
+        header('Location: http://localhost:3000/IniciarSe');
         exit;
     } else {
         // Error en la consulta SQL
