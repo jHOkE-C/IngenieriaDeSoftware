@@ -51,14 +51,14 @@ function IniciarSesion() {
           <input type="text" className='inputText'required/>
           <label >Docente: </label>
           <input type="text" value='Juan Carlos Luna' readOnly className='inputText'/>
-          <input type="file" accept="image/*" onChange={handleImageChange} />
+          <input type="file" accept="image/*" onChange={handleImageChange} id='inputSubmit' />     
           <div id='divPrueba'>
             <label >Descripcion: </label>
             <textarea type="text" maxLength={200} id='descripcionText' />
             {image && (
-              <div className="image-container">
-                <img src={image} alt="Uploaded" className="uploaded-image" />
-              </div>
+            <div className="image-container">
+              <img src={image} alt="Uploaded" className="uploaded-image" />
+            </div>
             )}
           </div>
         </div>
@@ -72,6 +72,7 @@ function IniciarSesion() {
           <button type='button' onClick={agregarComponente} className='buttonImg'><img src={Text} alt="" className='imgA'/></button>
         </div>
       </form>
+      
     </CrearCursoContainer>
   )
 }
@@ -85,6 +86,16 @@ const CrearCursoContainer = styled.nav`
   justify-content: center;
   margin: 50px;
   width: 100%;
+  min-width: 1000px;
+  #divPrueba{
+    display: inline;
+  }
+  .image-container{
+    display: inline;
+  }
+  #inputSubmit{
+    position: relative;
+  }
   #formC{
     width: 60%;
   }
@@ -103,7 +114,7 @@ const CrearCursoContainer = styled.nav`
     border: none;
     background-color: #AAC7CE;
     resize: none;
-    width: 60%;
+    width: 52%;
     height: 100px;
     border-radius: 8px;
     margin-top: 2%;
@@ -127,12 +138,7 @@ const CrearCursoContainer = styled.nav`
     background-color: #035058;
     border-radius: 8px;
   }
-  .image-container {
-  }
-
-  .uploaded-image {
-    max-width: 200px;
-    max-height: 200px;
-    margin-top: 10px;
+  .uploaded-image{
+    width: 20%;
   }
 `

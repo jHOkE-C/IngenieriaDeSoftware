@@ -1,4 +1,4 @@
-import React from 'react'
+
 import styled from 'styled-components'
 import trash from '../../assents/basurero.png'
 function inputSubmit({ eliminarComponente }) {
@@ -23,7 +23,7 @@ const InputSubmitContainer = styled.nav`
     align-content:center;
   }
   #fileInput{
-    width: 100%;
+    width: 75%;
     padding-left: 1% ;
     padding-right: 1%;
     padding-top: 1%;

@@ -1,4 +1,4 @@
-import React from 'react';
+
 import styled from 'styled-components';
 import trash from '../../assents/basurero.png';
 
@@ -24,7 +24,7 @@ const InputTextContainer = styled.nav`
     align-content:center;
   }
     #textInput{
-    width: 100%;
+    width: 75%;
     padding-left: 1% ;
     padding-right: 1%;
     padding-top: 1%;
