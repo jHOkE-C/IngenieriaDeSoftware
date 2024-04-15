@@ -85,6 +85,7 @@ const CrearCursoContainer = styled.nav`
   align-content: center;
   justify-content: center;
   margin: 50px;
+  min-height: calc(65vh);
   width: 100%;
   min-width: 1000px;
   #divPrueba{
