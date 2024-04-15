@@ -7,8 +7,10 @@ import Save from '../../assents/save.png'
 import Cancelar from '../../assents/cancelar.png'
 import InputT from '../../components/inputs/inputText'
 import InputA from '../../components/inputs/inputSubmit'
+
 function IniciarSesion() {
   const [componentes, setComponentes] = useState([]);
+  const [image, setImage] = useState(null);
 
   const agregarComponente = () => {
     setComponentes([...componentes, <InputT key={componentes.length} eliminarComponente={eliminarComponente} />]);
@@ -23,9 +25,6 @@ function IniciarSesion() {
     setComponentes(nuevosComponentes);
   };
 
-  
-  const [image, setImage] = useState(null);
-
   const handleImageChange = (event) => {
     const file = event.target.files[0];
     const reader = new FileReader();
@@ -36,11 +35,15 @@ function IniciarSesion() {
 
     if (file) {
       reader.readAsDataURL(file);
+      const formData = new FormData();
+      formData.append('imagen', file);
+      // Puedes enviar formData a través de una solicitud HTTP POST si es necesario
     }
   };
+
   return (
     <CrearCursoContainer>
-      <form action='' id='formC'>
+      <form action='http://localhost:80/estu_prime/src/api/curso.php' id='formC' method='post' encType='multipart/form-data'>
         <div id='laminaBotonesRight'>
           <button type='submit' className='buttonImg'><img src={Save} alt=""className='imgA' /></button>
           <button type='button' className='buttonImg'><img src={Cancelar} alt=""className='imgA' /></button>
@@ -48,17 +51,17 @@ function IniciarSesion() {
         <h2>Crear Curso</h2>
         <div>
           <label id='especialL' >Titulo: </label>
-          <input type="text" className='inputText'required/>
+          <input type="text" name='titulo' className='inputText'required/>
           <label >Docente: </label>
           <input type="text" value='Juan Carlos Luna' readOnly className='inputText'/>
-          <input type="file" accept="image/*" onChange={handleImageChange} id='inputSubmit' />     
+          <input type="file" accept="image/*" onChange={handleImageChange} id='inputSubmit' name="imagen" />     
           <div id='divPrueba'>
             <label >Descripcion: </label>
-            <textarea type="text" maxLength={200} id='descripcionText' />
+            <textarea type="text" name='descripcion' maxLength={200} id='descripcionText' />
             {image && (
-            <div className="image-container">
-              <img src={image} alt="Uploaded" className="uploaded-image" />
-            </div>
+              <div className="image-container">
+                <img src={image} alt="Uploaded" className="uploaded-image" />
+              </div>
             )}
           </div>
         </div>
@@ -72,7 +75,6 @@ function IniciarSesion() {
           <button type='button' onClick={agregarComponente} className='buttonImg'><img src={Text} alt="" className='imgA'/></button>
         </div>
       </form>
-      
     </CrearCursoContainer>
   )
 }

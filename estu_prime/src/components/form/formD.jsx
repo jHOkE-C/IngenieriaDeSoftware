@@ -45,6 +45,7 @@ function FormD() {
       const onSubmit = (data) => console.log(data)
   return (
     <FormContainer >
+<<<<<<< HEAD
         <form  id='formD'  onSubmit={handleSubmit(onSubmit)}>
             <div id ="divLinks">
                 <Link className='buttonEs' to='/CrearCuentaDoc'>Registro Docente</Link>
@@ -111,6 +112,42 @@ function FormD() {
                 <span className='spanA'>{errors.conditions?.message}</span>
             </div>
         )}   
+=======
+                <form action="http://localhost:80/estu_prime/src/api/registro.php" id='formD' method='post'>
+                    <div id ="divLinks">
+                        <Link className='buttonEs' to='/CrearCuentaDoc'>Registro Docente</Link>
+                        <Link className='buttonE' to='/CrearCuentaEstu'>Registro Estudiante</Link>
+                    </div>
+                    <div className='contenedor'>
+                        <button className='buttonG'>Iniciar Sesion con :  <img src={Google} alt="" className='img'/></button>                      
+                    </div>
+                    <div className='contenedor'>
+                        <p>O continuar con:</p>           
+                    </div>
+                    <div className='contenedor'>
+                        <input type="text" name='nombre' placeholder='Nombres' className='caja1' required minLength={4} maxLength={15} pattern="[A-Za-z]+" onFocus={handleFocus} onBlur={handleBlur}/>
+                        <input type="text" name='apellido' placeholder='Apellidos' className='caja1' required minLength={5} maxLength={20} pattern="[A-Za-z]+" onFocus={handleFocus} onBlur={handleBlur}/>
+                    </div>
+                    <div className='contenedor3'>
+                        <input type="email " name='email' placeholder='Email'className='caja2' required minLength={11}/>
+                        <input type="password" name='contra' placeholder='Contraseña'className='caja2' required minLength={8} maxLength={12}/>
+                    </div>
+                    <br />
+                    <br />
+                    <div className='contenedor2'>
+                        <input id='checkterms' type="checkbox" required/>
+                        <p id='pE'>Creando una cuenta significa que estas deacuerdo con nuestros Terminos de servicio, Politicas de Privacidad y nuestra Configuracion Predeterminada de Notificaciones</p>
+                    </div>
+                    <div className='contenedor'>
+                        <button className='buttonG' type='submit' >Crear Cuenta</button>
+                    </div>
+                </form>
+                {showSugerencia && (
+                    <span id='span'>
+                        Solo caracteres alfabéticos
+                    </span>
+                )}   
+>>>>>>> 10a1806d953e89a67abfa5fbad65c1ee185e30df
     </FormContainer>
   )
 }
