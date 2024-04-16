@@ -7,6 +7,8 @@ import Save from '../../assents/save.png'
 import Cancelar from '../../assents/cancelar.png'
 import InputT from '../../components/inputs/inputText'
 import InputA from '../../components/inputs/inputSubmit'
+import Swal from 'sweetalert'
+
 
 function CrearCurso() {
   const [componentes, setComponentes] = useState([]);
@@ -41,12 +43,16 @@ function CrearCurso() {
     }
   };
 
+ function mostrarAlerta(){
+  Swal('Se creo el curso correctamente');
+ }
+
   return (
     <CrearCursoContainer>
       <form action='http://localhost:80/estu_prime/src/api/curso.php' id='formC' method='post' encType='multipart/form-data'>
         <div id='laminaBotonesRight'>
-          <button type='submit' className='buttonImg'><img src={Save} alt=""className='imgA' /></button>
-          <button type='button' className='buttonImg'><img src={Cancelar} alt=""className='imgA' /></button>
+          <button onClick={mostrarAlerta} type='submit' className='buttonImg'><img src={Save} alt=""className='imgA' /></button>
+          <button onClick={mostrarAlerta} type='button' className='buttonImg'><img src={Cancelar} alt=""className='imgA' /></button>
         </div>
         <h2>Crear Curso</h2>
         <div>
