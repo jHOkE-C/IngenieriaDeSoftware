@@ -6,6 +6,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import styled from 'styled-components';
 import Google from '../../assents/google.jpg'
 import { Link } from 'react-router-dom';
+import Swat from 'sweetalert'
 /*
 At least one upper case English letter, (?=.*?[A-Z])
 At least one lower case English letter, (?=.*?[a-z])
@@ -34,6 +35,11 @@ const schema = yup
                 .oneOf([true],'Debes aceptar las condiciones')
   })
   .required()
+
+  function alertaCuenta(){
+    Swat ('Se creo la cuenta docente correctamente');
+}
+
 function FormD() {
     const {
         register,
@@ -102,7 +108,7 @@ function FormD() {
                 <p id='pE'>Creando una cuenta significa que estas deacuerdo con nuestros Terminos de servicio, Politicas de Privacidad y nuestra Configuracion Predeterminada de Notificaciones</p>
             </div>
             <div className='contenedor'>
-                <button className='buttonG' type='submit' >Crear Cuenta</button>
+                <button onClick={alertaCuenta} className='buttonG' type='submit' >Crear Cuenta</button>
             </div>
         </form>
         {errors && (errors.firstName || errors.lastName || errors.email || errors.password || errors.conditions) && (

@@ -46,13 +46,17 @@ function CrearCurso() {
  function mostrarAlerta(){
   Swal('Se creo el curso correctamente');
  }
+ 
+ function cancelarTodo (){
+  window.location.reload();
+ }
 
   return (
     <CrearCursoContainer>
       <form action='http://localhost:80/estu_prime/src/api/curso.php' id='formC' method='post' encType='multipart/form-data'>
         <div id='laminaBotonesRight'>
           <button onClick={mostrarAlerta} type='submit' className='buttonImg'><img src={Save} alt=""className='imgA' /></button>
-          <button onClick={mostrarAlerta} type='button' className='buttonImg'><img src={Cancelar} alt=""className='imgA' /></button>
+          <button onClick={cancelarTodo} type='button' className='buttonImg'><img src={Cancelar} alt=""className='imgA' /></button>
         </div>
         <h2>Crear Curso</h2>
         <div>
