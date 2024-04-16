@@ -1,19 +1,13 @@
 import React, { Fragment, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import * as yup from "yup";
-import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup"
+import { yupResolver } from "@hookform/resolvers/yup"
 
 import styled from 'styled-components';
 import Google from '../../assents/google.jpg'
 import { Link } from 'react-router-dom';
 import Swal from 'sweetalert'
-/*
-At least one upper case English letter, (?=.*?[A-Z])
-At least one lower case English letter, (?=.*?[a-z])
-At least one digit, (?=.*?[0-9])
-At least one special character, (?=.*?[#?!@$%^&*-])
-Minimum eight in length .{8,} (with the anchors)
-*/
+
 const rulerUpperCase = /(?=.*?[A-Z])/;
 const rulerLowerCase = /(?=.*[a-z])/;
 const rulerDigit= /(?=.*[0-9])/;
@@ -37,8 +31,7 @@ const schema = yup
   .required()
 
 
-
-function FormD() {
+function FormE() {
     const {
         register,
         handleSubmit,
@@ -50,7 +43,7 @@ function FormD() {
         if (!errors.firstName && !errors.lastName && !errors.email && !errors.password && !errors.conditions) {
             Swal({
               icon: 'success',
-              text: 'Se creó la cuenta Docente correctamente',
+              text: 'Se creó la cuenta estudiante correctamente',
               buttons: ["ok", "ok uwu"]
             }).then(respuesta => {
               if (respuesta) {
@@ -63,13 +56,13 @@ function FormD() {
         console.log(data)
         
     }
-      
+
   return (
-    <FormContainer >
+    <FormContainerD>
         <form  id='formD'  onSubmit={handleSubmit(onSubmit)}>
             <div id ="divLinks">
-                <Link className='buttonEs' to='/CrearCuentaDoc'>Registro Docente</Link>
-                <Link className='buttonE' to='/CrearCuentaEstu'>Registro Estudiante</Link>
+                <Link className='buttonE' to='/CrearCuentaDoc'>Registro Docente</Link>
+                <Link className='buttonEs' to='/CrearCuentaEstu'>Registro Estudiante</Link>
             </div>
             <div className='contenedor'>
                 <button className='buttonG'>Iniciar Sesion con :  <img src={Google} alt="" className='img'/></button>                      
@@ -107,8 +100,8 @@ function FormD() {
                     type="password" 
                     placeholder='Contraseña'
                     className='caja2'
-                    {...register("password")}
-                    maxLength={15} 
+                    {...register("password")} 
+                    maxLength={15}
                 />
                 
             </div>
@@ -134,15 +127,14 @@ function FormD() {
                 <span className='spanA'>{errors.password?.message}</span>
                 <span className='spanA'>{errors.conditions?.message}</span>
             </div>
-        )}   
-    </FormContainer>
+        )}
+    </FormContainerD>
   )
 }
 
-export default FormD
+export default FormE
 
-
-const FormContainer = styled.nav`
+const FormContainerD = styled.nav`
     display: flex;
     align-items: center;
     align-content: center;
@@ -219,7 +211,7 @@ const FormContainer = styled.nav`
     .buttonEs{
         width: 41%  ;
         color: white;
-        margin-right: 1%;
+        margin-left: 1%;
         padding: 2.5%;
         border: none;
         background-color: #035058;
