@@ -1,14 +1,23 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import NavB from './components/navbar';
-import Header from './components/header';
 import Footer from './components/footer';
-
-const isLogged = true;
+import HeaderMain from './components/header/header'
+import HeaderDoc from './components/header/headerDocente'
 function App() {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    // Verificar si hay información de autenticación en el almacenamiento local al cargar la aplicación
+    const userLoggedIn = localStorage.getItem('isLoggedIn');
+    if (userLoggedIn) {
+      setIsLoggedIn(true);
+    }
+  }, []);
   return (
     <MainFrame className='main'>
-      <Header/>
+      {isLoggedIn ? <HeaderDoc /> : <HeaderMain />}
+      {/* Resto de tu aplicación */}
       <NavB/>
       <Footer/>
     </MainFrame>
