@@ -69,7 +69,7 @@ CREATE TABLE IF NOT EXISTS `estuprime`.`curso` (
   `creacion` DATE NULL,
   `docente_id` INT(11) NOT NULL,
   PRIMARY KEY (`idcurso`),
-  INDEX `fk_curso_docente_idx` (`docente_id` ASC) VISIBLE,
+  INDEX `fk_curso_docente_idx` (`docente_id` ASC) ,
   CONSTRAINT `fk_curso_docente`
     FOREIGN KEY (`docente_id`)
     REFERENCES `estuprime`.`docente` (`id`)
