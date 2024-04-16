@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components'
 import Trash from '../../assents/basurero.png'
 import Subir from '../../assents/subir.png'
@@ -43,9 +43,27 @@ function CrearCurso() {
     }
   };
 
- function mostrarAlerta(){
-  Swal('Se creo el curso correctamente');
- }
+ function mostrarAlerta(successMessage){
+  if (successMessage) {
+    Swal({
+        icon: 'success',
+        text: successMessage,
+        buttons: [,"ok uwu"]
+    }).then(respuesta => {
+        if (respuesta) {
+            // No hagas nada si el usuario hace clic en "ok"
+        }
+    });
+}
+}
+
+ useEffect(() => {
+  const urlParams = new URLSearchParams(window.location.search);
+  const success = urlParams.get('success');
+  if (success) {
+    mostrarAlerta(success); // Ejecuta la función si hay un mensaje de éxito
+  }
+}, []);
  
  function cancelarTodo (){
   window.location.reload();

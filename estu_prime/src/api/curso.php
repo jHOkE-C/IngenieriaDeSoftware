@@ -27,7 +27,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
   if ($conn->query($sql) === TRUE) {
     echo "Los datos se han guardado correctamente";
-    header("Location: estu_prime/src/api/imagen.php");
+    header("Location: http://localhost:3000/LoginDocente/CrearCurso?success=Curso Creado");
   } else {
     echo "Error al guardar los datos: " . $conn->error;
   }
