@@ -8,7 +8,11 @@ function inputSubmit({ eliminarComponente }) {
   return (
     <InputSubmitContainer>
     <div id='inputsT'>
-        <input type="file" id='fileInput'></input>
+        <input 
+          type="file" 
+          id='fileInput'
+          accept=".mp4, .mkv, .AVI, .H.264"
+        />
         <button className='buttonImg' onClick={handleClickEliminar}><img src={trash} alt=""className='imgA' /></button>
     </div>
     </InputSubmitContainer>

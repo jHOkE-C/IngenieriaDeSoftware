@@ -10,7 +10,12 @@ function InputText({ eliminarComponente }) {
   return (
     <InputTextContainer>
       <div id='inputsT'>
-        <input type="text" id='textInput' placeholder='Titulo o Descripciones' />
+        <input 
+          type="text" 
+          id='textInput' 
+          placeholder='Titulo o Descripciones' 
+          maxLength={20} 
+        />
         <button className='buttonImg' onClick={handleClickEliminar}><img src={trash} alt="" className='imgA' /></button>
       </div>
     </InputTextContainer>

@@ -56,6 +56,7 @@ function FormE() {
                     placeholder='Nombres' 
                     className='caja1' 
                     {...register("firstName")}
+                    maxLength={15}
                 />
                 
                 <input 
@@ -63,6 +64,7 @@ function FormE() {
                     placeholder='Apellidos' 
                     className='caja1'
                     {...register("lastName")} 
+                    maxLength={20}
                 />
                 
             </div>
@@ -79,6 +81,7 @@ function FormE() {
                     placeholder='Contraseña'
                     className='caja2'
                     {...register("password")} 
+                    maxLength={15}
                 />
                 
             </div>

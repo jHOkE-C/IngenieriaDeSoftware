@@ -51,13 +51,32 @@ function CrearCurso() {
         <h2>Crear Curso</h2>
         <div>
           <label id='especialL' >Titulo: </label>
-          <input type="text" name='titulo' className='inputText'required/>
+          <input 
+            type="text" 
+            name='titulo' 
+            className='inputText'
+            maxLength={20}
+            required/>
           <label >Docente: </label>
-          <input type="text" value='Juan Carlos Luna' readOnly className='inputText'/>
-          <input type="file" accept="image/*" onChange={handleImageChange} id='inputSubmit' name="imagen" />     
+          <input 
+            type="text" 
+            value='Juan Carlos Luna' 
+            readOnly 
+            className='inputText'/>
+          <input 
+            type="file" 
+            accept=".jpg, .jpeg, .png"
+            onChange={handleImageChange} 
+            id='inputSubmit' 
+            name="imagen" 
+            />     
           <div id='divPrueba'>
             <label >Descripcion: </label>
-            <textarea type="text" name='descripcion' maxLength={200} id='descripcionText' />
+            <textarea 
+              type="text" 
+              name='descripcion' 
+              maxLength={200} 
+              id='descripcionText' />
             {image && (
               <div className="image-container">
                 <img src={image} alt="Uploaded" className="uploaded-image" />

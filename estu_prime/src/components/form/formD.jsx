@@ -62,6 +62,7 @@ function FormD() {
                     placeholder='Nombres' 
                     className='caja1' 
                     {...register("firstName")}
+                    maxLength={15}
                 />
                 
                 <input 
@@ -69,6 +70,7 @@ function FormD() {
                     placeholder='Apellidos' 
                     className='caja1'
                     {...register("lastName")} 
+                    maxLength={20}
                 />
                 
             </div>
@@ -84,7 +86,8 @@ function FormD() {
                     type="password" 
                     placeholder='Contraseña'
                     className='caja2'
-                    {...register("password")} 
+                    {...register("password")}
+                    maxLength={15} 
                 />
                 
             </div>
