@@ -188,7 +188,7 @@ const FormContainerD = styled.nav`
     .buttonEs{
         width: 41%  ;
         color: white;
-        margin-right: 1%;
+        margin-left: 1%;
         padding: 2.5%;
         border: none;
         background-color: #035058;
