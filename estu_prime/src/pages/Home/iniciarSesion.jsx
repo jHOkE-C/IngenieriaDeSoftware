@@ -7,6 +7,7 @@ function IniciarSesion() {
     // Cuando el usuario inicia sesión exitosamente
     localStorage.setItem('isLoggedIn', 'true');
     navigate('/LoginDocente',{replace:true});
+    window.location.reload();
   }
   return (
     <Fragment>

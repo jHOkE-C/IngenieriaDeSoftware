@@ -1,8 +1,16 @@
 import React from 'react';
 import styled from 'styled-components';
 import Logo from '../logo'
-import { Link } from 'react-router-dom';
-function header() {
+import { Link, Navigate, useNavigate } from 'react-router-dom';
+
+function Header() {
+    let navigate = useNavigate();
+    function cerrarSesion (){
+        // Cuando el usuario inicia sesión exitosamente
+        localStorage.removeItem('isLoggedIn')
+        navigate('/IniciarSe',{replace:true});
+        window.location.reload();
+      }
   return (
     <HeaderContainerDoc>
         <header id='navC'>
@@ -15,13 +23,14 @@ function header() {
             </div>
             <div>
                 <Link className='buttonE' >Perfil</Link>
+                <Link className='buttonE' onClick={cerrarSesion}>Cerrar Sesion</Link>
             </div>
         </header>
     </HeaderContainerDoc>
   )
 }
 
-export default header
+export default Header
 
 const HeaderContainerDoc = styled.nav`
 
