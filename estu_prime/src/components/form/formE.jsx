@@ -6,7 +6,7 @@ import { yupResolver } from "@hookform/resolvers/yup"
 import styled from 'styled-components';
 import Google from '../../assents/google.jpg'
 import { Link } from 'react-router-dom';
-import Swat from 'sweetalert'
+import Swal from 'sweetalert'
 
 const rulerUpperCase = /(?=.*?[A-Z])/;
 const rulerLowerCase = /(?=.*[a-z])/;
@@ -31,7 +31,17 @@ const schema = yup
   .required()
 
 function alertaCuenta(){
-    Swat ('Se creo la cuenta estudiante correctamente');
+    Swal({
+        icon:'success',
+        text:'Se creo la cuenta estudiante correctamente',
+        buttons: ["ok","ok uwu"]
+      }).then(respuesta=>{
+        if(respuesta){
+          window.location.reload();
+        }else{  
+          window.location.reload();
+        }
+      })
 }
 
 function FormE() {
