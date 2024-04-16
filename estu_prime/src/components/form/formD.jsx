@@ -36,19 +36,7 @@ const schema = yup
   })
   .required()
 
-  function alertaCuenta(){
-    Swal({
-        icon:'success',
-        text:'Se creo la cuenta docente correctamente',
-        buttons: ["ok","ok uwu"]
-      }).then(respuesta=>{
-        if(respuesta){
-          window.location.reload();
-        }else{  
-          window.location.reload();
-        }
-      })
-}
+
 
 function FormD() {
     const {
@@ -58,7 +46,24 @@ function FormD() {
       } = useForm({
         resolver: yupResolver(schema),
       })
-      const onSubmit = (data) => console.log(data)
+      const onSubmit = (data) => {
+        if (!errors.firstName && !errors.lastName && !errors.email && !errors.password && !errors.conditions) {
+            Swal({
+              icon: 'success',
+              text: 'Se creó la cuenta Docente correctamente',
+              buttons: ["ok", "ok uwu"]
+            }).then(respuesta => {
+              if (respuesta) {
+                window.location.reload();
+              } else {
+                window.location.reload();
+              }
+            });
+        }  
+        console.log(data)
+        
+    }
+      
   return (
     <FormContainer >
         <form  id='formD'  onSubmit={handleSubmit(onSubmit)}>
@@ -118,7 +123,7 @@ function FormD() {
                 <p id='pE'>Creando una cuenta significa que estas deacuerdo con nuestros Terminos de servicio, Politicas de Privacidad y nuestra Configuracion Predeterminada de Notificaciones</p>
             </div>
             <div className='contenedor'>
-                <button onClick={alertaCuenta} className='buttonG' type='submit' >Crear Cuenta</button>
+                <button className='buttonG' type='submit' >Crear Cuenta</button>
             </div>
         </form>
         {errors && (errors.firstName || errors.lastName || errors.email || errors.password || errors.conditions) && (
