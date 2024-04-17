@@ -7,7 +7,7 @@ import Save from '../../assents/save.png'
 import Cancelar from '../../assents/cancelar.png'
 import InputT from '../../components/inputs/inputText'
 import InputA from '../../components/inputs/inputSubmit'
-import Swal from 'sweetalert'
+import Swal from 'sweetalert2'
 
 
 function CrearCurso() {
@@ -45,7 +45,7 @@ function CrearCurso() {
 
  function mostrarAlerta(successMessage){
   if (successMessage) {
-    Swal({
+    Swal.fire({
         icon: 'success',
         text: successMessage,
         buttons: [,"ok uwu"]

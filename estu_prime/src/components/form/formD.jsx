@@ -5,8 +5,8 @@ import { yupResolver } from "@hookform/resolvers/yup"
 
 import styled from 'styled-components';
 import Google from '../../assents/google.jpg'
-import { Link } from 'react-router-dom';
-import Swal from 'sweetalert'
+import { Link, useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2'
 
 const rulerUpperCase = /(?=.*?[A-Z])/;
 const rulerLowerCase = /(?=.*[a-z])/;
@@ -30,21 +30,9 @@ const schema = yup
   })
   .required()
 
-  function alertaCuenta(){
-    Swal({
-        icon:'success',
-        text:'Se creo la cuenta docente correctamente',
-        buttons: ["ok","ok uwu"]
-      }).then(respuesta=>{
-        if(respuesta){
-          window.location.reload();
-        }else{  
-          window.location.reload();
-        }
-      })
-}
 
 function FormD() {
+    const navigate = useNavigate();
     const {
         register,
         handleSubmit,
@@ -52,18 +40,18 @@ function FormD() {
       } = useForm({
         resolver: yupResolver(schema),
       })
-      const onSubmit = (data) => console.log(data)
-      const onSubmit = (data) => {
+    const onSubmit = (data) => {
         if (!errors.firstName && !errors.lastName && !errors.email && !errors.password && !errors.conditions) {
-            Swal({
+            Swal.fire({
               icon: 'success',
               text: 'Se creó la cuenta estudiante correctamente',
-              buttons: ["ok", "ok uwu"]
+              buttons: ["ok", "ok uwu"],
+              background:'#F2E9E4' ,
+              confirmButtonColor:'#035058'
             }).then(respuesta => {
               if (respuesta) {
-                window.location.reload();
+                navigate('/IniciarSe',{replace:true})
               } else {
-                window.location.reload();
               }
             });
         }  
@@ -75,8 +63,8 @@ function FormD() {
     <FormContainerD>
         <form  id='formD'  onSubmit={handleSubmit(onSubmit)}>
             <div id ="divLinks">
-                <Link className='buttonE' to='/CrearCuentaDoc'>Registro Docente</Link>
-                <Link className='buttonEs' to='/CrearCuentaEstu'>Registro Estudiante</Link>
+                <Link className='buttonEs' to='/CrearCuentaDoc'>Registro Docente</Link>
+                <Link className='buttonE' to='/CrearCuentaEstu'>Registro Estudiante</Link>
             </div>
             <div className='contenedor'>
                 <button className='buttonG'>Iniciar Sesion con :  <img src={Google} alt="" className='img'/></button>                      
@@ -130,7 +118,7 @@ function FormD() {
                 <p id='pE'>Creando una cuenta significa que estas deacuerdo con nuestros Terminos de servicio, Politicas de Privacidad y nuestra Configuracion Predeterminada de Notificaciones</p>
             </div>
             <div className='contenedor'>
-                <button onClick={alertaCuenta} className='buttonG' type='submit' >Crear Cuenta</button>
+                <button className='buttonG' type='submit' >Crear Cuenta</button>
             </div>
         </form>
         {errors && (errors.firstName || errors.lastName || errors.email || errors.password || errors.conditions) && (
@@ -146,7 +134,7 @@ function FormD() {
   )
 }
 
-export default FormE
+export default FormD
 
 const FormContainerD = styled.nav`
     display: flex;
@@ -225,7 +213,7 @@ const FormContainerD = styled.nav`
     .buttonEs{
         width: 41%  ;
         color: white;
-        margin-left: 1%;
+        margin-right: 1%;
         padding: 2.5%;
         border: none;
         background-color: #035058;

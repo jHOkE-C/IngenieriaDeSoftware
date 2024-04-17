@@ -1,6 +1,5 @@
 import React, { Fragment, useState, useEffect } from 'react';
 
-import axios from 'axios';
 
 import { useForm } from 'react-hook-form';
 import * as yup from "yup"
@@ -8,8 +7,8 @@ import { yupResolver } from "@hookform/resolvers/yup"
 
 import styled from 'styled-components';
 import Google from '../../assents/google.jpg'
-import { Link } from 'react-router-dom';
-import Swal from 'sweetalert'
+import { Link, useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2'
 
 const rulerUpperCase = /(?=.*?[A-Z])/;
 const rulerLowerCase = /(?=.*[a-z])/;
@@ -33,22 +32,9 @@ const schema = yup
   })
   .required()
 
-function alertaCuenta(){
-    Swal({
-        icon:'success',
-        text:'Se creo la cuenta estudiante correctamente',
-        buttons: ["ok","ok uwu"]
-      }).then(respuesta=>{
-        if(respuesta){
-          window.location.reload();
-        }else{  
-          window.location.reload();
-        }
-      })
-}
 
 function FormE() {
-
+    const navigate = useNavigate();
     const {
         register,
         handleSubmit,
@@ -56,9 +42,25 @@ function FormE() {
       } = useForm({
         resolver: yupResolver(schema),
       })
-      const onSubmit = (data) => console.log(data)
 
-      
+    const onSubmit = (data) => {
+        if (!errors.firstName && !errors.lastName && !errors.email && !errors.password && !errors.conditions) {
+            Swal.fire({
+              icon: 'success',
+              text: 'Se creó la cuenta estudiante correctamente',
+              buttons: ["ok", "ok uwu"],
+              background:'#F2E9E4' ,
+              confirmButtonColor:'#035058'
+            }).then(respuesta => {
+              if (respuesta) {
+                navigate('/IniciarSe',{replace:true})
+              } else {
+              }
+            });
+        }  
+        console.log(data)
+        
+    }
       
   return (
     <FormContainerD>
@@ -123,7 +125,7 @@ function FormE() {
                 <p id='pE'>Creando una cuenta significa que estas deacuerdo con nuestros Terminos de servicio, Politicas de Privacidad y nuestra Configuracion Predeterminada de Notificaciones</p>
             </div>
             <div className='contenedor'>
-                <button onClick={alertaCuenta} className='buttonG' type='submit' >Crear Cuenta</button>
+                <button className='buttonG' type='submit' >Crear Cuenta</button>
             </div>
         </form>
         {errors && (errors.firstName || errors.lastName || errors.email || errors.password || errors.conditions) && (
