@@ -33,30 +33,19 @@ const schema = yup
   })
   .required()
 
-  function alertaCuenta(successMessage, errorMessage) {
-    if (successMessage) {
-        Swal({
-            icon: 'success',
-            text: successMessage,
-            buttons: ["ok", "ok uwu"]
-        }).then(respuesta => {
-            if (respuesta) {
-                // No hagas nada si el usuario hace clic en "ok"
-            }
-        });
-    } else if (errorMessage) {
-        Swal({
-            icon: 'error',
-            text: errorMessage,
-            buttons: ["ok", "ok uwu"]
-        }).then(respuesta => {
-            if (respuesta) {
-                // No hagas nada si el usuario hace clic en "ok"
-            }
-        });
-    }
+function alertaCuenta(){
+    Swal({
+        icon:'success',
+        text:'Se creo la cuenta estudiante correctamente',
+        buttons: ["ok","ok uwu"]
+      }).then(respuesta=>{
+        if(respuesta){
+          window.location.reload();
+        }else{  
+          window.location.reload();
+        }
+      })
 }
-
 
 function FormE() {
 
@@ -66,41 +55,9 @@ function FormE() {
         formState: { errors },
       } = useForm({
         resolver: yupResolver(schema),
-      });
+      })
+      const onSubmit = (data) => console.log(data)
 
-      useEffect(() => {
-        const urlParams = new URLSearchParams(window.location.search);
-        const success = urlParams.get('success');
-        if (success) {
-          alertaCuenta("Usuario Registrado", null); // Ejecuta la función si hay un mensaje de éxito
-        } else {
-          const error = urlParams.get('error');
-          if (error) {
-            // Ejecutar función de manejo de error
-            alertaCuenta(null, error);
-          }
-        }
-      }, []);
-      
-
-      const onSubmit = (data) => {
-        const { firstName, lastName, email, password, conditions } = data;
-        const queryParams = new URLSearchParams({
-          firstName,
-          lastName,
-          email,
-          password,
-          conditions: conditions ? 'true' : 'false'
-        }).toString();
-    
-        // Redireccionar al usuario a la URL con los datos del formulario como parámetros GET
-        window.location.href = `http://localhost:80/estu_prime/src/api/registro.php?${queryParams}`;
-    };
-    
-      
-      
-        
-    
       
       
   return (
@@ -166,7 +123,7 @@ function FormE() {
                 <p id='pE'>Creando una cuenta significa que estas deacuerdo con nuestros Terminos de servicio, Politicas de Privacidad y nuestra Configuracion Predeterminada de Notificaciones</p>
             </div>
             <div className='contenedor'>
-                <button className='buttonG' type='submit' >Crear Cuenta</button>
+                <button onClick={alertaCuenta} className='buttonG' type='submit' >Crear Cuenta</button>
             </div>
         </form>
         {errors && (errors.firstName || errors.lastName || errors.email || errors.password || errors.conditions) && (
