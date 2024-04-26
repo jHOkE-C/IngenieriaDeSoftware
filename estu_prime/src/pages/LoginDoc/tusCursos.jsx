@@ -38,4 +38,6 @@ export default TusCursos
 
 const ListaCrearCursoContainer = styled.nav`
   display: inline;
+  display: flex;
+        justify-content: space-around;
 `

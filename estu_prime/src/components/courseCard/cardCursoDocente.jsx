@@ -16,10 +16,11 @@ export default CardsCursoDocente;
 
 const ContainerCard = styled.div`
     display: flex;
-    justify-content: center;
+    justify-content: space-around;
     margin: 5vw;
     #card{
-        display: inline;
+        display: flex;
+        justify-content: space-around;
         width: 15%;
         background-color: #AAC7CE;
     }

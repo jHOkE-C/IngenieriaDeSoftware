@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Fragment } from 'react';
 import styled from 'styled-components';
 import NavB from './components/navbar';
 import Footer from './components/footer';
 import HeaderMain from './components/header/header'
 import HeaderDoc from './components/header/headerDocente'
+import Hom from './pages/Home/home'
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
@@ -16,7 +17,7 @@ function App() {
   }, []);
   return (
     <MainFrame className='main'>
-      {isLoggedIn ? <HeaderDoc /> : <HeaderMain />}
+      {isLoggedIn ? <HeaderDoc />  : <div> <HeaderMain /><Hom /></div>}
       {/* Resto de tu aplicación */}
       <NavB/>
       <Footer/>
