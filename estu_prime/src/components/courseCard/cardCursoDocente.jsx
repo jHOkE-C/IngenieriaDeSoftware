@@ -2,9 +2,10 @@ import React from 'react';
 import styled from 'styled-components';
 
 function CardsCursoDocente({ title, ide}) {
+  function nav(){}
   return (
     <ContainerCard>
-        <div className='card'>
+        <div className='card' onClick={nav}>
             <h3 className='card__img'>{ide}</h3>
             <p className='card__title'>{title}</p>
         </div>
@@ -19,7 +20,9 @@ const ContainerCard = styled.div`
     .card{
         text-align: center;
         display: inline-block; 
-        margin: 3%;
+        margin-top: 3%;
+        margin-left: 3%;
+        margin-right: 3%;
         width: 15vw;
         height: 15vw;
         background-color: #AAC7CE;
