@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import arrowLeft from '../../assents/img/left.png';
-import arrowRight from '../../assents/img/right.png';
+import {ReactComponent as ArrowLeft} from '../../assents/svg/left.svg';
+import {ReactComponent as ArrowRight} from '../../assents/svg/right.svg';
 import CardsCursos from '../../components/courseCard/cardCursoDocente';
 
 
@@ -51,10 +51,10 @@ function TusCursos() {
       {renderCursos()}
       <div className='arrows'>
         <button className='arrows__flecha' onClick={goToPreviousPage}>
-          <img src={arrowLeft} alt='Previous Page' />
+          <ArrowLeft className='home__icon'/>
         </button>
         <button className='arrows__flecha' onClick={goToNextPage}>
-          <img src={arrowRight} alt='Next Page' />
+          <ArrowRight className='home__icon'/>
         </button>
       </div>
     </ListaCrearCursoContainer>
@@ -75,12 +75,15 @@ const ListaCrearCursoContainer = styled.nav`
     margin: 2%;
   }
   .arrows__flecha{
-    background-color: #035058;
+    background: none;
     margin: 0.1em;
     border:  none;
   }
-  .arrows__flecha:hover{
-    background-color: #AAC7CE;
+  .arrows__flecha svg:hover{
+    fill: #B4D2DA;
+  }
+  .arrows__flecha svg:active{
+    fill: white;
   }
   
 `;

@@ -47,6 +47,7 @@ const footer = () => {
 export default footer
 
 const FooterContainer = styled.nav`
+  position: relative;
   #luDiv{
     display: flex;
   }
@@ -84,5 +85,9 @@ const FooterContainer = styled.nav`
   a:hover{
 
     color: #F2E9E4;
+  }
+  p{
+    position: absolute;
+    left: 85%;
   }
 `
