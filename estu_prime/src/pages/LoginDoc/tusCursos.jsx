@@ -72,7 +72,7 @@ const ListaCrearCursoContainer = styled.nav`
     display: flex;
     position: relative;
     justify-content: center;
-    margin: 2%;
+    margin: 1.5%;
   }
   .arrows__flecha{
     background: none;
@@ -81,6 +81,8 @@ const ListaCrearCursoContainer = styled.nav`
   }
   .arrows__flecha svg:hover{
     fill: #B4D2DA;
+    transition: 100ms;
+    stroke: black;
   }
   .arrows__flecha svg:active{
     fill: white;
