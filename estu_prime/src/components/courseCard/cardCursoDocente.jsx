@@ -52,9 +52,10 @@ const ContainerCard = styled.div`
         border: none;
         display: flex;
         position: relative;
+        align-items: center;
         left: 36%;
         top: 40%;
-        height: 24%;
+        height: 28%;
         opacity: 0;
         border-radius: 1vw;
     }
