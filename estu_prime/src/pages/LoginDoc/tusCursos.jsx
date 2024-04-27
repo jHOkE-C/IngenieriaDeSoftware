@@ -43,7 +43,7 @@ function TusCursos() {
   };
 
   const goToPreviousPage = () => {
-    setCurrentPage((prevPage) => prevPage == 0? prevPage:prevPage-1);
+    setCurrentPage((prevPage) => prevPage === 0? prevPage:prevPage-1);
   };
 
   return (
@@ -70,19 +70,17 @@ const ListaCrearCursoContainer = styled.nav`
 
   .arrows {
     display: flex;
+    position: relative;
     justify-content: center;
     margin: 2%;
   }
   .arrows__flecha{
-    background: none;
-    border: 1px solid #F2E9E4;
+    background-color: #035058;
+    margin: 0.1em;
+    border:  none;
   }
   .arrows__flecha:hover{
-    background: none;
-    border: 1px solid #AAC7CE;
+    background-color: #AAC7CE;
   }
-  .arrows__flecha:active{
-    background: none;
-    border: 1px solid white;
-  }
+  
 `;
