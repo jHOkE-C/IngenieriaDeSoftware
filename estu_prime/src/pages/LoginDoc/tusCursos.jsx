@@ -30,14 +30,17 @@ function TusCursos() {
       <CardsCursos key={id} title={title} ide={id}/>
     ]);
   };
-
-  return <ListaCrearCursoContainer>{componentes}</ListaCrearCursoContainer>;
+  return (
+    <ListaCrearCursoContainer>
+      {componentes}
+    </ListaCrearCursoContainer>
+  )
 }
 
 export default TusCursos
 
 const ListaCrearCursoContainer = styled.nav`
-  display: inline;
-  display: flex;
-        justify-content: space-around;
+  width: 80vw;
+  position: relative;
+  left: 10%;
 `

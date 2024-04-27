@@ -4,9 +4,9 @@ import styled from 'styled-components';
 function CardsCursoDocente({ title, ide}) {
   return (
     <ContainerCard>
-        <div id='card'>
-            <h3>{ide}</h3>
-            <h4>{title}</h4>
+        <div className='card'>
+            <h3 className='card__img'>{ide}</h3>
+            <p className='card__title'>{title}</p>
         </div>
     </ContainerCard>
   );
@@ -15,16 +15,19 @@ function CardsCursoDocente({ title, ide}) {
 export default CardsCursoDocente;
 
 const ContainerCard = styled.div`
-    display: flex;
-    justify-content: space-around;
-    margin: 5vw;
-    #card{
-        display: flex;
-        justify-content: space-around;
-        width: 15%;
+    display: inline;
+    .card{
+        text-align: center;
+        display: inline-block; 
+        margin: 3%;
+        width: 15vw;
+        height: 15vw;
         background-color: #AAC7CE;
+        border-radius: 1vw;
     }
-    h4{
-        display: inline;
+    .card__title{
+        white-space: nowrap; /* Evita que el texto del párrafo salte a la siguiente línea */
+        overflow: hidden; /* Oculta el contenido que se desborda del contenedor */
+        text-overflow: ellipsis; /* Añade puntos suspensivos (...) al final del texto recortado */  
     }
 `;
