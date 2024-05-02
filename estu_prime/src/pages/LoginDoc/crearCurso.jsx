@@ -15,11 +15,17 @@ function CrearCurso() {
   const [image, setImage] = useState(null);
 
   const agregarComponente = () => {
-    setComponentes([...componentes, <InputT key={componentes.length} eliminarComponente={eliminarComponente} />]);
+    setComponentes(
+      [...componentes, 
+      <InputT key={componentes.length} eliminarComponente={eliminarComponente} />]
+    );
   };
 
   const agregarComponenteA = () => {
-    setComponentes([...componentes, <InputA key={componentes.length} eliminarComponente={eliminarComponente} />]);
+    setComponentes(
+      [...componentes, 
+      <InputA key={componentes.length} eliminarComponente={eliminarComponente} />]
+    );
   };
 
   const eliminarComponente = (index) => {

@@ -1,8 +1,13 @@
 import React from 'react';
 import styled from 'styled-components';
 import ImgEdit from '../../assents/img/edit.png'
+import { Navigate, useNavigate } from "react-router-dom";
+
 function CardsCursoDocente({ title, ide}) {
+    let navigate = useNavigate()
   function nav(){
+    navigate('/LoginDocente/CrearCurso',{replace:true});
+    window.location.reload();
     //navegar a una form donde tenga todo los datos de ese curso
   }
   return (
