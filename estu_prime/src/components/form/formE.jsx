@@ -38,7 +38,7 @@ const schema = yup
 
 
 
-function FormE() {
+function FormD() {
     const {
         register,
         handleSubmit,
@@ -48,8 +48,8 @@ function FormE() {
       } )
       const onSubmit = async (data) => {
         if (!errors.firstName && !errors.lastName && !errors.email && !errors.password && !errors.conditions) {
-            const response = await fetch('http://localhost:80/estu_prime/src/api/inicioSesion.php', {
-                method: 'GET',
+            const response = await fetch('http://localhost:80/estu_prime/src/api/registro.php', {
+                method: 'POST',
                 //credentials: 'include',
                 headers: {
                 'Content-Type': 'application/json',
@@ -62,13 +62,13 @@ function FormE() {
                 }),
             });
             const dataResponse = await response.json();
-            if(dataResponse.mensaje === 'Cuenta Estudiante creada'){
+            if(dataResponse.mensaje === 'Cuenta docente creada'){
                 Swal.fire({
                     buttons: ["ok", "ok uwu"],
                     background:'#F2E9E4' ,
                     confirmButtonColor:'#035058',
                     icon: 'success',
-                    text: 'Se creó la cuenta Estudiante correctamente',
+                    text: 'Se creó la cuenta Docente correctamente',
                 }).then(respuesta => {
                 if (respuesta) {
                     window.location.reload();
@@ -76,6 +76,14 @@ function FormE() {
                     window.location.reload();
                 }
                 });
+            }if(dataResponse.mensaje === 'Error al crear la cuenta'){
+                Swal.fire({
+                    buttons: ["ok", "ok uwu"],
+                    background:'#F2E9E4' ,
+                    confirmButtonColor:'#035058',
+                    icon: 'error',
+                    text: 'Error al crear la cuenta',
+                })
             }
         }  
         console.log(data)
@@ -87,10 +95,10 @@ function FormE() {
         <form  id='formD'  onSubmit={handleSubmit(onSubmit)}>
             
             <div id ="divLinks">
-                <Link className='buttonE' to='/CrearCuentaDoc'>Registro Docente</Link>
-                <Link className='buttonEs' to='/CrearCuentaEstu'>Registro Estudiante</Link>
+                <Link className='buttonEs' to='/CrearCuentaDoc'>Registro Docente</Link>
+                <Link className='buttonE' to='/CrearCuentaEstu'>Registro Estudiante</Link>
             </div>
-            <h1>Registrate como Estudiante</h1>
+            <h1>Registrate como Docente</h1>
                 <input 
                     type="text" 
                     placeholder='Nombres' 
@@ -123,7 +131,7 @@ function FormE() {
 
                 />
                 <span className='spanA'>{errors.password?.message}</span>
-                <div className='divBox'>
+                <div className='divBoxs'>
                     <input 
                         id='checkterms' 
                         type="checkbox"
@@ -139,7 +147,7 @@ function FormE() {
   )
 }
 
-export default FormE
+export default FormD
 
 
 const FormContainer = styled.nav`
@@ -151,12 +159,13 @@ const FormContainer = styled.nav`
     width: calc(98vw);
     min-height: calc(40vw);
     font-size: calc(1em+1vw);
+    
     .spanA{
         color: red;
         display: absolute;
         font-size:calc(0.8vw + .1em);
     }
-    .divBox{
+    .divBoxs{
         display: flex;
         width: 100%;
         margin-top: 2vh;
@@ -170,7 +179,6 @@ const FormContainer = styled.nav`
         border-radius: 1vw;
     }
     #pE{
-        
         font-size: calc(0.6vw + .1em);
     }
     #radius{
@@ -195,7 +203,6 @@ const FormContainer = styled.nav`
     #divLinks{
         width: 100%;
         display: flex;
-        justify-content: center;
     }
     a{
         text-align: center;
@@ -216,6 +223,7 @@ const FormContainer = styled.nav`
         color:#035058;
         padding: 2.5%;
         border: none;
+        margin-right: 5%;
        /*  background-color: #035058; */
         border-radius: 5px;
         border: #035058 solid 1px;
@@ -226,7 +234,6 @@ const FormContainer = styled.nav`
     .buttonE{
         width: 41%  ;
         color: white;
-        margin-right: 5%;
         padding: 2.5%;
         border: none;
         background-color: #035058;
