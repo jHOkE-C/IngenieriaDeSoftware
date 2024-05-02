@@ -1,17 +1,23 @@
 import React, { Fragment, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import * as yup from "yup"
-import { yupResolver } from "@hookform/resolvers/yup"
+import * as yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
 
 import styled from 'styled-components';
 import Google from '../../assents/google.jpg'
-import { Link, useNavigate } from 'react-router-dom';
-import Swal from 'sweetalert2'
-
+import { Link } from 'react-router-dom';
+import Swal from 'sweetalert'
+/*
+At least one upper case English letter, (?=.*?[A-Z])
+At least one lower case English letter, (?=.*?[a-z])
+At least one digit, (?=.*?[0-9])
+At least one special character, (?=.*?[#?!@$%^&*-])
+Minimum eight in length .{8,} (with the anchors)
+*/
 const rulerUpperCase = /(?=.*?[A-Z])/;
 const rulerLowerCase = /(?=.*[a-z])/;
 const rulerDigit= /(?=.*[0-9])/;
-const schema = yup
+/* const schema = yup
   .object({
     firstName: yup.string('Nombres: Solo esta permitido letras')
                 .required('Nombres: Se requiere Nombres'),
@@ -28,84 +34,131 @@ const schema = yup
     conditions: yup.boolean()
                 .oneOf([true],'Debes aceptar las condiciones')
   })
-  .required()
+  .required() */
+
 
 
 function FormD() {
-    const navigate = useNavigate();
     const {
         register,
         handleSubmit,
         formState: { errors },
-      } = useForm({
+      } = useForm(/* {
         resolver: yupResolver(schema),
-      })
-    const onSubmit = (data) => {
+      } */)
+      const onSubmit = (data) => {
         if (!errors.firstName && !errors.lastName && !errors.email && !errors.password && !errors.conditions) {
-            Swal.fire({
+            Swal({
               icon: 'success',
-              text: 'Se creó la cuenta estudiante correctamente',
-              buttons: ["ok", "ok uwu"],
-              background:'#F2E9E4' ,
-              confirmButtonColor:'#035058'
+              text: 'Se creó la cuenta Docente correctamente',
+              buttons: ["ok", "ok uwu"]
             }).then(respuesta => {
               if (respuesta) {
-                navigate('/IniciarSe',{replace:true})
+                window.location.reload();
               } else {
+                window.location.reload();
               }
             });
         }  
         console.log(data)
         
     }
-
+      
   return (
-    <FormContainerD>
+    <FormContainer >
         <form  id='formD'  onSubmit={handleSubmit(onSubmit)}>
             <div id ="divLinks">
                 <Link className='buttonEs' to='/CrearCuentaDoc'>Registro Docente</Link>
                 <Link className='buttonE' to='/CrearCuentaEstu'>Registro Estudiante</Link>
             </div>
-            <div className='contenedor'>
+            <br />
+            <br />
+           {/*  <div className='contenedor'>
                 <button className='buttonG'>Iniciar Sesion con :  <img src={Google} alt="" className='img'/></button>                      
             </div>
             <div className='contenedor'>
                 <p>O continuar con:</p>           
-            </div>
-            <div className='contenedor'>
+            </div> */}
+            <div className='contenedorNombre'>
+                <div className='hola'>
                 <input 
                     type="text" 
                     placeholder='Nombres' 
                     className='caja1' 
-                    {...register("firstName")}
+                    {...register("firstName", {
+                        required: {
+                            value: true,
+                            message: "Se requiere Nombre"
+                        },
+                        maxLength: {
+                            value: 14,
+                            message: 'Has excedido el número de caracteres'
+                        },
+                        minLength: {
+                            value: 2,
+                            message: "Debe ingresar más caracteres"
+                        }
+                    })}
                     maxLength={15}
                 />
-                
+                <span className='spanA'>{errors.firstName?.message}</span>
+                </div>
                 <input 
                     type="text" 
                     placeholder='Apellidos' 
                     className='caja1'
-                    {...register("lastName")} 
+                    {...register("lastName", {
+                        required: {
+                            value: true,
+                            message: "Se requiere Apellidos"
+                        },
+                        maxLength: {
+                            value: 14,
+                            message: 'Has excedido el número de caracteres'
+                        },
+                        minLength: {
+                            value: 2,
+                            message: "Debe ingresar más caracteres"
+                        }})} 
                     maxLength={20}
                 />
+                <span className='spanA'>{errors.lastName?.message}</span>
                 
             </div>
             <div className='contenedor3'>
                 <input 
-                    type="email " 
+                    type="email" 
                     placeholder='Email'
                     className='caja2' 
-                    {...register("email")}
+                    {...register("email", {
+                        required: {
+                            value: true,
+                            message: "Ingrese un Email valido"
+                        },
+                        minLength: {
+                            value: 6,
+                            message: "Debe ingresar más caracteres"
+                        }})}
                 />
+                <span className='spanA'>{errors.email?.message}</span>
                 
                 <input 
                     type="password" 
                     placeholder='Contraseña'
                     className='caja2'
-                    {...register("password")} 
-                    maxLength={15}
+                    {...register("password", {
+                        required: {
+                            value: true,
+                            message: "Se requiere contraseña"
+                        },
+                       
+                        minLength: {
+                            value: 8,
+                            message: "Debe ingresar mas caracteres"
+                        }})}
+
                 />
-                
+                <span className='spanA'>{errors.password?.message}</span>
             </div>
             <br />
             <br />
@@ -113,15 +166,25 @@ function FormD() {
                 <input 
                     id='checkterms' 
                     type="checkbox"
-                    {...register("conditions")} 
-                />
-                <p id='pE'>Creando una cuenta significa que estas deacuerdo con nuestros Terminos de servicio, Politicas de Privacidad y nuestra Configuracion Predeterminada de Notificaciones</p>
+                    {...register("conditions", {
+                        required: {
+                            value: true,
+                            message: 'Acepta las condiciones'
+                        }
+                    })} 
+                /> 
+                <span id='pE'>Creando una cuenta significa que estas deacuerdo con nuestros Terminos de servicio, Politicas de Privacidad y nuestra Configuracion Predeterminada de Notificaciones</span>
             </div>
+            <div className='contenedor2'>
+                <br />
+                <span className='spanA'>{errors.conditions?.message}</span>
+            </div>
+            
             <div className='contenedor'>
                 <button className='buttonG' type='submit' >Crear Cuenta</button>
             </div>
         </form>
-        {errors && (errors.firstName || errors.lastName || errors.email || errors.password || errors.conditions) && (
+       {/*  {errors && (errors.firstName || errors.lastName || errors.email || errors.password || errors.conditions) && (
             <div id='divSpan'>
                 <span className='spanA'>{errors.firstName?.message}</span>
                 <span className='spanA'>{errors.lastName?.message}</span>
@@ -129,19 +192,20 @@ function FormD() {
                 <span className='spanA'>{errors.password?.message}</span>
                 <span className='spanA'>{errors.conditions?.message}</span>
             </div>
-        )}
-    </FormContainerD>
+        )}    */}
+    </FormContainer>
   )
 }
 
 export default FormD
 
-const FormContainerD = styled.nav`
+
+const FormContainer = styled.nav`
     display: flex;
     align-items: center;
     align-content: center;
     justify-content: center;
-    height: calc(80vh);
+  /*   height: calc(80vh); */
     width: calc(98vw);
     min-height: 400px;
     font-size: calc(1em+1vw);
@@ -176,15 +240,15 @@ const FormContainerD = styled.nav`
         width: 10px;
     }
     .caja1{
-        width: 40%;
+        width: 91%;
         background-color: #B4D2DA;
         border: none;
-        padding: 3.2%;
-        margin: 1%;
+        padding: 3%    ;
         border-radius: 0.4em;
+        margin-bottom: 1%;
     }
     .caja2{
-        width: 90%;
+        width: 91%;
         background-color: #B4D2DA;
         border: none;
         padding: 3%    ;
@@ -207,26 +271,28 @@ const FormContainerD = styled.nav`
         align-items: center;
         justify-content: center;
         align-content: center;
-        height: calc(80vh);
+       /*  height: calc(80vh); */
         width: calc(33vw);
     }
     .buttonEs{
         width: 41%  ;
-        color: white;
+        color:#035058;
         margin-right: 1%;
         padding: 2.5%;
         border: none;
-        background-color: #035058;
+       /*  background-color: #035058; */
         border-radius: 5px;
         border: #035058 solid 1px;
+        border-width: 2px;
         font-size: calc(1vw + .1em);
+        font-weight: bold;
     }
     .buttonE{
         width: 41%  ;
         color: white;
         padding: 2.5%;
         border: none;
-        background-color: #15292E;
+        background-color: #035058;
         border-radius: 5px;
         border: #035058 solid 1px;
         font-size: calc(1vw + .1em);
@@ -241,18 +307,25 @@ const FormContainerD = styled.nav`
         color: white;
         border: #035058 solid 1px;
     }
-    .contenedor{
+    /* .contenedor{
+        width: 100%;
+        display: grid;
+        justify-content: center;
+        align-items: center;
+    } */
+
+    .contenedor2{
         width: 100%;
         display: flex;
-        justify-content: center;
+      /*   justify-content: center; */
         align-items: center;
+        margin-left: 3%;
+        flex-wrap: nowrap;
     }
-    .contenedor2{
-        width: 70%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        margin-left: 15%;
+    .contenedorNombre{
+        margin-left: 3%;
+        width: 98%;
+        height: 10%;
     }
     .contenedor3{
         margin-left: 3%;
@@ -283,5 +356,9 @@ const FormContainerD = styled.nav`
         background-color: #035058;
         color: white;
         border: #035058 solid 1px;
+    }
+
+    .hola {
+        display: grid;
     }
 `
