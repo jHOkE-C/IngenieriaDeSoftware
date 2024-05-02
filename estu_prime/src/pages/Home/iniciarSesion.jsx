@@ -55,7 +55,6 @@ function IniciarSesion() {
   }    
   return (
     <Login_container>
-      <div id='cuadro_login'>
         <form action="" id='form_login_c' onSubmit={handleSubmit(onSubmit)}>
             <h1>Login</h1>
             <label>Email: </label>
@@ -75,7 +74,6 @@ function IniciarSesion() {
             <br />
             <button type='submit' id='button100'>Iniciar Sesion</button>
         </form>
-      </div>
     </Login_container>
   )
 }
@@ -118,19 +116,6 @@ const Login_container = styled.nav`
         width: 100%;
         height: 30px;
     } 
-    #cuadro_login{
-        background-color: #C7CAB6;
-        padding: 4em;
-        width: 20%;
-        height: 70%;
-        min-width: 250px;
-        min-height: 350px;
-        display: block;
-        border-radius: 40px;
-        align-items: center;
-        align-content: center;
-        justify-content: center;
-    }
     #login_title{
         display: inline;
         height: auto;
@@ -153,7 +138,11 @@ const Login_container = styled.nav`
     }
     #form_login_c{
         display: block;
-        padding-top: 40px;
+        border: #15292E 1px solid;
+        padding: 5%;
+        border-radius: 1vh;
+        padding-top: 10vh;
+        padding-bottom: 15vh;
     }
     #button100{
     background-color: #15292E;

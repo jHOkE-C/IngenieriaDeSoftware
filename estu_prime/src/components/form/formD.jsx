@@ -6,7 +6,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import styled from 'styled-components';
 import Google from '../../assents/google.jpg'
 import { Link } from 'react-router-dom';
-import Swal from 'sweetalert'
+import Swal from 'sweetalert2'
 /*
 At least one upper case English letter, (?=.*?[A-Z])
 At least one lower case English letter, (?=.*?[a-z])
@@ -17,7 +17,7 @@ Minimum eight in length .{8,} (with the anchors)
 const rulerUpperCase = /(?=.*?[A-Z])/;
 const rulerLowerCase = /(?=.*[a-z])/;
 const rulerDigit= /(?=.*[0-9])/;
-/* const schema = yup
+const schema = yup
   .object({
     firstName: yup.string('Nombres: Solo esta permitido letras')
                 .required('Nombres: Se requiere Nombres'),
@@ -34,7 +34,7 @@ const rulerDigit= /(?=.*[0-9])/;
     conditions: yup.boolean()
                 .oneOf([true],'Debes aceptar las condiciones')
   })
-  .required() */
+  .required()
 
 
 
@@ -43,22 +43,40 @@ function FormD() {
         register,
         handleSubmit,
         formState: { errors },
-      } = useForm(/* {
+      } = useForm( {
         resolver: yupResolver(schema),
-      } */)
-      const onSubmit = (data) => {
+      } )
+      const onSubmit = async (data) => {
         if (!errors.firstName && !errors.lastName && !errors.email && !errors.password && !errors.conditions) {
-            Swal({
-              icon: 'success',
-              text: 'Se creó la cuenta Docente correctamente',
-              buttons: ["ok", "ok uwu"]
-            }).then(respuesta => {
-              if (respuesta) {
-                window.location.reload();
-              } else {
-                window.location.reload();
-              }
+            const response = await fetch('http://localhost:80/estu_prime/src/api/inicioSesion.php', {
+                method: 'POST',
+                //credentials: 'include',
+                headers: {
+                'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    firstName: data.firstName,
+                    lastName: data.lastName,
+                    email: data.email,
+                    password: data.password
+                }),
             });
+            const dataResponse = await response.json();
+            if(dataResponse.mensaje === 'Cuenta docente creada'){
+                Swal.fire({
+                    buttons: ["ok", "ok uwu"],
+                    background:'#F2E9E4' ,
+                    confirmButtonColor:'#035058',
+                    icon: 'success',
+                    text: 'Se creó la cuenta Docente correctamente',
+                }).then(respuesta => {
+                if (respuesta) {
+                    window.location.reload();
+                } else {
+                    window.location.reload();
+                }
+                });
+            }
         }  
         console.log(data)
         
@@ -67,78 +85,33 @@ function FormD() {
   return (
     <FormContainer >
         <form  id='formD'  onSubmit={handleSubmit(onSubmit)}>
+            
             <div id ="divLinks">
                 <Link className='buttonEs' to='/CrearCuentaDoc'>Registro Docente</Link>
                 <Link className='buttonE' to='/CrearCuentaEstu'>Registro Estudiante</Link>
             </div>
-            <br />
-            <br />
-           {/*  <div className='contenedor'>
-                <button className='buttonG'>Iniciar Sesion con :  <img src={Google} alt="" className='img'/></button>                      
-            </div>
-            <div className='contenedor'>
-                <p>O continuar con:</p>           
-            </div> */}
-            <div className='contenedorNombre'>
-                <div className='hola'>
+            <h1>Registrate como Docente</h1>
                 <input 
                     type="text" 
                     placeholder='Nombres' 
-                    className='caja1' 
-                    {...register("firstName", {
-                        required: {
-                            value: true,
-                            message: "Se requiere Nombre"
-                        },
-                        maxLength: {
-                            value: 14,
-                            message: 'Has excedido el número de caracteres'
-                        },
-                        minLength: {
-                            value: 2,
-                            message: "Debe ingresar más caracteres"
-                        }
-                    })}
+                    className='caja2' 
+                    {...register("firstName")}
                     maxLength={15}
                 />
                 <span className='spanA'>{errors.firstName?.message}</span>
-                </div>
                 <input 
                     type="text" 
                     placeholder='Apellidos' 
-                    className='caja1'
-                    {...register("lastName", {
-                        required: {
-                            value: true,
-                            message: "Se requiere Apellidos"
-                        },
-                        maxLength: {
-                            value: 14,
-                            message: 'Has excedido el número de caracteres'
-                        },
-                        minLength: {
-                            value: 2,
-                            message: "Debe ingresar más caracteres"
-                        }})} 
+                    className='caja2'
+                    {...register("lastName")} 
                     maxLength={20}
                 />
                 <span className='spanA'>{errors.lastName?.message}</span>
-                
-            </div>
-            <div className='contenedor3'>
                 <input 
                     type="email" 
                     placeholder='Email'
                     className='caja2' 
-                    {...register("email", {
-                        required: {
-                            value: true,
-                            message: "Ingrese un Email valido"
-                        },
-                        minLength: {
-                            value: 6,
-                            message: "Debe ingresar más caracteres"
-                        }})}
+                    {...register("email")}
                 />
                 <span className='spanA'>{errors.email?.message}</span>
                 
@@ -146,53 +119,22 @@ function FormD() {
                     type="password" 
                     placeholder='Contraseña'
                     className='caja2'
-                    {...register("password", {
-                        required: {
-                            value: true,
-                            message: "Se requiere contraseña"
-                        },
-                       
-                        minLength: {
-                            value: 8,
-                            message: "Debe ingresar mas caracteres"
-                        }})}
+                    {...register("password")}
 
                 />
                 <span className='spanA'>{errors.password?.message}</span>
-            </div>
-            <br />
-            <br />
-            <div className='contenedor2'>
-                <input 
-                    id='checkterms' 
-                    type="checkbox"
-                    {...register("conditions", {
-                        required: {
-                            value: true,
-                            message: 'Acepta las condiciones'
-                        }
-                    })} 
-                /> 
-                <span id='pE'>Creando una cuenta significa que estas deacuerdo con nuestros Terminos de servicio, Politicas de Privacidad y nuestra Configuracion Predeterminada de Notificaciones</span>
-            </div>
-            <div className='contenedor2'>
-                <br />
+                <div className='divBoxs'>
+                    <input 
+                        id='checkterms' 
+                        type="checkbox"
+                        {...register("conditions")} 
+                    /> 
+                    <span id='pE'>Creando una cuenta significa que estas deacuerdo con nuestros Terminos de servicio, Politicas de Privacidad y nuestra Configuracion Predeterminada de Notificaciones</span>
+                </div>
                 <span className='spanA'>{errors.conditions?.message}</span>
-            </div>
             
-            <div className='contenedor'>
                 <button className='buttonG' type='submit' >Crear Cuenta</button>
-            </div>
         </form>
-       {/*  {errors && (errors.firstName || errors.lastName || errors.email || errors.password || errors.conditions) && (
-            <div id='divSpan'>
-                <span className='spanA'>{errors.firstName?.message}</span>
-                <span className='spanA'>{errors.lastName?.message}</span>
-                <span className='spanA'>{errors.email?.message}</span>
-                <span className='spanA'>{errors.password?.message}</span>
-                <span className='spanA'>{errors.conditions?.message}</span>
-            </div>
-        )}    */}
     </FormContainer>
   )
 }
@@ -207,34 +149,29 @@ const FormContainer = styled.nav`
     justify-content: center;
   /*   height: calc(80vh); */
     width: calc(98vw);
-    min-height: 400px;
+    min-height: calc(40vw);
     font-size: calc(1em+1vw);
-    margin: 1%;
-    #divSpan{
-        width: 20%;
-        height: 20%;
-        background-color: #15292E;
-        border-radius: 4%;
-        padding: 1%;
-        position: absolute;
-        left: 70%;
-        display:grid
-    }
+    
     .spanA{
         color: red;
         display: absolute;
-        font-size:calc(1vw + .1em);
+        font-size:calc(0.8vw + .1em);
+    }
+    .divBoxs{
+        display: flex;
+        width: 100%;
+        margin-top: 2vh;
+        margin-bottom: 2vh;
     }
     #formD{
         position: relative;
         width: 30%;
-    }
-    .img{
-        width: 5%;
-        height: 5%;
+        padding: 5vh;
+        border: 2px solid #15292E;
+        border-radius: 1vw;
     }
     #pE{
-        font-size: calc(0.7vw + .1em);
+        font-size: calc(0.6vw + .1em);
     }
     #radius{
         width: 10px;
@@ -248,7 +185,7 @@ const FormContainer = styled.nav`
         margin-bottom: 1%;
     }
     .caja2{
-        width: 91%;
+        width: 94%;
         background-color: #B4D2DA;
         border: none;
         padding: 3%    ;
@@ -258,7 +195,6 @@ const FormContainer = styled.nav`
     #divLinks{
         width: 100%;
         display: flex;
-        justify-content: center;
     }
     a{
         text-align: center;
@@ -277,9 +213,9 @@ const FormContainer = styled.nav`
     .buttonEs{
         width: 41%  ;
         color:#035058;
-        margin-right: 1%;
         padding: 2.5%;
         border: none;
+        margin-right: 5%;
        /*  background-color: #035058; */
         border-radius: 5px;
         border: #035058 solid 1px;
@@ -313,31 +249,11 @@ const FormContainer = styled.nav`
         justify-content: center;
         align-items: center;
     } */
-
-    .contenedor2{
-        width: 100%;
-        display: flex;
-      /*   justify-content: center; */
-        align-items: center;
-        margin-left: 3%;
-        flex-wrap: nowrap;
-    }
-    .contenedorNombre{
-        margin-left: 3%;
-        width: 98%;
-        height: 10%;
-    }
-    .contenedor3{
-        margin-left: 3%;
-        width: 98%;
-        height: 10%;
-    }
     .buttonG{
         width: 100%;
         border: none;
         background-color: #15292E;
         color: white;
-        margin: 3%;
         display: flex;
         align-content: center;
         justify-content: center;
@@ -356,9 +272,5 @@ const FormContainer = styled.nav`
         background-color: #035058;
         color: white;
         border: #035058 solid 1px;
-    }
-
-    .hola {
-        display: grid;
     }
 `
