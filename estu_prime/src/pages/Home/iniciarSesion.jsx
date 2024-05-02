@@ -21,10 +21,11 @@ function IniciarSesion() {
        
   
   const onSubmit = async (data) => {
+    console.log(data);
     if (!errors.firstName && !errors.lastName) {
-      const response = await fetch('aqui la wea', {
+      const response = await fetch('http://localhost:80/estu_prime/src/api/inicioSesion.php', {
         method: 'POST',
-        credentials: 'include',
+        //credentials: 'include',
         headers: {
           'Content-Type': 'application/json',
         },
@@ -33,7 +34,7 @@ function IniciarSesion() {
           contrasena: data.password1,
         }),
       });
-
+      
       const dataResponse = await response.json();
 
       if(dataResponse.mensaje === 'Inicio de sesion exitoso'){
@@ -54,7 +55,7 @@ function IniciarSesion() {
   }    
   return (
     <Login_container>
-      <Fragment id='cuadro_login'>
+      <div id='cuadro_login'>
         <form action="" id='form_login_c' onSubmit={handleSubmit(onSubmit)}>
             <h1>Login</h1>
             <label>Email: </label>
@@ -74,7 +75,7 @@ function IniciarSesion() {
             <br />
             <button type='submit' id='button100'>Iniciar Sesion</button>
         </form>
-      </Fragment>
+      </div>
     </Login_container>
   )
 }
