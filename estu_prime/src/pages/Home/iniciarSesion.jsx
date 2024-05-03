@@ -25,7 +25,7 @@ function IniciarSesion() {
     if (!errors.firstName && !errors.lastName) {
       const response = await fetch('http://localhost:80/estu_prime/src/api/inicioSesion.php', {
         method: 'POST',
-        //credentials: 'include',
+        credentials: 'include',
         headers: {
           'Content-Type': 'application/json',
         },

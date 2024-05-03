@@ -1,15 +1,16 @@
 <?php
-header('Access-Control-Allow-Origin: http://localhost:3000');
+$origin = isset($_SERVER['HTTP_ORIGIN']) ? $_SERVER['HTTP_ORIGIN'] : '';
+
+header('Access-Control-Allow-Origin: ' . $origin);
+header('Access-Control-Allow-Methods: GET, POST, OPTIONS');
 header('Access-Control-Allow-Headers: Content-Type');
 header('Access-Control-Allow-Credentials: true');
 
-
+session_start();
 $host = "localhost";
 $user = "root";
 $pass = "";
 $db = "estuprime";
-
-// Conectar a la base de datos
 $conn = new mysqli($host, $user, $pass, $db);
 
 // Verificar si la solicitud es de tipo POST
@@ -25,9 +26,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Obtener los datos del correo y la contraseña
         $correo = $data['correo'];
         $contrasena = $data['contrasena'];
-        $query = "SELECT email,password FROM docente where email = '$correo' AND password = '$contrasena'";
+        $query = "SELECT id FROM docente where email = '$correo' AND password = '$contrasena'";
         $result = $conn->query($query);
         if ($result && $result->num_rows > 0) {
+            $row = $result->fetch_assoc();
+            $_SESSION['id_docente'] = $row['id'];
             $response = array("mensaje" => "Inicio de sesion exitoso");
         } 
         // Enviar la respuesta como JSON

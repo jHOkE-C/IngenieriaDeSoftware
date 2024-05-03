@@ -5,12 +5,33 @@ import { Link, Navigate, useNavigate } from 'react-router-dom';
 
 function Header() {
     let navigate = useNavigate();
-    function cerrarSesion (){
-        // Cuando el usuario inicia sesión exitosamente
-        localStorage.removeItem('isLoggedIn')
-        navigate('/IniciarSe',{replace:true});
-        window.location.reload();
-      }
+    async function cerrarSesion() {
+        // Eliminar la cookie de sesión del lado del cliente
+        localStorage.removeItem('isLoggedIn');
+
+        try {
+            // Enviar una solicitud al servidor para cerrar la sesión
+            const response = await fetch('http://localhost/estu_prime/src/api/cerrarSesion.php', {
+                method: 'POST',
+                credentials: 'include',
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            });
+
+            if (response.ok) {
+                // Si la solicitud fue exitosa, redirigir a la página de inicio de sesión
+                navigate('/IniciarSe', { replace: true });
+                window.location.reload();
+            } else {
+                // Manejar errores de solicitud
+                console.error('Error al cerrar sesión:', response.statusText);
+            }
+        } catch (error) {
+            console.error('Error al cerrar sesión:', error.message);
+        }
+    }
+
   return (
     <HeaderContainerDoc>
         <header id='navC'>
