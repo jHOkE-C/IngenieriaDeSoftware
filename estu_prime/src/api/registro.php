@@ -2,6 +2,7 @@
 header('Access-Control-Allow-Origin: http://localhost:3000');
 header('Access-Control-Allow-Headers: Content-Type');
 header('Access-Control-Allow-Credentials: true');
+#include("conexion.php");
 
 $host = "localhost";
 $user = "root";
@@ -15,6 +16,7 @@ $conn = new mysqli($host, $user, $pass, $db);
 if ($conn->connect_error) {
     die("Error de conexión: " . $conn->connect_error);
 }
+
 
 // Función para redirigir con un mensaje de error
 // Función para redirigir con un mensaje de error específico
