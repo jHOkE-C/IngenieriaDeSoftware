@@ -1,29 +1,30 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import {ReactComponent as ArrowLeft} from '../../assents/svg/left.svg';
-import {ReactComponent as ArrowRight} from '../../assents/svg/right.svg';
+import { ReactComponent as ArrowLeft } from '../../assents/svg/left.svg';
+import { ReactComponent as ArrowRight } from '../../assents/svg/right.svg';
 import CardsCursos from '../../components/courseCard/cardCursoDocente';
-
-
 
 function TusCursos() {
   const [cursos, setCursos] = useState([]);
   const [currentPage, setCurrentPage] = useState(0);
-  
 
   useEffect(() => {
     peticionDocenteCursosCreados();
   }, []);
 
   const peticionDocenteCursosCreados = () => {
-    fetch('https://jsonplaceholder.typicode.com/todos')
-      .then((res) => res.json())
+    fetch('http://localhost:80/estu_prime/src/api/mostrarCurso.php', {
+      method: 'GET',
+      credentials: 'include'
+    })
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error('Error fetching data');
+        }
+        return res.json();
+      })
       .then((data) => {
-        const newData = data.map((user) => ({
-          title: user.title,
-          id: user.id
-        }));
-        setCursos(newData);
+        setCursos(data);
       })
       .catch((error) => {
         console.error('Error fetching data:', error);
@@ -34,7 +35,7 @@ function TusCursos() {
     const startIndex = currentPage * 8;
     const endIndex = startIndex + 8;
     return cursos.slice(startIndex, endIndex).map((curso) => (
-      <CardsCursos key={curso.id} title={curso.title} ide={curso.id} />
+      <CardsCursos key={curso.idCurso} title={curso.nombre} ide={curso.idCurso} />
     ));
   };
 
@@ -43,7 +44,7 @@ function TusCursos() {
   };
 
   const goToPreviousPage = () => {
-    setCurrentPage((prevPage) => prevPage === 0? prevPage:prevPage-1);
+    setCurrentPage((prevPage) => (prevPage === 0 ? prevPage : prevPage - 1));
   };
 
   return (
@@ -51,10 +52,10 @@ function TusCursos() {
       {renderCursos()}
       <div className='arrows'>
         <button className='arrows__flecha' onClick={goToPreviousPage}>
-          <ArrowLeft className='home__icon'/>
+          <ArrowLeft className='home__icon' />
         </button>
         <button className='arrows__flecha' onClick={goToNextPage}>
-          <ArrowRight className='home__icon'/>
+          <ArrowRight className='home__icon' />
         </button>
       </div>
     </ListaCrearCursoContainer>
@@ -74,18 +75,17 @@ const ListaCrearCursoContainer = styled.nav`
     justify-content: center;
     margin: 1.5%;
   }
-  .arrows__flecha{
+  .arrows__flecha {
     background: none;
     margin: 0.1em;
-    border:  none;
+    border: none;
   }
-  .arrows__flecha svg:hover{
-    fill: #B4D2DA;
+  .arrows__flecha svg:hover {
+    fill: #b4d2da;
     transition: 100ms;
     stroke: black;
   }
-  .arrows__flecha svg:active{
+  .arrows__flecha svg:active {
     fill: white;
   }
-  
 `;
