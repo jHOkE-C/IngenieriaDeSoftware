@@ -49,7 +49,7 @@ function FormE() {
       const onSubmit = async (data) => {
         const queryString = `?firstName=${encodeURIComponent(data.firstName)}&lastName=${encodeURIComponent(data.lastName)}&email=${encodeURIComponent(data.email)}&password=${encodeURIComponent(data.password)}`;
         if (!errors.firstName && !errors.lastName && !errors.email && !errors.password && !errors.conditions) {
-            const response = await fetch(`http://localhost:80/estu_prime/src/api/registro.php${queryString}`, {
+            const response = await fetch(`http://localhost:80/IngenieriaDeSoftware/estu_prime/src/api/registro.php${queryString}`, {
                 method: 'GET',
                  // No se necesita especificar 'body' para una solicitud GET
                 headers: {

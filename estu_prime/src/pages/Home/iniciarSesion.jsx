@@ -23,7 +23,7 @@ function IniciarSesion() {
   const onSubmit = async (data) => {
     console.log(data);
     if (!errors.firstName && !errors.lastName) {
-      const response = await fetch('http://localhost:80/estu_prime/src/api/inicioSesion.php', {
+      const response = await fetch('http://localhost:80/IngenieriaDeSoftware/estu_prime/src/api/inicioSesion.php', {
         method: 'POST',
         credentials: 'include',
         headers: {

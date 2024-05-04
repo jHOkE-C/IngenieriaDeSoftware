@@ -48,7 +48,7 @@ function FormD() {
       } )
       const onSubmit = async (data) => {
         if (!errors.firstName && !errors.lastName && !errors.email && !errors.password && !errors.conditions) {
-            const response = await fetch('http://localhost:80/estu_prime/src/api/registro.php', {
+            const response = await fetch('http://localhost:80/IngenieriaDeSoftware/estu_prime/src/api/registro.php', {
                 method: 'POST',
                 //credentials: 'include',
                 headers: {
