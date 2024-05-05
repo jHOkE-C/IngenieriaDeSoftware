@@ -105,21 +105,36 @@ function CrearCurso() {
   }
 
   const agregarComponente = () => {
+    let a = [<InputT key={componentes.length} eliminarComponente={eliminarComponente} />]
+    setTitulos(
+      [
+        ...titulos,
+        a
+      ]
+    )
     setComponentes(
       [...componentes, 
-      <InputT key={componentes.length} eliminarComponente={eliminarComponente} />]
+      a]
     );
   };
 
   const agregarComponenteA = () => {
+    let a = [<InputA key={componentes.length} eliminarComponente={eliminarComponente} />]
+    setVideos(
+      [
+        ...videos,
+        a
+      ]
+    )
     setComponentes(
       [...componentes, 
-      <InputA key={componentes.length} eliminarComponente={eliminarComponente} />]
+        a
+      ]
     );
   };
 
   const eliminarComponente = (index) => {
-    const nuevosComponentes = componentes.filter((_, i) => i !== index);
+    const nuevosComponentes = componentes.filter((i) => i !== index);
     setComponentes(nuevosComponentes);
   };
 
