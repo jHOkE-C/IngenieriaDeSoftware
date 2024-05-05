@@ -8,11 +8,101 @@ import Cancelar from '../../assents/cancelar.png'
 import InputT from '../../components/inputs/inputText'
 import InputA from '../../components/inputs/inputSubmit'
 import Swal from 'sweetalert2'
+import * as yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { useForm } from 'react-hook-form';
+import {useNavigate} from 'react-router-dom'
 
 
+const validFileExtensionsImage = { image: ['jpg', 'png', 'jpeg', 'svg', 'webp'] };
+const validFileExtensionsVideo = { image: ['mp4', 'mkv', 'AVI', 'H.264' ]};
+function isValidFileType(fileName, fileType, valid) {
+  return fileName && valid[fileType].indexOf(fileName.split('.').pop()) > -1;
+}
 function CrearCurso() {
+  const [videos,setVideos] = useState([]);
+  const [titulos, setTitulos] = useState([]);
   const [componentes, setComponentes] = useState([]);
   const [image, setImage] = useState(null);
+  let navigate = useNavigate();
+  const schema = yup
+    .object({
+      docente: yup.string(),
+      precio: yup.string()
+                  .required('Se requiere precio del curso'),
+      img: yup.mixed()
+                  .test('','No es un tipo archivo de imagen valida',
+                          value => isValidFileType(value && value.name.toLowerCase(),'image',validFileExtensionsImage)
+                  ),
+      /*videos: yup.array()
+                  .of(
+                    yup.object().shape({
+                      ordenVideo: yup.number,
+                      video: yup.mixed()
+                      .test('','No es un tipo archivo de imagen valida',
+                              value => isValidFileType(value && value.name.toLowerCase(),'image',validFileExtensionsVideo)
+                      ),
+                    })
+                  ).required("Requerido por lo menos un video"),
+      titulos: yup.array()
+                  .of(
+                    yup.object().shape({
+                      ordenTitulo: yup.number,
+                      titulo: yup.string
+                    })
+                  ).required("Requerido por lo menos un titulo"),
+      */
+      titulo : yup.string()
+    }).required()  
+    const {
+            register,
+            handleSubmit,
+            formState: { errors },
+          } = useForm({resolver: yupResolver(schema),})
+  const onSubmit = async (data) => { 
+    if(!errors.titulo && !errors.imagen && !errors.precio){
+      const response = await fetch('direccion de agregado de curso', {
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          title: data.titulo,
+          docente: data.docente,
+          precio: data.precio,
+          image: data.img,
+          titles: titulos,
+          videos: videos
+        }),
+      });
+      
+      const dataResponse = await response.json();
+
+      if(dataResponse.mensaje === 'Curso Creado Exitosamente'){
+        Swal.fire({
+          icon: 'success',
+          text: 'Curso Creado Exitosamente',
+          background:'#F2E9E4',
+          confirmButtonColor:'#15292E',
+        }).then(respuesta => {
+          if (respuesta) {
+            localStorage.setItem('isLoggedIn', 'true');
+            navigate('/LoginDocente', { replace: true }) 
+            window.location.reload();
+          }
+        }); 
+      }else{
+        Swal.fire({
+          icon: 'error',
+          text: 'Curso Creado Exitosamente',
+          background:'#F2E9E4',
+          confirmButtonColor:'#15292E',
+        })
+      }
+      console.log(data)
+    }
+  }
 
   const agregarComponente = () => {
     setComponentes(
@@ -48,28 +138,6 @@ function CrearCurso() {
       // Puedes enviar formData a través de una solicitud HTTP POST si es necesario
     }
   };
-
- function mostrarAlerta(successMessage){
-  if (successMessage) {
-    Swal.fire({
-        icon: 'success',
-        text: successMessage,
-        buttons: [,"ok uwu"]
-    }).then(respuesta => {
-        if (respuesta) {
-            // No hagas nada si el usuario hace clic en "ok"
-        }
-    });
-}
-}
-
-useEffect(() => {
-  const urlParams = new URLSearchParams(window.location.search);
-  const success = urlParams.get('success');
-  if (success) {
-    mostrarAlerta(success); // Ejecuta la función si hay un mensaje de éxito
-  }
-}, []);
  
  function cancelarTodo (){
   window.location.reload();
@@ -77,47 +145,58 @@ useEffect(() => {
 
   return (
     <CrearCursoContainer>
-      <form action='http://localhost:80/estu_prime/src/api/curso.php' id='formC' method='post' encType='multipart/form-data'>
+      <form  id='formC' onSubmit={handleSubmit(onSubmit)}>
         <div id='laminaBotonesRight'>
-          <button onClick={mostrarAlerta} type='submit' className='buttonImg'><img src={Save} alt=""className='imgA' /></button>
+          <button type='submit' className='buttonImg'><img src={Save} alt=""className='imgA' /></button>
           <button onClick={cancelarTodo} type='button' className='buttonImg'><img src={Cancelar} alt=""className='imgA' /></button>
         </div>
         <h2>Crear Curso</h2>
         <div>
-          <label id='especialL' >Titulo: </label>
+          <label className='especialL' >Titulo: </label>
           <input 
             type="text" 
-            name='titulo' 
             className='inputText'
-            maxLength={20}
-            required/>
+
+            {... register('titulo')}
+          />
           <label >Docente: </label>
           <input 
             type="text" 
             value='Juan Carlos Luna' 
             readOnly 
-            className='inputText'/>
+            className='inputText'
+            {... register('docente')}
+            />
           <input 
             type="file" 
             accept=".jpg, .jpeg, .png"
             onChange={handleImageChange} 
-            id='inputSubmit' 
-            name="imagen" 
+            id='inputSubmit'
+            {... register('img')}
             />     
           <div id='divPrueba'>
             <label >Descripcion: </label>
             <textarea 
               type="text" 
-              name='descripcion' 
               maxLength={200} 
-              id='descripcionText' />
+              id='descripcionText' 
+              {... register('descripcion')}
+            />
             {image && (
               <div className="image-container">
                 <img src={image} alt="Uploaded" className="uploaded-image" />
               </div>
             )}
           </div>
+          
         </div>
+        <label className='especialL'>Precio: </label>
+        <input 
+            type="text" 
+            className='inputText'
+            maxLength={5}
+            {... register('precio')}
+            />
         <div>
           {componentes.map((componente, index) => (
             <div key={index}>{componente}</div>
@@ -155,7 +234,7 @@ const CrearCursoContainer = styled.nav`
   #formC{
     width: 60%;
   }
-  #especialL{
+  .especialL{
     margin-right: 5%;
   }
   .inputText{

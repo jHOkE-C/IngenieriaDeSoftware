@@ -12,6 +12,7 @@ const schema = yup
               .required('Se requiere Email'),
       password1: yup.string()
               .required('Se requiere Passworrd'),
+      
     })
     .required()  
 
@@ -41,12 +42,13 @@ function IniciarSesion() {
         Swal.fire({
           icon: 'success',
           text: 'Inicio Exitoso',
-          background:'#B4B7A2',
-          confirmButtonColor:'#F57D0D',
+          background:'#F2E9E4',
+          confirmButtonColor:'#15292E',
         }).then(respuesta => {
           if (respuesta) {
             localStorage.setItem('isLoggedIn', 'true');
             navigate('/LoginDocente', { replace: true }) 
+            window.location.reload();
           }
         }); 
       }

@@ -7,7 +7,6 @@ function Header() {
     let navigate = useNavigate();
     async function cerrarSesion() {
         // Eliminar la cookie de sesión del lado del cliente
-        localStorage.removeItem('isLoggedIn');
 
         try {
             // Enviar una solicitud al servidor para cerrar la sesión
