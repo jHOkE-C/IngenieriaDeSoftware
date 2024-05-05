@@ -23,7 +23,7 @@ function InputText({ eliminarComponente, i, onSubmit }) {
   } = useForm({resolver: yupResolver(schema),})
 
   const handleClickEliminar = () => {
-    eliminarComponente();
+    eliminarComponente(index);
   };
   const handleFormSubmit = (data) => {
     // Trigger the onSubmit function passed from the parent component
