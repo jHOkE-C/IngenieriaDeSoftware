@@ -1,23 +1,47 @@
-
+import { useForm } from 'react-hook-form';
+import * as yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
 import styled from 'styled-components';
 import trash from '../../assents/basurero.png';
 
-function InputText({ eliminarComponente }) {
+
+const schema = yup
+    .object({
+      posicion: yup.string(),
+      texto: yup.string()
+    })
+    .required();
+
+
+function InputText({ eliminarComponente, i, onSubmit }) {
+  const index = i;
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({resolver: yupResolver(schema),})
+
   const handleClickEliminar = () => {
     eliminarComponente();
   };
-
+  const handleFormSubmit = (data) => {
+    // Trigger the onSubmit function passed from the parent component
+    onSubmit(data);
+  };
   return (
     <InputTextContainer>
-      <div id='inputsT'>
+      <form id='inputsT' onSubmit={handleSubmit(handleFormSubmit)}>
         <input 
           type="text" 
           id='textInput' 
           placeholder='Titulo o Descripciones' 
-          maxLength={20} 
+          maxLength={20}
+          {... register('texto')} 
         />
         <button className='buttonImg' onClick={handleClickEliminar}><img src={trash} alt="" className='imgA' /></button>
-      </div>
+      </form>
+      <p className='spanA'>{errors.texto?.message}</p>
     </InputTextContainer>
   );
 }
@@ -29,7 +53,7 @@ const InputTextContainer = styled.nav`
     align-content:center;
   }
     #textInput{
-    width: 75%;
+    width: 45%;
     padding-left: 1% ;
     padding-right: 1%;
     padding-top: 1%;

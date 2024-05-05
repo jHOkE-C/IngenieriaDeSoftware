@@ -15,18 +15,17 @@ import {useNavigate} from 'react-router-dom'
 
 
 const validFileExtensionsImage = { image: ['jpg', 'png', 'jpeg', 'svg', 'webp'] };
-const validFileExtensionsVideo = { image: ['mp4', 'mkv', 'AVI', 'H.264' ]};
 function isValidFileType(fileName, fileType, valid) {
   return fileName && valid[fileType].indexOf(fileName.split('.').pop()) > -1;
 }
 function CrearCurso() {
-  const [videos,setVideos] = useState([]);
-  const [titulos, setTitulos] = useState([]);
   const [componentes, setComponentes] = useState([]);
   const [image, setImage] = useState(null);
   let navigate = useNavigate();
   const schema = yup
     .object({
+      titulo : yup.string()
+                  .required,
       docente: yup.string(),
       precio: yup.string()
                   .required('Se requiere precio del curso'),
@@ -34,33 +33,20 @@ function CrearCurso() {
                   .test('','No es un tipo archivo de imagen valida',
                           value => isValidFileType(value && value.name.toLowerCase(),'image',validFileExtensionsImage)
                   ),
-      /*videos: yup.array()
-                  .of(
-                    yup.object().shape({
-                      ordenVideo: yup.number,
-                      video: yup.mixed()
-                      .test('','No es un tipo archivo de imagen valida',
-                              value => isValidFileType(value && value.name.toLowerCase(),'image',validFileExtensionsVideo)
-                      ),
-                    })
-                  ).required("Requerido por lo menos un video"),
-      titulos: yup.array()
-                  .of(
-                    yup.object().shape({
-                      ordenTitulo: yup.number,
-                      titulo: yup.string
-                    })
-                  ).required("Requerido por lo menos un titulo"),
-      */
-      titulo : yup.string()
     }).required()  
     const {
             register,
             handleSubmit,
             formState: { errors },
           } = useForm({resolver: yupResolver(schema),})
+
+
+
+
   const onSubmit = async (data) => { 
     if(!errors.titulo && !errors.imagen && !errors.precio){
+      //submitVideosYTexto(); //!!!si funciona el submit de los otros datos proba este
+      
       const response = await fetch('direccion de agregado de curso', {
         method: 'POST',
         credentials: 'include',
@@ -72,11 +58,8 @@ function CrearCurso() {
           docente: data.docente,
           precio: data.precio,
           image: data.img,
-          titles: titulos,
-          videos: videos
         }),
       });
-      
       const dataResponse = await response.json();
 
       if(dataResponse.mensaje === 'Curso Creado Exitosamente'){
@@ -104,39 +87,13 @@ function CrearCurso() {
     }
   }
 
-  const agregarComponente = () => {
-    let a = [<InputT key={componentes.length} eliminarComponente={eliminarComponente} />]
-    setTitulos(
-      [
-        ...titulos,
-        a
-      ]
-    )
-    setComponentes(
-      [...componentes, 
-      a]
-    );
-  };
-
-  const agregarComponenteA = () => {
-    let a = [<InputA key={componentes.length} eliminarComponente={eliminarComponente} />]
-    setVideos(
-      [
-        ...videos,
-        a
-      ]
-    )
-    setComponentes(
-      [...componentes, 
-        a
-      ]
-    );
-  };
 
   const eliminarComponente = (index) => {
     const nuevosComponentes = componentes.filter((i) => i !== index);
     setComponentes(nuevosComponentes);
   };
+
+
 
   const handleImageChange = (event) => {
     const file = event.target.files[0];
@@ -153,6 +110,51 @@ function CrearCurso() {
       // Puedes enviar formData a través de una solicitud HTTP POST si es necesario
     }
   };
+
+
+
+
+  
+  const submitVideosYTexto = () => {
+    componentes.forEach((comp) => {
+      // Check if comp has an onSubmit function before calling it
+      if (typeof comp.props.onSubmit === 'function') {
+        comp.props.onSubmit();
+      }
+    });
+  };
+  const handleInputASubmit = (data) => {
+    // Custom logic for handling submission within InputA
+    console.log('InputA submitted with data:', data);
+  };
+  const agregarComponente = () => {
+    const newIndex = componentes.length;
+    const newComponentes = [
+      ...componentes,
+      <InputT
+        key={newIndex}
+        eliminarComponente={eliminarComponente}
+        onSubmit={handleInputASubmit} 
+        i={newIndex}
+      />,
+    ];
+    setComponentes(newComponentes);
+  };
+  const agregarComponenteA = () => {
+    const newIndex = componentes.length;
+    const newComponentes = [
+      ...componentes,
+      <InputA
+        key={newIndex}
+        eliminarComponente={eliminarComponente}
+        onSubmit={handleInputASubmit} 
+        i={newIndex}
+      />,
+    ];
+    setComponentes(newComponentes);
+  };
+
+
  
  function cancelarTodo (){
   window.location.reload();
@@ -160,10 +162,11 @@ function CrearCurso() {
 
   return (
     <CrearCursoContainer>
-      <form  id='formC' onSubmit={handleSubmit(onSubmit)}>
+      <div id='divInline' onSubmit={handleSubmit(onSubmit)}>
+      <form  id='formC' >
         <div id='laminaBotonesRight'>
-          <button type='submit' className='buttonImg'><img src={Save} alt=""className='imgA' /></button>
-          <button onClick={cancelarTodo} type='button' className='buttonImg'><img src={Cancelar} alt=""className='imgA' /></button>
+          <button type='button'className='buttonImg'><img src={Save} className='imgA' /></button>
+          <button  type='button' onClick={cancelarTodo} className='buttonImg'><img src={Cancelar} alt=""className='imgA' /></button>
         </div>
         <h2>Crear Curso</h2>
         <div>
@@ -212,16 +215,18 @@ function CrearCurso() {
             maxLength={5}
             {... register('precio')}
             />
-        <div>
-          {componentes.map((componente, index) => (
-            <div key={index}>{componente}</div>
-          ))}
-        </div>
-        <div>
-          <button type='button' onClick={agregarComponenteA} className='buttonImg'><img src={Subir} alt=""className='imgA' /></button>
-          <button type='button' onClick={agregarComponente} className='buttonImg'><img src={Text} alt="" className='imgA'/></button>
-        </div>
+        
       </form>
+      <div >
+        {componentes.map((componente, index) => (
+          <div key={index}>{componente}</div>
+        ))}
+        <div>
+            <button type='button' onClick={agregarComponenteA} className='buttonImg'><img src={Subir} alt=""className='imgA' /></button>
+            <button type='button' onClick={agregarComponente} className='buttonImg'><img src={Text} alt="" className='imgA'/></button>
+        </div>
+      </div>
+      </div>
     </CrearCursoContainer>
   )
 }
@@ -230,15 +235,16 @@ export default CrearCurso
 
 const CrearCursoContainer = styled.nav`
   display: flex;
-  align-items: center;
-  align-content: center;
-  justify-content: center;
-  margin: 50px;
   min-height: calc(65vh);
+  margin: 5vw;
+  margin-left: 25vw;
   width: 100%;
   min-width: 1000px;
-  #divPrueba{
+  #divInline{
     display: inline;
+    min-height: calc(65vh);
+    width: 100%;
+    min-width: 1000px;
   }
   .image-container{
     display: inline;
@@ -247,6 +253,7 @@ const CrearCursoContainer = styled.nav`
     position: relative;
   }
   #formC{
+    position: relative;
     width: 60%;
   }
   .especialL{
