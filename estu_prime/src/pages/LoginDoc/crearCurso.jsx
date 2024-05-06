@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components'
 import Trash from '../../assents/basurero.png'
 import Subir from '../../assents/subir.png'
@@ -11,42 +11,40 @@ import Swal from 'sweetalert2'
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from 'react-hook-form';
-import {useNavigate} from 'react-router-dom'
 
 
 const validFileExtensionsImage = { image: ['jpg', 'png', 'jpeg', 'svg', 'webp'] };
-function isValidFileType(fileName, fileType, valid) {
-  return fileName && valid[fileType].indexOf(fileName.split('.').pop()) > -1;
+function isValidFileType(fileName, fileType) {
+  return fileName && validFileExtensionsImage[fileType].indexOf(fileName.split('.').pop()) > -1;
 }
-function CrearCurso() {
-  const [componentes, setComponentes] = useState([]);
-  const [image, setImage] = useState(null);
-  let navigate = useNavigate();
-  const schema = yup
-    .object({
+const schema = yup.object({
       titulo : yup.string()
-                  .required,
+                  .required(),
       docente: yup.string(),
       precio: yup.string()
                   .required('Se requiere precio del curso'),
       img: yup.mixed()
                   .test('','No es un tipo archivo de imagen valida',
-                          value => isValidFileType(value && value.name.toLowerCase(),'image',validFileExtensionsImage)
+                          value => isValidFileType(value && value.name,'image')
                   ),
     }).required()  
-    const {
-            register,
-            handleSubmit,
-            formState: { errors },
-          } = useForm({resolver: yupResolver(schema),})
+function CrearCurso() {
+  const [componentes, setComponentes] = useState([]);
+  const [image, setImage] = useState(null);
+  
+    const { register, handleSubmit, formState: { errors } } = useForm({
+      resolver: yupResolver(schema),
+    });
 
 
 
 
   const onSubmit = async (data) => { 
+    console.log(data);
     if(!errors.titulo && !errors.imagen && !errors.precio){
       //submitVideosYTexto(); //!!!si funciona el submit de los otros datos proba este
-      
+      console.log(data);
+      /*
       const response = await fetch('direccion de agregado de curso', {
         method: 'POST',
         credentials: 'include',
@@ -82,8 +80,7 @@ function CrearCurso() {
           background:'#F2E9E4',
           confirmButtonColor:'#15292E',
         })
-      }
-      console.log(data)
+      }*/
     }
   }
 
@@ -162,10 +159,10 @@ function CrearCurso() {
 
   return (
     <CrearCursoContainer>
-      <div id='divInline' onSubmit={handleSubmit(onSubmit)}>
+      <div id='divInline' onSubmit={handleSubmit(onSubmit) }>
       <form  id='formC' >
         <div id='laminaBotonesRight'>
-          <button type='button'className='buttonImg'><img src={Save} className='imgA' /></button>
+          <button type='submit'className='buttonImg'><img src={Save} alt= '' className='imgA' /></button>
           <button  type='button' onClick={cancelarTodo} className='buttonImg'><img src={Cancelar} alt=""className='imgA' /></button>
         </div>
         <h2>Crear Curso</h2>
@@ -174,7 +171,6 @@ function CrearCurso() {
           <input 
             type="text" 
             className='inputText'
-
             {... register('titulo')}
           />
           <label >Docente: </label>
