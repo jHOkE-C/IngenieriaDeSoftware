@@ -3,14 +3,14 @@ import styled from 'styled-components';
 import Logo from '../logo'
 import { Link, Navigate, useNavigate } from 'react-router-dom';
 
-function Header() {
+function Header( { onLogout } ) {
     let navigate = useNavigate();
     async function cerrarSesion() {
         // Eliminar la cookie de sesión del lado del cliente
 
         try {
             // Enviar una solicitud al servidor para cerrar la sesión
-            const response = await fetch('http://localhost//IngenieriaDeSoftware/estu_prime/src/api/cerrarSesion.php', {
+            const response = await fetch('http://localhost/IngenieriaDeSoftware/estu_prime/src/api/cerrarSesion.php', {
                 method: 'POST',
                 credentials: 'include',
                 headers: {
@@ -18,7 +18,8 @@ function Header() {
                 }
             });
 
-            if (response.ok) {
+            if (response.ok) {  
+                onLogout();
                 // Si la solicitud fue exitosa, redirigir a la página de inicio de sesión
                 navigate('/IniciarSe', { replace: true });
                 window.location.reload();

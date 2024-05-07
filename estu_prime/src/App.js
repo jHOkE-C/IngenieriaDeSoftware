@@ -15,9 +15,14 @@ function App() {
       setIsLoggedIn(true);
     }
   }, []);
+
+  const handleLogout = () => {
+    setIsLoggedIn(false); // Cambiar a false al hacer logout
+    localStorage.removeItem('isLoggedIn'); // Limpiar el valor en localStorage
+  };
   return (
     <MainFrame className='main'>
-      {isLoggedIn ? <HeaderDoc />  : <div> <HeaderMain /><Hom /></div>}
+      {isLoggedIn ? <HeaderDoc onLogout= {handleLogout} />  : <div> <HeaderMain /><Hom /></div>}
       {/* Resto de tu aplicación */}
       <NavB/>
       <Footer/>

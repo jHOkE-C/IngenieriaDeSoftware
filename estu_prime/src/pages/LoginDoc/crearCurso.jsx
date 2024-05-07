@@ -44,7 +44,7 @@ function CrearCurso() {
       //submitVideosYTexto(); //!!!si funciona el submit de los otros datos proba este
       console.log(data);
       
-      const response = await fetch('http://localhost:80/IngenieriaDeSoftware/estu_prime/src/api/curso.php', {
+      const response = await fetch('http://localhost:80/IngenieriaDeSoftwareestu_prime/src/api/curso.php', {
         method: 'POST',
         credentials: 'include',
         headers: {
@@ -68,7 +68,6 @@ function CrearCurso() {
           confirmButtonColor:'#15292E',
         }).then(respuesta => {
           if (respuesta) {
-            localStorage.setItem('isLoggedIn', 'true');
             navigate('/LoginDocente', { replace: true }) 
             window.location.reload();
           }
