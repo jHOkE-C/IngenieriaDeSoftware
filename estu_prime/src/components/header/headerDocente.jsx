@@ -10,7 +10,7 @@ function Header() {
 
         try {
             // Enviar una solicitud al servidor para cerrar la sesión
-            const response = await fetch('http://localhost/estu_prime/src/api/cerrarSesion.php', {
+            const response = await fetch('http://localhost//IngenieriaDeSoftware/estu_prime/src/api/cerrarSesion.php', {
                 method: 'POST',
                 credentials: 'include',
                 headers: {

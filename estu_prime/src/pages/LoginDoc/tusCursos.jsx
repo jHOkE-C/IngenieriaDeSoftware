@@ -13,7 +13,7 @@ function TusCursos() {
   }, []);
 
   const peticionDocenteCursosCreados = () => {
-    fetch('http://localhost:80/estu_prime/src/api/mostrarCurso.php', {
+    fetch('http://localhost:80/IngenieriaDeSoftware/estu_prime/src/api/mostrarCurso.php', {
       method: 'GET',
       credentials: 'include'
     })
