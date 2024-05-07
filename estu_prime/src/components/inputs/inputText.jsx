@@ -48,12 +48,20 @@ function InputText({ eliminarComponente, i, onSubmit }) {
 
 export default InputText;
 const InputTextContainer = styled.nav`
+  padding  : 0;
+  margin: 0;
+  .spanA{
+    color: red;
+    margin: 0px;
+    padding: 0px;
+    font-size: calc(0.01vw + 0.8em);
+  }
   #inputsT{
     display: flex;
     align-content:center;
   }
     #textInput{
-    width: 45%;
+    width: 80%;
     padding-left: 1% ;
     padding-right: 1%;
     padding-top: 1%;

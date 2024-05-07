@@ -94,16 +94,14 @@ function CrearCurso() {
   const handleImageChange = (event) => {
     const file = event.target.files[0];
     const reader = new FileReader();
-
+  
     reader.onloadend = () => {
-      setImage(reader.result);
+      const imageUrl = reader.result; // Obtener la URL de la imagen cargada
+      setImage(imageUrl); // Establecer la imagen en el estado
     };
-
+  
     if (file) {
-      reader.readAsDataURL(file);
-      const formData = new FormData();
-      formData.append('imagen', file);
-      // Puedes enviar formData a través de una solicitud HTTP POST si es necesario
+      reader.readAsDataURL(file); // Leer el archivo como una URL base64
     }
   };
 
@@ -185,8 +183,8 @@ function CrearCurso() {
               accept=".jpg, .jpeg, .png"
               onChange={handleImageChange} 
               id='inputSubmit'
-              {... register('img')}
-              />     
+              {...register('img')}
+            />     
             <div id='divPrueba'>
               <label >Descripcion: </label>
               <textarea 
@@ -209,14 +207,15 @@ function CrearCurso() {
               className='inputText'
               maxLength={5}
               {... register('precio')}
-              />
+          />
           
         </form>
         <div >
-          {componentes.map((componente, index) => (
-            <div key={index}>{componente}</div>
-          ))}
-          <div>
+          
+          <div id='componentesFlex'>
+              {componentes.map((componente, index) => (
+                <div key={index}>{componente}</div>
+              ))}
               <button type='button' onClick={agregarComponenteA} className='buttonImg'><img src={Subir} alt=""className='imgA' /></button>
               <button type='button' onClick={agregarComponente} className='buttonImg'><img src={Text} alt="" className='imgA'/></button>
           </div>
@@ -232,19 +231,25 @@ const CrearCursoContainer = styled.nav`
   display: flex;
   min-height: calc(65vh);
   margin: 5vw;
-  margin-left: 25vw;
+  margin-left: 20vw;
+  #componentesFlex{
+    width: 100%;
+    border: #15292E 1px solid;
+    padding: 5%;
+    border-radius: 1vh;
+  }
   #divInline{
     display: inline;
     min-height: calc(65vh);
-    width: 85%;
-  }
-  .image-container{
-    display: inline;
+    width: 77%;
   }
   #inputSubmit{
     position: relative;
   }
   #formC{
+    border: #15292E 1px solid;
+    padding: 5%;
+    border-radius: 1vh;
     position: relative;
     width: 100%;
   }
@@ -279,15 +284,18 @@ const CrearCursoContainer = styled.nav`
     border: none;
     margin-top: 1%;
     background-color: #15292E;
+    border: #15292E 1px solid;
     border-radius: 8px;
     margin-right: 10px;
   }
   .buttonImg:hover{
     border: none;
-    background-color: #035058;
+    background-color: #D6CDC8;
+    border: #15292E 1px solid;
     border-radius: 8px;
   }
   .uploaded-image{
+    position: absolute;
     width: 20%;
   }
 `

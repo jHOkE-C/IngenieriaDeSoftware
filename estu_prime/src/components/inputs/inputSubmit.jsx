@@ -33,7 +33,7 @@ function InputA({ eliminarComponente, i, onSubmit }) {
 
   return (
     <InputSubmitContainer>
-      <form onSubmit={handleSubmit(handleFormSubmit)}>
+      <form id='inputsT' onSubmit={handleSubmit(handleFormSubmit)}>
         <input
           type="file"
           id="fileInput"
@@ -53,7 +53,7 @@ export default InputA;
 
 
 
-const InputSubmitContainer = styled.nav`  
+const InputSubmitContainer = styled.nav`
   .spanA{
     color: red;
     margin: 0px;
@@ -64,8 +64,8 @@ const InputSubmitContainer = styled.nav`
     display: flex;
     align-content:center;
   }
-  #fileInput{
-    width: 45%;
+    #fileInput{
+    width: 80%;
     padding-left: 1% ;
     padding-right: 1%;
     padding-top: 1%;
