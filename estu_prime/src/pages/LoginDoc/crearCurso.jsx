@@ -11,6 +11,7 @@ import Swal from 'sweetalert2'
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from 'react-hook-form';
+import { Navigate, useNavigate } from 'react-router-dom/dist';
 
 
 const validFileExtensionsImage = { image: ['jpg', 'png', 'jpeg', 'svg', 'webp'] };
@@ -24,9 +25,7 @@ const schema = yup.object({
       precio: yup.string()
                   .required('Se requiere precio del curso'),
       img: yup.mixed()
-                  .test('','No es un tipo archivo de imagen valida',
-                          value => isValidFileType(value && value.name,'image')
-                  ),
+                  
     }).required()  
 function CrearCurso() {
   const [componentes, setComponentes] = useState([]);
@@ -36,16 +35,16 @@ function CrearCurso() {
       resolver: yupResolver(schema),
     });
 
+    const navigate = useNavigate();
 
 
 
   const onSubmit = async (data) => { 
-    console.log(data);
     if(!errors.titulo && !errors.imagen && !errors.precio){
       //submitVideosYTexto(); //!!!si funciona el submit de los otros datos proba este
       console.log(data);
-      /*
-      const response = await fetch('direccion de agregado de curso', {
+      
+      const response = await fetch('http://localhost:80/estu_prime/src/api/curso.php', {
         method: 'POST',
         credentials: 'include',
         headers: {
@@ -53,6 +52,7 @@ function CrearCurso() {
         },
         body: JSON.stringify({
           title: data.titulo,
+          descripcion: data.descripcion,
           docente: data.docente,
           precio: data.precio,
           image: data.img,
@@ -60,7 +60,7 @@ function CrearCurso() {
       });
       const dataResponse = await response.json();
 
-      if(dataResponse.mensaje === 'Curso Creado Exitosamente'){
+      if(dataResponse.mensaje === 'a'){
         Swal.fire({
           icon: 'success',
           text: 'Curso Creado Exitosamente',
@@ -80,7 +80,7 @@ function CrearCurso() {
           background:'#F2E9E4',
           confirmButtonColor:'#15292E',
         })
-      }*/
+      }
     }
   }
 
