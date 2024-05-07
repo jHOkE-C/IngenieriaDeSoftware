@@ -160,68 +160,68 @@ function CrearCurso() {
   return (
     <CrearCursoContainer>
       <div id='divInline' onSubmit={handleSubmit(onSubmit) }>
-      <form  id='formC' >
-        <div id='laminaBotonesRight'>
-          <button type='submit'className='buttonImg'><img src={Save} alt= '' className='imgA' /></button>
-          <button  type='button' onClick={cancelarTodo} className='buttonImg'><img src={Cancelar} alt=""className='imgA' /></button>
-        </div>
-        <h2>Crear Curso</h2>
-        <div>
-          <label className='especialL' >Titulo: </label>
-          <input 
-            type="text" 
-            className='inputText'
-            {... register('titulo')}
-          />
-          <label >Docente: </label>
-          <input 
-            type="text" 
-            value='Juan Carlos Luna' 
-            readOnly 
-            className='inputText'
-            {... register('docente')}
-            />
-          <input 
-            type="file" 
-            accept=".jpg, .jpeg, .png"
-            onChange={handleImageChange} 
-            id='inputSubmit'
-            {... register('img')}
-            />     
-          <div id='divPrueba'>
-            <label >Descripcion: </label>
-            <textarea 
-              type="text" 
-              maxLength={200} 
-              id='descripcionText' 
-              {... register('descripcion')}
-            />
-            {image && (
-              <div className="image-container">
-                <img src={image} alt="Uploaded" className="uploaded-image" />
-              </div>
-            )}
+        <form  id='formC' >
+          <div id='laminaBotonesRight'>
+            <button type='submit'className='buttonImg'><img src={Save} alt= '' className='imgA' /></button>
+            <button  type='button' onClick={cancelarTodo} className='buttonImg'><img src={Cancelar} alt=""className='imgA' /></button>
           </div>
-          
-        </div>
-        <label className='especialL'>Precio: </label>
-        <input 
-            type="text" 
-            className='inputText'
-            maxLength={5}
-            {... register('precio')}
+          <h2>Crear Curso</h2>
+          <div>
+            <label className='especialL' >Titulo: </label>
+            <input 
+              type="text" 
+              className='inputText'
+              {... register('titulo')}
             />
-        
-      </form>
-      <div >
-        {componentes.map((componente, index) => (
-          <div key={index}>{componente}</div>
-        ))}
-        <div>
-            <button type='button' onClick={agregarComponenteA} className='buttonImg'><img src={Subir} alt=""className='imgA' /></button>
-            <button type='button' onClick={agregarComponente} className='buttonImg'><img src={Text} alt="" className='imgA'/></button>
+            <label >Docente: </label>
+            <input 
+              type="text" 
+              value='Juan Carlos Luna' 
+              readOnly 
+              className='inputText'
+              {... register('docente')}
+              />
+            <input 
+              type="file" 
+              accept=".jpg, .jpeg, .png"
+              onChange={handleImageChange} 
+              id='inputSubmit'
+              {... register('img')}
+              />     
+            <div id='divPrueba'>
+              <label >Descripcion: </label>
+              <textarea 
+                type="text" 
+                maxLength={200} 
+                id='descripcionText' 
+                {... register('descripcion')}
+              />
+              {image && (
+                <div className="image-container">
+                  <img src={image} alt="Uploaded" className="uploaded-image" />
+                </div>
+              )}
+            </div>
+            
+          </div>
+          <label className='especialL'>Precio: </label>
+          <input 
+              type="text" 
+              className='inputText'
+              maxLength={5}
+              {... register('precio')}
+              />
+          
+        </form>
+        <div >
+          {componentes.map((componente, index) => (
+            <div key={index}>{componente}</div>
+          ))}
+          <div>
+              <button type='button' onClick={agregarComponenteA} className='buttonImg'><img src={Subir} alt=""className='imgA' /></button>
+              <button type='button' onClick={agregarComponente} className='buttonImg'><img src={Text} alt="" className='imgA'/></button>
+          </div>
         </div>
-      </div>
       </div>
     </CrearCursoContainer>
   )
@@ -234,13 +234,10 @@ const CrearCursoContainer = styled.nav`
   min-height: calc(65vh);
   margin: 5vw;
   margin-left: 25vw;
-  width: 100%;
-  min-width: 1000px;
   #divInline{
     display: inline;
     min-height: calc(65vh);
-    width: 100%;
-    min-width: 1000px;
+    width: 85%;
   }
   .image-container{
     display: inline;
@@ -250,7 +247,7 @@ const CrearCursoContainer = styled.nav`
   }
   #formC{
     position: relative;
-    width: 60%;
+    width: 100%;
   }
   .especialL{
     margin-right: 5%;

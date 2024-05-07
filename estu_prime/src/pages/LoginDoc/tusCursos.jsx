@@ -68,7 +68,7 @@ const ListaCrearCursoContainer = styled.nav`
   width: 80vw;
   position: relative;
   left: 10%;
-
+  min-height: 80vh;
   .arrows {
     display: flex;
     position: relative;
