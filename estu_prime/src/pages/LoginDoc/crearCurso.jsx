@@ -42,8 +42,6 @@ function CrearCurso() {
   const onSubmit = async (data) => { 
     if(!errors.titulo && !errors.imagen && !errors.precio){
       //submitVideosYTexto(); //!!!si funciona el submit de los otros datos proba este
-      console.log(data);
-      
       const response = await fetch('http://localhost:80/IngenieriaDeSoftware/estu_prime/src/api/curso.php', {
         method: 'POST',
         credentials: 'include',
@@ -55,10 +53,18 @@ function CrearCurso() {
           descripcion: data.descripcion,
           docente: data.docente,
           precio: data.precio,
-          image: data.img,
+          img: data.img
         }),
       });
-      const dataResponse = await response.json();
+      let dataResponse = 'x';
+
+      try {
+        dataResponse = await response.json();
+        // Aquí procesa la respuesta JSON normalmente
+      } catch (error) {
+        console.error('Error al analizar la respuesta JSON:', error);
+        // Puedes agregar un manejo de error aquí, por ejemplo, mostrar un mensaje al usuario
+      }
 
       if(dataResponse.mensaje === 'a'){
         Swal.fire({
@@ -156,8 +162,8 @@ function CrearCurso() {
 
   return (
     <CrearCursoContainer>
-      <div id='divInline' onSubmit={handleSubmit(onSubmit) }>
-        <form  id='formC' >
+      <div id='divInline' >
+        <form  id='formC' onSubmit={handleSubmit(onSubmit) }>
           <div id='laminaBotonesRight'>
             <button type='submit'className='buttonImg'><img src={Save} alt= '' className='imgA' /></button>
             <button  type='button' onClick={cancelarTodo} className='buttonImg'><img src={Cancelar} alt=""className='imgA' /></button>
