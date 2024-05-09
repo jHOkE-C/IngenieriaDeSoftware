@@ -1,6 +1,8 @@
 <?php
 header('Access-Control-Allow-Origin: http://localhost:3000');
-session_start();
+header('Access-Control-Allow-Headers: Content-Type');
+header('Access-Control-Allow-Credentials: true');
+#include("conexion.php");
 
 $host = "localhost";
 $user = "root";
@@ -15,25 +17,29 @@ if ($conn->connect_error) {
     die("Error de conexión: " . $conn->connect_error);
 }
 
+
 // Función para redirigir con un mensaje de error
 // Función para redirigir con un mensaje de error específico
-function redirectToError($errorMessage) {
-    header("Location: http://localhost:3000/CrearCuentaEstu?error=$errorMessage");
+function redirectToError() {
+    $response = array("mensaje" => "Error al crear la cuenta");
+            header('Content-Type: application/json');
+            echo json_encode($response);
     exit;
 }
 
-// Función para redirigir con un mensaje de éxito
-function redirectToSuccess() {
-    header("Location: http://localhost:3000/CrearCuentaEstu?success=Registrado");
-    exit;
-}
+
+
 
 // Procesar solicitud POST
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $correo = $_POST['email'];
-    $password = $_POST['password'];
-    $nombre = $_POST['firstName'];
-    $apellido = $_POST['lastName'];
+    $json_data = file_get_contents("php://input");
+
+    // Decodificar los datos JSON a un array asociativo de PHP
+    $data = json_decode($json_data, true);
+    $correo = $data['email'];
+    $password = $data['password'];
+    $nombre = $data['firstName'];
+    $apellido = $data['lastName'];
 
     // Consulta SQL para verificar si el correo ya está en uso
     $correo_escapado = $conn->real_escape_string($correo);
@@ -42,17 +48,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Verificar si se encontraron resultados
     if ($result && $result->num_rows > 0) {
-        redirectToError("Email duplicado");
+        redirectToError();
     } else {
         // Insertar nuevo registro si el correo no está en uso
         $query_insert = "INSERT INTO `docente` (`firstname`, `lastname`, `email`, `password`) VALUES ('$nombre', '$apellido', '$correo_escapado', '$password')";
         if ($conn->query($query_insert) === TRUE) {
             // Registro exitoso
-            redirectToSuccess();
-        } else {
-            // Error en la consulta SQL
-           redirectToError("Error en el registro: " . $conn->error);
-        }
+            $response = array("mensaje" => "Cuenta docente creada");
+            header('Content-Type: application/json');
+            echo json_encode($response);
+        } 
     }
 }
 
@@ -70,20 +75,21 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
 
     // Verificar si se encontraron resultados
     if ($result && $result->num_rows > 0) {
-        redirectToError("Error email duplicado");
+        redirectToError();
     } else {
         // Insertar nuevo registro si el correo no está en uso
         $query_insert = "INSERT INTO `estudiante` (`firstname`, `lastname`, `email`, `password`) VALUES ('$nombreE', '$apellidoE', '$correo_escapado', '$passwordE')";
         if ($conn->query($query_insert) === TRUE) {
-            // Registro exitoso
-            redirectToSuccess();
+            $response = array("mensaje" => "Cuenta Estudiante creada");
+            header('Content-Type: application/json');
+            echo json_encode($response);
         } else {
             // Error en la consulta SQL
-            redirectToError("Error en el registro");
+            redirectToError();
         }
     }
 }
 
 // Cerrar conexión
 $conn->close();
-?>
+
