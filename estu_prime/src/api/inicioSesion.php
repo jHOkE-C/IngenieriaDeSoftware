@@ -27,16 +27,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $correo = $data['correo'];
         $contrasena = $data['contrasena'];
         $query = "SELECT id FROM docente where email = '$correo' AND password = '$contrasena'";
+        $queryE = "SELECT id FROM estudiante where email = '$correo' AND password = '$contrasena'";
         $result = $conn->query($query);
+        $resultE = $conn->query($queryE);
         if ($result && $result->num_rows > 0) {
             $row = $result->fetch_assoc();
             $_SESSION['id_docente'] = $row['id'];
-            $response = array("mensaje" => "Inicio de sesion exitoso");
+            $response = array("mensaje" => "Inicio docente");
+        } 
+        if ($resultE && $resultE->num_rows > 0) {
+            $rowE = $resultE->fetch_assoc();
+            $_SESSION['id_estudiante'] = $rowE['id'];
+            $response = array("mensaje" => "Inicio estudiante");
         } 
         // Enviar la respuesta como JSON
         header('Content-Type: application/json');
         echo json_encode($response);
-    } else {
+    } else{
         // Si no se reciben los datos esperados, responder con un error
         $response = array("error" => "Datos incompletos");
         header('Content-Type: application/json');
