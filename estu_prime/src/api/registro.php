@@ -44,12 +44,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Consulta SQL para verificar si el correo ya está en uso
     $correo_escapado = $conn->real_escape_string($correo);
     $query = "SELECT email FROM docente WHERE email = '$correo_escapado'";
+    $queryE = "SELECT email FROM estudiante WHERE email = '$correo_escapado'";
     $result = $conn->query($query);
-
+    $resultE = $conn->query($queryE);
+//redirectToError();
     // Verificar si se encontraron resultados
     if ($result && $result->num_rows > 0) {
+
+    } else if($resultE && $resultE->num_rows > 0){
         redirectToError();
-    } else {
+    } else{
         // Insertar nuevo registro si el correo no está en uso
         $query_insert = "INSERT INTO `docente` (`firstname`, `lastname`, `email`, `password`) VALUES ('$nombre', '$apellido', '$correo_escapado', '$password')";
         if ($conn->query($query_insert) === TRUE) {
@@ -76,7 +80,9 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
     // Verificar si se encontraron resultados
     if ($result && $result->num_rows > 0) {
         redirectToError();
-    } else {
+    } else if($result && $result->num_rows > 0){
+        redirectToError();
+    }else {
         // Insertar nuevo registro si el correo no está en uso
         $query_insert = "INSERT INTO `estudiante` (`firstname`, `lastname`, `email`, `password`) VALUES ('$nombreE', '$apellidoE', '$correo_escapado', '$passwordE')";
         if ($conn->query($query_insert) === TRUE) {
