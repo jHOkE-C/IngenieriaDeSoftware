@@ -40,6 +40,7 @@ function IniciarSesion() {
         }).then(respuesta => {
           if (respuesta.isConfirmed) {
             localStorage.setItem('isLoggedIn', 'true');
+            localStorage.setItem('userRole', 'docente');
             navigate('/LoginDocente', { replace: true });
             window.location.reload();
           }
@@ -53,6 +54,7 @@ function IniciarSesion() {
         }).then(respuesta => {
           if (respuesta.isConfirmed) {
             localStorage.setItem('isLoggedIn', 'true');
+            localStorage.setItem('userRole', 'estudiante');
             navigate('/LoginEstudiante', { replace: true });
             window.location.reload();
           }
