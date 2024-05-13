@@ -1,0 +1,19 @@
+.carta-horizontal{
+    max-height: 120px;
+    border: 1px solid #ddd;
+    display: flex;
+    overflow-x: auto;
+}
+
+.carta-horizontal::-webkit-scrollbar{
+    width: 0;
+}
+
+.carta-horizontal .carta{
+    min-width: 310px;
+    height: 110px;
+    line-height: 110px;
+    text-align: center;
+    background-color: #ddd;
+
+}
