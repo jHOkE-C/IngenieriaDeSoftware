@@ -26,24 +26,29 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Obtener los datos del correo y la contraseña
         $correo = $data['correo'];
         $contrasena = $data['contrasena'];
-        $query = "SELECT id FROM docente where email = '$correo' AND password = '$contrasena'";
-        $queryE = "SELECT id FROM estudiante where email = '$correo' AND password = '$contrasena'";
-        $result = $conn->query($query);
-        $resultE = $conn->query($queryE);
-        if ($result && $result->num_rows > 0) {
-            $row = $result->fetch_assoc();
+        $queryDocente = "SELECT id FROM docente where email = '$correo' AND password = '$contrasena'";
+        $queryEstudiante = "SELECT id FROM estudiante where email = '$correo' AND password = '$contrasena'";
+        $resultDocente = $conn->query($queryDocente);
+        $resultEstudiante = $conn->query($queryEstudiante);
+
+        if ($resultDocente && $resultDocente->num_rows > 0) {
+            $row = $resultDocente->fetch_assoc();
             $_SESSION['id_docente'] = $row['id'];
-            $response = array("mensaje" => "Inicio docente");
+            $response = array("mensaje" => "Inicio de sesión exitoso como docente", "tipo" => "docente");
         } 
-        if ($resultE && $resultE->num_rows > 0) {
-            $rowE = $resultE->fetch_assoc();
+        elseif ($resultEstudiante && $resultEstudiante->num_rows > 0) {
+            $rowE = $resultEstudiante->fetch_assoc();
             $_SESSION['id_estudiante'] = $rowE['id'];
-            $response = array("mensaje" => "Inicio estudiante");
+            $response = array("mensaje" => "Inicio de sesión exitoso como estudiante", "tipo" => "estudiante");
         } 
+        else {
+            $response = array("error" => "Credenciales incorrectas");
+        }
+
         // Enviar la respuesta como JSON
         header('Content-Type: application/json');
         echo json_encode($response);
-    } else{
+    } else {
         // Si no se reciben los datos esperados, responder con un error
         $response = array("error" => "Datos incompletos");
         header('Content-Type: application/json');
@@ -55,4 +60,4 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     header('Content-Type: application/json');
     echo json_encode($response);
 }
-
+?>

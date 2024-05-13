@@ -48,43 +48,6 @@ function TusCursos() {
   };
 
   return (
-<<<<<<< HEAD
-    <CrearCursoContainer>
-      <form action='http://localhost:80/estu_prime/src/api/curso.php' id='formC' method='post' encType='multipart/form-data'>
-        <div id='laminaBotonesRight'>
-          <button type='submit' className='buttonImg'><img src={Save} alt=""className='imgA' /></button>
-          <button type='button' className='buttonImg'><img src={Cancelar} alt=""className='imgA' /></button>
-        </div>
-        <h2>EDITA TUS CURSOS</h2>
-        <div>
-          <label id='especialL' >Titulo: </label>
-          <input type="text" name='titulo' className='inputText'required/>
-          <label >Docente: </label>
-          <input type="text" value='Juan Carlos Luna' readOnly className='inputText'/>
-          <input type="file" accept="image/*" onChange={handleImageChange} id='inputSubmit' name="imagen" />     
-          <div id='divPrueba'>
-            <label >Descripcion: </label>
-            <textarea type="text" name='descripcion' maxLength={200} id='descripcionText' />
-            {image && (
-              <div className="image-container">
-                <img src={image} alt="Uploaded" className="uploaded-image" />
-              </div>
-            )}
-          </div>
-        </div>
-        <div>
-          {componentes.map((componente, index) => (
-            <div key={index}>{componente}</div>
-          ))}
-        </div>
-        <div>
-          <button type='button' onClick={agregarComponenteA} className='buttonImg'><img src={Subir} alt=""className='imgA' /></button>
-          <button type='button' onClick={agregarComponente} className='buttonImg'><img src={Text} alt="" className='imgA'/></button>
-        </div>
-      </form>
-    </CrearCursoContainer>
-  )
-=======
     <ListaCrearCursoContainer>
       {renderCursos()}
       <div className='arrows'>
@@ -97,7 +60,6 @@ function TusCursos() {
       </div>
     </ListaCrearCursoContainer>
   );
->>>>>>> 286fd827918c48e58ed9b05b2172bdec224b9732
 }
 
 export default TusCursos;
