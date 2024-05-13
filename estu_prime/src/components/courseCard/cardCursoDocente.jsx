@@ -1,48 +1,55 @@
-import React from 'react';
+  import React from 'react';
 import styled from 'styled-components';
 import ImgEdit from '../../assents/img/edit.png'
 import { Navigate, useNavigate } from "react-router-dom";
 
-function CardsCursoDocente({ title, ide}) {
-    let navigate = useNavigate()
-  function nav(){
-    navigate('/LoginDocente/CrearCurso',{replace:true});
-    window.location.reload();
-    //navegar a una form donde tenga todo los datos de ese curso
-  }
-  return (
-    <ContainerCard>
-        <div className='card' >
-            <h3 className='card__img'>{ide}</h3>
-            <p className='card__title'>{title}</p>
-            <div className='cardFondo'>
-                <button type='button' className='cardFondo__edit' onClick={nav}>
-                    <img src={ImgEdit} alt="" className='cardFondo__img'/>
-                </button>
-            </div>
-        </div>
+
+function CardsCursoDocente({ title, ide, nombre_docente, precio }) {
+    const navigate = useNavigate();
+  
+    const nav = () => {
+      navigate('/LoginDocente/CrearCurso', { replace: true });
+      window.location.reload();
+    };
+  
+    return (
+      <ContainerCard>
+        <div className='card'>
         
-    </ContainerCard>
-  );
-}
+          <p className='card__title'><strong>{title}</strong></p>
+          <div className='cardFondo'>
+            <button type='button' className='cardFondo__edit' onClick={nav}>
+              <img src={ImgEdit} alt='' className='cardFondo__img' />
+            </button>
+          </div>
+
+          <p className='card__details'>Docente: {nombre_docente}</p>
+          <p className='card__details'>Precio: {precio}</p>
+        </div>
+      </ContainerCard>
+    );
+  }
 
 export default CardsCursoDocente;
 
+
 const ContainerCard = styled.div`
-    display: inline;
+  display: inline;
+
     .card{
-        position: relative;
-        padding: 1vh;
-        text-align: center;
-        display: inline-block; 
-        margin-top: 3%;
-        margin-left: 2.5%;
-        margin-right: 2.5%;
-        width: 15vw;
-        height: 15vw;
-        background-color: #AAC7CE;
-        border-radius: 1vw;
-        box-shadow: 5px 5px 10px;
+      position: relative;
+      padding: 1vh;
+      text-align: center;
+      display: inline-block; 
+      margin-top: 3%;
+      margin-left: 2.5%;
+      margin-right: 2.5%;
+      width: 15vw;
+      height: 15vw;
+      background-color: #AAC7CE;
+      border-radius: 1vw;
+      box-shadow: 5px 5px 10px;
+      overflow: hidden;
     }
     .cardFondo{
         border-radius: 1vw;
@@ -87,10 +94,16 @@ const ContainerCard = styled.div`
             background-color: #15292E;
         }
     }
-    .card__title{
-        white-space: nowrap; /* Evita que el texto del párrafo salte a la siguiente línea */
-        overflow: hidden; /* Oculta el contenido que se desborda del contenedor */
-        text-overflow: ellipsis; /* Añade puntos suspensivos (...) al final del texto recortado */  
-    }
-    
+  .card__title {
+    white-space: normal;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 1.2em;
+    margin: 10px;
+    display: block;
+  }
+  .card__details {
+    font-size: 0.9em;
+    margin: 5px;
+  }
 `;

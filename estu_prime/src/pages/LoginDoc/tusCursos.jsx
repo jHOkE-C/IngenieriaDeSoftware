@@ -31,11 +31,12 @@ function TusCursos() {
       });
   };
 
-  const renderCursos = () => {
+ const renderCursos = () => {
     const startIndex = currentPage * 8;
     const endIndex = startIndex + 8;
     return cursos.slice(startIndex, endIndex).map((curso) => (
-      <CardsCursos key={curso.idCurso} title={curso.nombre} ide={curso.idCurso} />
+      <CardsCursos key={curso.idCurso} title={curso.titulo} nombre_docente={curso.nombre_docente} precio={curso.precio} />
+
     ));
   };
 
@@ -49,6 +50,7 @@ function TusCursos() {
 
   return (
     <ListaCrearCursoContainer>
+      
       {renderCursos()}
       <div className='arrows'>
         <button className='arrows__flecha' onClick={goToPreviousPage}>
@@ -61,6 +63,7 @@ function TusCursos() {
     </ListaCrearCursoContainer>
   );
 }
+
 
 export default TusCursos;
 
@@ -88,4 +91,39 @@ const ListaCrearCursoContainer = styled.nav`
   .arrows__flecha svg:active {
     fill: white;
   }
+  .cursos-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px; /* Espacio entre los cuadros */
+  }
+  
+  .curso-box {
+    flex: 1 0 30%; /* Ancho de cada cuadro */
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    background-color: #f5f5f5;
+  }
+  
+  .curso-box h2 {
+    margin-top: 0;
+  }
+  
+  .curso-box p {
+    margin-bottom: 10px;
+  }
+  
+  .detalle-button {
+    padding: 8px 16px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .detalle-button:hover {
+    background-color: #0056b3;
+  }
+
 `

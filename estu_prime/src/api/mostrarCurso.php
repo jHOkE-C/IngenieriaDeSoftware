@@ -20,8 +20,12 @@ if ($conn->connect_error) {
   die("Connection failed: " . $conn->connect_error);
 }
 $id_docente = $_SESSION['id_docente'];
-// Consulta SQL para obtener los cursos
-$sql = "SELECT idCurso, titulo FROM curso WHERE docente_id = '$id_docente'";
+
+// Consulta SQL para obtener los cursos con más información
+$sql = "SELECT c.idCurso, c.titulo, c.precio, CONCAT(d.firstname, ' ', d.lastname) AS nombre_docente 
+        FROM curso c 
+        INNER JOIN docente d ON c.docente_id = d.id 
+        WHERE docente_id = '$id_docente'";
 $result = $conn->query($sql);
 
 // Convertir el resultado a formato JSON
@@ -33,6 +37,7 @@ if ($result->num_rows > 0) {
 }
 
 echo json_encode($cursos);
+
 
 $conn->close();
 ?>
