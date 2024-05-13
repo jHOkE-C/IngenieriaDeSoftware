@@ -23,9 +23,7 @@ const schema = yup.object({
                   .required(),
       docente: yup.string(),
       precio: yup.string()
-                  .required('Se requiere precio del curso'),
-      img: yup.mixed()
-                  
+                  .required('Se requiere precio del curso'),        
     }).required()  
 function CrearCurso() {
   const [componentes, setComponentes] = useState([]);
@@ -40,8 +38,9 @@ function CrearCurso() {
 
 
   const onSubmit = async (data) => { 
-    if(!errors.titulo && !errors.imagen && !errors.precio){
+    if(!errors.titulo && !errors.precio){
       //submitVideosYTexto(); //!!!si funciona el submit de los otros datos proba este
+      console.log(data.img[0])
       const response = await fetch('http://localhost:80/IngenieriaDeSoftware/estu_prime/src/api/curso.php', {
         method: 'POST',
         credentials: 'include',
@@ -53,7 +52,7 @@ function CrearCurso() {
           descripcion: data.descripcion,
           docente: data.docente,
           precio: data.precio,
-          img: data.img
+          img: data.img[0]
         }),
       });
       let dataResponse = 'x';
@@ -100,10 +99,11 @@ function CrearCurso() {
   const handleImageChange = (event) => {
     const file = event.target.files[0];
     const reader = new FileReader();
-  
+    console.log('hola');
     reader.onloadend = () => {
       const imageUrl = reader.result; // Obtener la URL de la imagen cargada
       setImage(imageUrl); // Establecer la imagen en el estado
+      console.log(imageUrl);
     };
   
     if (file) {
@@ -163,7 +163,7 @@ function CrearCurso() {
   return (
     <CrearCursoContainer>
       <div id='divInline' >
-        <form  id='formC' onSubmit={handleSubmit(onSubmit) }>
+        <form  className='formC' onSubmit={handleSubmit(onSubmit)}>
           <div id='laminaBotonesRight'>
             <button type='submit'className='buttonImg'><img src={Save} alt= '' className='imgA' /></button>
             <button  type='button' onClick={cancelarTodo} className='buttonImg'><img src={Cancelar} alt=""className='imgA' /></button>
@@ -184,13 +184,7 @@ function CrearCurso() {
               className='inputText'
               {... register('docente')}
               />
-            <input 
-              type="file" 
-              accept=".jpg, .jpeg, .png"
-              onChange={handleImageChange} 
-              id='inputSubmit'
-              {...register('img')}
-            />     
+                
             <div id='divPrueba'>
               <label >Descripcion: </label>
               <textarea 
@@ -199,11 +193,6 @@ function CrearCurso() {
                 id='descripcionText' 
                 {... register('descripcion')}
               />
-              {image && (
-                <div className="image-container">
-                  <img src={image} alt="Uploaded" className="uploaded-image" />
-                </div>
-              )}
             </div>
             
           </div>
@@ -216,6 +205,19 @@ function CrearCurso() {
           />
           
         </form>
+        <form className='formC2'>
+          <input 
+            type="file" 
+            accept=".jpg, .jpeg, .png"
+            id='inputSubmit'
+            onChange={handleImageChange}
+          />
+          {image && (
+              <div className="image-container">
+                <img src={image} alt="Uploaded" className="uploaded-image" />
+              </div>
+          )}
+        </form> 
         <div >
           
           <div id='componentesFlex'>
@@ -252,12 +254,18 @@ const CrearCursoContainer = styled.nav`
   #inputSubmit{
     position: relative;
   }
-  #formC{
+  .formC{
     border: #15292E 1px solid;
     padding: 5%;
     border-radius: 1vh;
     position: relative;
     width: 100%;
+  }
+  .formC2{
+    position: absolute;
+    width: 100%;
+    top: 50.5vh;
+    left: 62vw;
   }
   .especialL{
     margin-right: 5%;
