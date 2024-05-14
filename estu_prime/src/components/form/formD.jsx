@@ -76,6 +76,14 @@ function FormD() {
                     window.location.reload();
                 }
                 });
+            }else if(dataResponse.mensaje === 'Error'){
+                Swal.fire({
+                    buttons: ["ok", "ok uwu"],
+                    background:'#F2E9E4' ,
+                    confirmButtonColor:'#035058',
+                    icon: 'error',
+                    text: 'Cuenta existente como estudiante',
+                })
             }
         }  
         console.log(data)

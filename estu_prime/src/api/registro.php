@@ -21,7 +21,13 @@ if ($conn->connect_error) {
 // Función para redirigir con un mensaje de error
 // Función para redirigir con un mensaje de error específico
 function redirectToError() {
-    $response = array("mensaje" => "Error al crear la cuenta");
+    $response = array("mensaje" => "Error");
+            header('Content-Type: application/json');
+            echo json_encode($response);
+    exit;
+}
+function redirectToErrorCuenta() {
+    $response = array("mensaje" => "Error cuenta");
             header('Content-Type: application/json');
             echo json_encode($response);
     exit;
@@ -50,7 +56,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 //redirectToError();
     // Verificar si se encontraron resultados
     if ($result && $result->num_rows > 0) {
-
+        redirectToError();
     } else if($resultE && $resultE->num_rows > 0){
         redirectToError();
     } else{
@@ -76,11 +82,12 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
     $correo_escapado = $conn->real_escape_string($correoE);
     $query = "SELECT email FROM estudiante WHERE email = '$correo_escapado'";
     $result = $conn->query($query);
-
+    $queryD = "SELECT email FROM docente WHERE email = '$correo_escapado'";
+    $resultD = $conn->query($queryD);
     // Verificar si se encontraron resultados
     if ($result && $result->num_rows > 0) {
         redirectToError();
-    } else if($result && $result->num_rows > 0){
+    } else if($resultD && $resultD->num_rows > 0){
         redirectToError();
     }else {
         // Insertar nuevo registro si el correo no está en uso
@@ -91,7 +98,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
             echo json_encode($response);
         } else {
             // Error en la consulta SQL
-            redirectToError();
+            redirectToErrorCuenta();
         }
     }
 }
