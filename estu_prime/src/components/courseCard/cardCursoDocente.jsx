@@ -1,10 +1,10 @@
-  import React from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import ImgEdit from '../../assents/img/edit.png'
 import { Navigate, useNavigate } from "react-router-dom";
 
 
-function CardsCursoDocente({ title, ide, nombre_docente, precio }) {
+function CardsCursoDocente({ title, ide, nombre_docente, precio,img }) {
     const navigate = useNavigate();
   
     const nav = () => {
@@ -15,7 +15,7 @@ function CardsCursoDocente({ title, ide, nombre_docente, precio }) {
     return (
       <ContainerCard>
         <div className='card'>
-        
+          <img src={img} alt='imgCurso'></img>
           <p className='card__title'><strong>{title}</strong></p>
           <div className='cardFondo'>
             <button type='button' className='cardFondo__edit' onClick={nav}>

@@ -40,16 +40,9 @@ function CrearCurso() {
 
   const onSubmit = async (data) => { 
     if(!errors.titulo && !errors.precio){
-      const file = data.img[0];
-      const reader = new FileReader();
-      let response;
-      if (file) {
-        reader.readAsDataURL(file); // Leer el archivo como una URL base64
-      }
-      reader.onloadend = async () => {
-        //const imageUrl = readeWr.result; // Obtener la URL de la imagen cargada
-       // setImage(imageUrl); // Establecer la imagen en el estado
-        response = await fetch('http://localhost:80/IngenieriaDeSoftware/estu_prime/src/api/curso.php', {
+
+      
+        const response = await fetch('http://localhost:80/IngenieriaDeSoftware/estu_prime/src/api/curso.php', {
         method: 'POST',
         credentials: 'include',
         headers: {
@@ -85,15 +78,7 @@ function CrearCurso() {
             confirmButtonColor:'#15292E',
           })
         }
-        //console.log('hhhh')
-        //console.log(image)
-      };
       //submitVideosYTexto(); //!!!si funciona el submit de los otros datos proba este
-      
-
-
-
-      
     }
   }
 
