@@ -267,8 +267,7 @@ const CrearCursoContainer = styled.nav`
   }
   .uploaded-image{
     margin-left: 1.4vw;
-    height: 25%;
-    width: 25%;
+    height: 16vh;
     border-radius: 1vw;
   }
   .formC{
