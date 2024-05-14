@@ -24,9 +24,11 @@ if ($conn->connect_error) {
 
 // Verificar si se recibieron los datos del formulario
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-  $titulo = $data["title"];
-  $descripcion = $data["descripcion"];
-  $precio = $data["precio"];
+  $titulo = $data['title'];
+    $descripcion = $data['descripcion'];
+    $docente = $data['docente'];
+    $precio = $data['precio'];
+    $imagen = $data['img'];
     // Procesar la imagen
   $rutaImagen = 'C:/xampp/htdocs/IngenieriaDeSoftware/estu_prime/archivo/imagen.png';
   #$imagenData = $data['image'];
