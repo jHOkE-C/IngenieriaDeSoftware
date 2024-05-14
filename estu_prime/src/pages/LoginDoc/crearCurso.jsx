@@ -104,7 +104,7 @@ function CrearCurso() {
   };
 
   useEffect(() => {
-    getNombre();
+    
     const getNombre = async ()=>{
       const response = await fetch('http://localhost:80/obtenerNombreYIdCurso', {
                         method: 'GET',
@@ -119,6 +119,7 @@ function CrearCurso() {
         setName(data.name);
       })
     } 
+    getNombre();
   }, []);
 
 
