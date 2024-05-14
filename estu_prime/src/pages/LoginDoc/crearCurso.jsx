@@ -47,8 +47,8 @@ function CrearCurso() {
         reader.readAsDataURL(file); // Leer el archivo como una URL base64
       }
       reader.onloadend = async () => {
-        const imageUrl = reader.result; // Obtener la URL de la imagen cargada
-        setImage(imageUrl); // Establecer la imagen en el estado
+        //const imageUrl = readeWr.result; // Obtener la URL de la imagen cargada
+       // setImage(imageUrl); // Establecer la imagen en el estado
         response = await fetch('http://localhost:80/IngenieriaDeSoftware/estu_prime/src/api/curso.php', {
         method: 'POST',
         credentials: 'include',
@@ -63,41 +63,37 @@ function CrearCurso() {
             img: image
           }),
         });
-        console.log('hhhh')
-        console.log(image)
+        const dataResponse = await response.json();
+        console.log(dataResponse.mensaje);
+        if(dataResponse.mensaje === 'a'){
+          Swal.fire({
+            icon: 'success',
+            text: 'Curso Creado Exitosamente',
+            background:'#F2E9E4',
+            confirmButtonColor:'#15292E',
+          }).then(respuesta => {
+            if (respuesta) {
+              navigate('/LoginDocente', { replace: true }) 
+              window.location.reload();
+            }
+          }); 
+        }else{
+          Swal.fire({
+            icon: 'error',
+            text: 'Curso Creado Exitosamente',
+            background:'#F2E9E4',
+            confirmButtonColor:'#15292E',
+          })
+        }
+        //console.log('hhhh')
+        //console.log(image)
       };
       //submitVideosYTexto(); //!!!si funciona el submit de los otros datos proba este
       
-      let dataResponse = 'x';
 
-      try {
-        dataResponse = await response.json();
-        // Aquí procesa la respuesta JSON normalmente
-      } catch (error) {
-        console.error('Error al analizar la respuesta JSON:', error);
-        // Puedes agregar un manejo de error aquí, por ejemplo, mostrar un mensaje al usuario
-      }
 
-      if(dataResponse.mensaje === 'a'){
-        Swal.fire({
-          icon: 'success',
-          text: 'Curso Creado Exitosamente',
-          background:'#F2E9E4',
-          confirmButtonColor:'#15292E',
-        }).then(respuesta => {
-          if (respuesta) {
-            navigate('/LoginDocente', { replace: true }) 
-            window.location.reload();
-          }
-        }); 
-      }else{
-        Swal.fire({
-          icon: 'error',
-          text: 'Curso Creado Exitosamente',
-          background:'#F2E9E4',
-          confirmButtonColor:'#15292E',
-        })
-      }
+
+      
     }
   }
 
@@ -111,8 +107,6 @@ function CrearCurso() {
 
   const handleImageChange = (event) => {
     const file = event.target.files[0];
-    console.log('esto es file:');
-    console.log(file)
     const reader = new FileReader();
     if (file) {
       reader.readAsDataURL(file); // Leer el archivo como una URL base64
@@ -120,8 +114,6 @@ function CrearCurso() {
     reader.onloadend = () => {
       const imageUrl = reader.result; // Obtener la URL de la imagen cargada
       setImage(imageUrl); // Establecer la imagen en el estado
-      console.log('esto es url:');
-      console.log(imageUrl)
     };
   };
 
