@@ -269,6 +269,7 @@ const CrearCursoContainer = styled.nav`
     margin-left: 1.4vw;
     height: 25%;
     width: 25%;
+    border-radius: 1vw;
   }
   .formC{
     border: #15292E 1px solid;
