@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components'
 import Trash from '../../assents/basurero.png'
 import Subir from '../../assents/subir.png'
@@ -29,7 +29,8 @@ const schema = yup.object({
 function CrearCurso() {
   const [componentes, setComponentes] = useState([]);
   const [image, setImage] = useState(null);
-  
+  const [name, setName] = useState(null);
+  const [idCurso, setIdCurso] = useState(null);
     const { register, handleSubmit, formState: { errors } } = useForm({
       resolver: yupResolver(schema),
     });
@@ -102,7 +103,23 @@ function CrearCurso() {
     };
   };
 
-
+  useEffect(() => {
+    getNombre();
+    const getNombre = async ()=>{
+      const response = await fetch('http://localhost:80/obtenerNombreYIdCurso', {
+                        method: 'GET',
+                        credentials: 'include',
+                        headers: {
+                          'Content-Type': 'application/json',
+                        },
+                      });
+      const responseData = await response.json();
+      responseData.then((data)=>{
+        setIdCurso(data.idCurso);
+        setName(data.name);
+      })
+    } 
+  }, []);
 
 
   
@@ -127,6 +144,7 @@ function CrearCurso() {
         eliminarComponente={eliminarComponente}
         onSubmit={handleInputASubmit} 
         i={newIndex}
+        idCurso = {idCurso}
       />,
     ];
     setComponentes(newComponentes);
@@ -140,6 +158,7 @@ function CrearCurso() {
         eliminarComponente={eliminarComponente}
         onSubmit={handleInputASubmit} 
         i={newIndex}
+        idCurso = {idCurso}
       />,
     ];
     setComponentes(newComponentes);
@@ -170,7 +189,7 @@ function CrearCurso() {
             <label >Docente: </label>
             <input 
               type="text" 
-              value='Juan Carlos Luna' 
+              value={name}
               readOnly 
               className='inputText'
               {... register('docente')}
