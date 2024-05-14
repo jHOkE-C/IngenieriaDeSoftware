@@ -23,7 +23,8 @@ const schema = yup.object({
                   .required(),
       docente: yup.string(),
       precio: yup.string()
-                  .required('Se requiere precio del curso'),        
+                  .required('Se requiere precio del curso'),      
+      img: yup.mixed()  
     }).required()  
 function CrearCurso() {
   const [componentes, setComponentes] = useState([]);
@@ -39,22 +40,32 @@ function CrearCurso() {
 
   const onSubmit = async (data) => { 
     if(!errors.titulo && !errors.precio){
-      //submitVideosYTexto(); //!!!si funciona el submit de los otros datos proba este
-      console.log(data.img[0])
-      const response = await fetch('http://localhost:80/IngenieriaDeSoftware/estu_prime/src/api/curso.php', {
+      const file = data.img[0];
+      const reader = new FileReader();
+      let response;
+      if (file) {
+        reader.readAsDataURL(file); // Leer el archivo como una URL base64
+      }
+      reader.onloadend = async () => {
+        const imageUrl = reader.result; // Obtener la URL de la imagen cargada
+        setImage(imageUrl); // Establecer la imagen en el estado
+        response = await fetch('http://localhost:80/IngenieriaDeSoftware/estu_prime/src/api/curso.php', {
         method: 'POST',
         credentials: 'include',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-          title: data.titulo,
-          descripcion: data.descripcion,
-          docente: data.docente,
-          precio: data.precio,
-          img: data.img[0]
-        }),
-      });
+          body: JSON.stringify({
+            title: data.titulo,
+            descripcion: data.descripcion,
+            docente: data.docente,
+            precio: data.precio,
+            img: image
+          }),
+        });
+      };
+      //submitVideosYTexto(); //!!!si funciona el submit de los otros datos proba este
+      
       let dataResponse = 'x';
 
       try {
@@ -98,17 +109,18 @@ function CrearCurso() {
 
   const handleImageChange = (event) => {
     const file = event.target.files[0];
+    console.log('esto es file:');
+    console.log(file)
     const reader = new FileReader();
-    console.log('hola');
-    reader.onloadend = () => {
-      const imageUrl = reader.result; // Obtener la URL de la imagen cargada
-      setImage(imageUrl); // Establecer la imagen en el estado
-      console.log(imageUrl);
-    };
-  
     if (file) {
       reader.readAsDataURL(file); // Leer el archivo como una URL base64
     }
+    reader.onloadend = () => {
+      const imageUrl = reader.result; // Obtener la URL de la imagen cargada
+      setImage(imageUrl); // Establecer la imagen en el estado
+      console.log('esto es url:');
+      console.log(imageUrl)
+    };
   };
 
 
@@ -184,7 +196,19 @@ function CrearCurso() {
               className='inputText'
               {... register('docente')}
               />
-                
+            <input 
+            type="file" 
+            accept=".jpg, .jpeg, .png"
+            id='inputSubmit'
+            {... register('img',{
+              onChange: (e)=>{handleImageChange(e)}
+            })}
+            />
+            {image && (
+                <div className="image-container">
+                  <img src={image} alt="Uploaded" className="uploaded-image" />
+                </div>
+            )}    
             <div id='divPrueba'>
               <label >Descripcion: </label>
               <textarea 
@@ -205,21 +229,7 @@ function CrearCurso() {
           />
           
         </form>
-        <form className='formC2'>
-          <input 
-            type="file" 
-            accept=".jpg, .jpeg, .png"
-            id='inputSubmit'
-            onChange={handleImageChange}
-          />
-          {image && (
-              <div className="image-container">
-                <img src={image} alt="Uploaded" className="uploaded-image" />
-              </div>
-          )}
-        </form> 
         <div >
-          
           <div id='componentesFlex'>
               {componentes.map((componente, index) => (
                 <div key={index}>{componente}</div>
