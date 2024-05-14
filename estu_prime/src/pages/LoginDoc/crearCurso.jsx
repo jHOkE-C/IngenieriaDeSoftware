@@ -63,6 +63,8 @@ function CrearCurso() {
             img: image
           }),
         });
+        console.log('hhhh')
+        console.log(image)
       };
       //submitVideosYTexto(); //!!!si funciona el submit de los otros datos proba este
       
@@ -204,11 +206,7 @@ function CrearCurso() {
               onChange: (e)=>{handleImageChange(e)}
             })}
             />
-            {image && (
-                <div className="image-container">
-                  <img src={image} alt="Uploaded" className="uploaded-image" />
-                </div>
-            )}    
+             
             <div id='divPrueba'>
               <label >Descripcion: </label>
               <textarea 
@@ -217,6 +215,9 @@ function CrearCurso() {
                 id='descripcionText' 
                 {... register('descripcion')}
               />
+              {image && (
+                  <img src={image} alt="Uploaded" className="uploaded-image" /> 
+              )}   
             </div>
             
           </div>
@@ -262,7 +263,12 @@ const CrearCursoContainer = styled.nav`
     width: 77%;
   }
   #inputSubmit{
-    position: relative;
+    position: relative; 
+  }
+  .uploaded-image{
+    margin-left: 1.4vw;
+    height: 25%;
+    width: 25%;
   }
   .formC{
     border: #15292E 1px solid;
@@ -270,12 +276,6 @@ const CrearCursoContainer = styled.nav`
     border-radius: 1vh;
     position: relative;
     width: 100%;
-  }
-  .formC2{
-    position: absolute;
-    width: 100%;
-    top: 50.5vh;
-    left: 62vw;
   }
   .especialL{
     margin-right: 5%;
@@ -318,8 +318,5 @@ const CrearCursoContainer = styled.nav`
     border: #15292E 1px solid;
     border-radius: 8px;
   }
-  .uploaded-image{
-    position: absolute;
-    width: 20%;
-  }
+  
 `
