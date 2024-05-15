@@ -140,8 +140,8 @@ function CrearCurso() {
 
 
   
-  const submitVideosYTexto = () => {
-    componentes.forEach((comp) => {
+  const submitVideosYTexto = async () => {
+    await componentes.forEach((comp) => {
       // Check if comp has an onSubmit function before calling it
       if (typeof comp.props.onSubmit === 'function') {
         comp.props.onSubmit();
@@ -162,7 +162,7 @@ function CrearCurso() {
           }),
         });
         const dataResponse = await response.json();
-    console.log('InputA submitted with data:', data);
+    console.log('InputA submitted with data:', dataResponse);
   };
   const agregarComponente = () => {
     const newIndex = componentes.length;

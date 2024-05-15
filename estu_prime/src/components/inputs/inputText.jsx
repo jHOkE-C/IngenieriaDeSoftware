@@ -26,8 +26,7 @@ function InputText({ eliminarComponente, i, onSubmit, idCurso }) {
   const handleClickEliminar = () => {
     eliminarComponente(index);
   };
-  const handleFormSubmit = async (data) => {
-    
+  const handleFormSubmit =  (data) => {
     onSubmit(data, i);
   };
   return (
