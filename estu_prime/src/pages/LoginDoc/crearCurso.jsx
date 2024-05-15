@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components'
 import Trash from '../../assents/basurero.png'
 import Subir from '../../assents/subir.png'
@@ -23,12 +23,14 @@ const schema = yup.object({
                   .required(),
       docente: yup.string(),
       precio: yup.string()
-                  .required('Se requiere precio del curso'),        
+                  .required('Se requiere precio del curso'),      
+      img: yup.mixed()  
     }).required()  
 function CrearCurso() {
   const [componentes, setComponentes] = useState([]);
   const [image, setImage] = useState(null);
-  
+  const [name, setName] = useState(null);
+  const [idCurso, setIdCurso] = useState(null);
     const { register, handleSubmit, formState: { errors } } = useForm({
       resolver: yupResolver(schema),
     });
@@ -39,52 +41,45 @@ function CrearCurso() {
 
   const onSubmit = async (data) => { 
     if(!errors.titulo && !errors.precio){
-      //submitVideosYTexto(); //!!!si funciona el submit de los otros datos proba este
-      console.log(data.img[0])
-      const response = await fetch('http://localhost:80/IngenieriaDeSoftware/estu_prime/src/api/curso.php', {
+
+      
+        const response = await fetch('http://localhost:80/IngenieriaDeSoftware/estu_prime/src/api/curso.php', {
         method: 'POST',
         credentials: 'include',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-          title: data.titulo,
-          descripcion: data.descripcion,
-          docente: data.docente,
-          precio: data.precio,
-          img: data.img[0]
-        }),
-      });
-      let dataResponse = 'x';
-
-      try {
-        dataResponse = await response.json();
-        // Aquí procesa la respuesta JSON normalmente
-      } catch (error) {
-        console.error('Error al analizar la respuesta JSON:', error);
-        // Puedes agregar un manejo de error aquí, por ejemplo, mostrar un mensaje al usuario
-      }
-
-      if(dataResponse.mensaje === 'a'){
-        Swal.fire({
-          icon: 'success',
-          text: 'Curso Creado Exitosamente',
-          background:'#F2E9E4',
-          confirmButtonColor:'#15292E',
-        }).then(respuesta => {
-          if (respuesta) {
-            navigate('/LoginDocente', { replace: true }) 
-            window.location.reload();
-          }
-        }); 
-      }else{
-        Swal.fire({
-          icon: 'error',
-          text: 'Curso Creado Exitosamente',
-          background:'#F2E9E4',
-          confirmButtonColor:'#15292E',
-        })
-      }
+          body: JSON.stringify({
+            title: data.titulo,
+            descripcion: data.descripcion,
+            docente: data.docente,
+            precio: data.precio,
+            img: image
+          }),
+        });
+        const dataResponse = await response.json();
+        console.log(dataResponse.mensaje);
+        if(dataResponse.mensaje === 'a'){
+          Swal.fire({
+            icon: 'success',
+            text: 'Curso Creado Exitosamente',
+            background:'#F2E9E4',
+            confirmButtonColor:'#15292E',
+          }).then(respuesta => {
+            if (respuesta) {
+              navigate('/LoginDocente', { replace: true }) 
+              window.location.reload();
+            }
+          }); 
+        }else{
+          Swal.fire({
+            icon: 'error',
+            text: 'Curso Creado Exitosamente',
+            background:'#F2E9E4',
+            confirmButtonColor:'#15292E',
+          })
+        }
+      //submitVideosYTexto(); //!!!si funciona el submit de los otros datos proba este
     }
   }
 
@@ -99,19 +94,33 @@ function CrearCurso() {
   const handleImageChange = (event) => {
     const file = event.target.files[0];
     const reader = new FileReader();
-    console.log('hola');
-    reader.onloadend = () => {
-      const imageUrl = reader.result; // Obtener la URL de la imagen cargada
-      setImage(imageUrl); // Establecer la imagen en el estado
-      console.log(imageUrl);
-    };
-  
     if (file) {
       reader.readAsDataURL(file); // Leer el archivo como una URL base64
     }
+    reader.onloadend = () => {
+      const imageUrl = reader.result; // Obtener la URL de la imagen cargada
+      setImage(imageUrl); // Establecer la imagen en el estado
+    };
   };
 
-
+  useEffect(() => {
+    
+    const getNombre = async ()=>{
+      const response = await fetch('http://localhost:80/obtenerNombreYIdCurso', {
+                        method: 'GET',
+                        credentials: 'include',
+                        headers: {
+                          'Content-Type': 'application/json',
+                        },
+                      });
+      const responseData = await response.json();
+      responseData.then((data)=>{
+        setIdCurso(data.idCurso);
+        setName(data.name);
+      })
+    } 
+    getNombre();
+  }, []);
 
 
   
@@ -136,6 +145,7 @@ function CrearCurso() {
         eliminarComponente={eliminarComponente}
         onSubmit={handleInputASubmit} 
         i={newIndex}
+        idCurso = {idCurso}
       />,
     ];
     setComponentes(newComponentes);
@@ -149,6 +159,7 @@ function CrearCurso() {
         eliminarComponente={eliminarComponente}
         onSubmit={handleInputASubmit} 
         i={newIndex}
+        idCurso = {idCurso}
       />,
     ];
     setComponentes(newComponentes);
@@ -179,12 +190,20 @@ function CrearCurso() {
             <label >Docente: </label>
             <input 
               type="text" 
-              value='Juan Carlos Luna' 
+              value={name}
               readOnly 
               className='inputText'
               {... register('docente')}
               />
-                
+            <input 
+            type="file" 
+            accept=".jpg, .jpeg, .png"
+            id='inputSubmit'
+            {... register('img',{
+              onChange: (e)=>{handleImageChange(e)}
+            })}
+            />
+             
             <div id='divPrueba'>
               <label >Descripcion: </label>
               <textarea 
@@ -193,6 +212,9 @@ function CrearCurso() {
                 id='descripcionText' 
                 {... register('descripcion')}
               />
+              {image && (
+                  <img src={image} alt="Uploaded" className="uploaded-image" /> 
+              )}   
             </div>
             
           </div>
@@ -205,21 +227,7 @@ function CrearCurso() {
           />
           
         </form>
-        <form className='formC2'>
-          <input 
-            type="file" 
-            accept=".jpg, .jpeg, .png"
-            id='inputSubmit'
-            onChange={handleImageChange}
-          />
-          {image && (
-              <div className="image-container">
-                <img src={image} alt="Uploaded" className="uploaded-image" />
-              </div>
-          )}
-        </form> 
         <div >
-          
           <div id='componentesFlex'>
               {componentes.map((componente, index) => (
                 <div key={index}>{componente}</div>
@@ -252,7 +260,12 @@ const CrearCursoContainer = styled.nav`
     width: 77%;
   }
   #inputSubmit{
-    position: relative;
+    position: relative; 
+  }
+  .uploaded-image{
+    margin-left: 1.4vw;
+    height: 16vh;
+    border-radius: 1vw;
   }
   .formC{
     border: #15292E 1px solid;
@@ -260,12 +273,6 @@ const CrearCursoContainer = styled.nav`
     border-radius: 1vh;
     position: relative;
     width: 100%;
-  }
-  .formC2{
-    position: absolute;
-    width: 100%;
-    top: 50.5vh;
-    left: 62vw;
   }
   .especialL{
     margin-right: 5%;
@@ -308,8 +315,5 @@ const CrearCursoContainer = styled.nav`
     border: #15292E 1px solid;
     border-radius: 8px;
   }
-  .uploaded-image{
-    position: absolute;
-    width: 20%;
-  }
+  
 `

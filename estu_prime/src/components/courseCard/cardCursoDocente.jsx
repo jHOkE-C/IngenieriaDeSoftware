@@ -1,10 +1,10 @@
-  import React from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import ImgEdit from '../../assents/img/edit.png'
 import { Navigate, useNavigate } from "react-router-dom";
 
 
-function CardsCursoDocente({ title, ide, nombre_docente, precio }) {
+function CardsCursoDocente({ title, ide, nombre_docente, precio,img }) {
     const navigate = useNavigate();
   
     const nav = () => {
@@ -15,7 +15,7 @@ function CardsCursoDocente({ title, ide, nombre_docente, precio }) {
     return (
       <ContainerCard>
         <div className='card'>
-        
+          <img src={img} alt='imgCurso' className='card__img'></img>
           <p className='card__title'><strong>{title}</strong></p>
           <div className='cardFondo'>
             <button type='button' className='cardFondo__edit' onClick={nav}>
@@ -46,10 +46,15 @@ const ContainerCard = styled.div`
       margin-right: 2.5%;
       width: 15vw;
       height: 15vw;
-      background-color: #AAC7CE;
+      background-color: #F2E9E4;
       border-radius: 1vw;
-      box-shadow: 5px 5px 10px;
+      box-shadow: 5px 5px 1px;
+      border: #15292E 1px solid;
       overflow: hidden;
+    }
+    .card__img{
+      height: 40%;
+      border-radius: 1vw;
     }
     .cardFondo{
         border-radius: 1vw;
@@ -88,7 +93,7 @@ const ContainerCard = styled.div`
         }
         .cardFondo__edit:hover{
             transition: 100ms;
-            background-color: #035058;
+            background-color: #D6CDC8;
         }
         .cardFondo__edit:active{
             background-color: #15292E;

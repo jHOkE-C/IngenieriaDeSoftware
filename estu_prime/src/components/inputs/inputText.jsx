@@ -1,4 +1,4 @@
-import { useForm } from 'react-hook-form';
+import { useForm, useEffect } from 'react-hook-form';
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import styled from 'styled-components';
@@ -7,21 +7,22 @@ import trash from '../../assents/basurero.png';
 
 const schema = yup
     .object({
+      idCursoDocente : yup.string(),
       posicion: yup.string(),
       texto: yup.string()
     })
     .required();
 
 
-function InputText({ eliminarComponente, i, onSubmit }) {
+function InputText({ eliminarComponente, i, onSubmit, idCurso }) {
   const index = i;
-
+  
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm({resolver: yupResolver(schema),})
-
+  
   const handleClickEliminar = () => {
     eliminarComponente(index);
   };

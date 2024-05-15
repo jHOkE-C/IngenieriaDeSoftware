@@ -11,7 +11,7 @@ const schema = yup
     })
     .required();
 
-function InputA({ eliminarComponente, i, onSubmit }) {
+function InputA({ eliminarComponente, i, onSubmit,  idCurso }) {
   const {
     register,
     handleSubmit,

@@ -71,13 +71,13 @@ function FormE() {
                     window.location.reload();
                 }
                 });
-            }if(dataResponse.mensaje === 'Error al crear la cuenta'){
+            }if(dataResponse.mensaje === 'Error cuenta'){
                 Swal.fire({
                     buttons: ["ok", "ok uwu"],
                     background:'#F2E9E4' ,
                     confirmButtonColor:'#035058',
                     icon: 'error',
-                    text: 'Error al crear la cuenta',
+                    text: 'Cuenta error existente como docente',
                 })
             }
         }  
