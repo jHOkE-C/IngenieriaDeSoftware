@@ -26,8 +26,21 @@ function InputText({ eliminarComponente, i, onSubmit, idCurso }) {
   const handleClickEliminar = () => {
     eliminarComponente(index);
   };
-  const handleFormSubmit = (data) => {
-    // Trigger the onSubmit function passed from the parent component
+  const handleFormSubmit = async (data) => {
+    const response = await fetch('http://localhost:80/IngenieriaDeSoftware/estu_prime/src/api/curso.php', {
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+          body: JSON.stringify({
+            idCursoDocente: idCurso,
+            posicion: i,
+            texto: data.texto,
+          }),
+        });
+        const dataResponse = await response.json();
+        console.log(dataResponse.mensaje);
     onSubmit(data);
   };
   return (
