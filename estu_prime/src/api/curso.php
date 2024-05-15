@@ -22,6 +22,16 @@ if ($conn->connect_error) {
     // Decodificar los datos JSON a un array asociativo de PHP
     $data = json_decode($json_data, true);
 
+    //Enviar id
+    if ($_SERVER["REQUEST_METHOD"] == "GET") {
+      $query = "SELECT MAX(idCurso) AS max_id FROM curso";
+      $resultado = $conn->query($query);
+      $row = $resultado->fetch_assoc();
+      $max_id = $row['max_id'] + 1;
+      $response = array("idCurso" => $max_id);
+      header('Content-Type: application/json');
+      echo json_encode($response);
+    }
 // Verificar si se recibieron los datos del formulario
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $titulo = $data['title'];

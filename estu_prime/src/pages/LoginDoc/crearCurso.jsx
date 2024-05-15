@@ -60,17 +60,20 @@ function CrearCurso() {
         const dataResponse = await response.json();
         console.log(dataResponse.mensaje);
         if(dataResponse.mensaje === 'a'){
+          
+          //console.log("Entre al if:"+nombre_docente);
+          //console.log(idCurso);
           Swal.fire({
             icon: 'success',
             text: 'Curso Creado Exitosamente',
             background:'#F2E9E4',
             confirmButtonColor:'#15292E',
-          }).then(respuesta => {
+          })/*.then(respuesta => {
             if (respuesta) {
               navigate('/LoginDocente', { replace: true }) 
               window.location.reload();
             }
-          }); 
+          }); */
         }else{
           Swal.fire({
             icon: 'error',
@@ -81,6 +84,7 @@ function CrearCurso() {
         }
       //submitVideosYTexto(); //!!!si funciona el submit de los otros datos proba este
     }
+    
   }
 
 
@@ -106,7 +110,7 @@ function CrearCurso() {
   useEffect(() => {
     
     const getNombre = async ()=>{
-      const response = await fetch('http://localhost:80/obtenerNombreYIdCurso', {
+      const response = await fetch('http://localhost:80/IngenieriaDeSoftware/estu_prime/src/api/obtenerNombreYIdCurso.php', {
                         method: 'GET',
                         credentials: 'include',
                         headers: {
@@ -114,12 +118,24 @@ function CrearCurso() {
                         },
                       });
       const responseData = await response.json();
-      responseData.then((data)=>{
-        setIdCurso(data.idCurso);
-        setName(data.name);
-      })
+        //setIdCurso(responseData.idCurso);
+        setName(responseData.nombre_docente);
+        return "a";
     } 
-    getNombre();
+    const getId = async ()=>{
+      const response = await fetch('http://localhost:80/IngenieriaDeSoftware/estu_prime/src/api/curso.php', {
+                        method: 'GET',
+                        credentials: 'include',
+                        headers: {
+                          'Content-Type': 'application/json',
+                        },
+                      });
+                      const responseData = await response.json();
+        setIdCurso(responseData.idCurso);
+        return "a";
+    } 
+    const b = getId();
+    const a = getNombre();
   }, []);
 
 
