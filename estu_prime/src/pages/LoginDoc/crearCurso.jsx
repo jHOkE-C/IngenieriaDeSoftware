@@ -82,7 +82,7 @@ function CrearCurso() {
             confirmButtonColor:'#15292E',
           })
         }
-      //submitVideosYTexto(); //!!!si funciona el submit de los otros datos proba este
+      submitVideosYTexto(); //!!!si funciona el submit de los otros datos proba este
     }
     
   }
@@ -148,8 +148,20 @@ function CrearCurso() {
       }
     });
   };
-  const handleInputASubmit = (data) => {
-    // Custom logic for handling submission within InputA
+  const handleInputASubmit = async (data, i) => {
+    const response = await fetch('http://localhost:80/IngenieriaDeSoftware/estu_prime/src/api/cursoArchivo.php', {
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+          body: JSON.stringify({
+            idCursoDocente: idCurso,
+            posicion: i,
+            texto: data.texto,
+          }),
+        });
+        const dataResponse = await response.json();
     console.log('InputA submitted with data:', data);
   };
   const agregarComponente = () => {
