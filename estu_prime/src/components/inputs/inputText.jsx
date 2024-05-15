@@ -7,8 +7,6 @@ import trash from '../../assents/basurero.png';
 
 const schema = yup
     .object({
-      idCursoDocente : yup.string(),
-      posicion: yup.string(),
       texto: yup.string()
     })
     .required();
@@ -27,7 +25,7 @@ function InputText({ eliminarComponente, i, onSubmit, idCurso }) {
     eliminarComponente(index);
   };
   const handleFormSubmit =  (data) => {
-    onSubmit(data, i);
+    onSubmit(schema, i);
   };
   return (
     <InputTextContainer>
