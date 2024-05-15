@@ -27,7 +27,7 @@ function InputText({ eliminarComponente, i, onSubmit, idCurso }) {
     eliminarComponente(index);
   };
   const handleFormSubmit = async (data) => {
-    const response = await fetch('http://localhost:80/IngenieriaDeSoftware/estu_prime/src/api/curso.php', {
+    const response = await fetch('http://localhost:80/IngenieriaDeSoftware/estu_prime/src/api/cursoArchivo.php', {
         method: 'POST',
         credentials: 'include',
         headers: {
@@ -40,6 +40,9 @@ function InputText({ eliminarComponente, i, onSubmit, idCurso }) {
           }),
         });
         const dataResponse = await response.json();
+        console.log(idCurso);
+        console.log(i);
+        console.log(data.texto);
         console.log(dataResponse.mensaje);
     onSubmit(data);
   };
