@@ -7,7 +7,10 @@ import IniciarS from '../pages/Home/iniciarSesion.jsx' ;
 import CrearCurso from '../pages/LoginDoc/crearCurso.jsx';
 import TusCursos from '../pages/LoginDoc/tusCursos.jsx';
 import HomeDocente from '../pages/LoginDoc/inicioDoc.jsx'
+import ListadoCursos from '../pages/LoginEst/ListCursos.jsx'
+import Explorar from '../pages/LoginEst/Explorar.jsx'
 import HomeEstudiante from '../pages/LoginEst/inicioEst.jsx'
+
 
 function Navbar() {
   return ( 
@@ -19,6 +22,8 @@ function Navbar() {
         <Route path="/LoginDocente" element={<HomeDocente/>}/>  
         <Route path='/LoginDocente/TusCursos'element={<TusCursos/>}/>
         <Route path="/LoginEstudiante" element={<HomeEstudiante/>}/>  
+        <Route path="/LoginEstudiante/ListCursos" element={<ListadoCursos/>}/>  
+        <Route path="/LoginEstudiante/Explorar" element={<Explorar/>}/>
       </Routes>
   );
 }
