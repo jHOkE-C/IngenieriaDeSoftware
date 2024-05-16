@@ -1,42 +1,33 @@
-import { useForm, useEffect } from 'react-hook-form';
-import * as yup from "yup";
-import { yupResolver } from "@hookform/resolvers/yup";
+
 import styled from 'styled-components';
 import trash from '../../assents/basurero.png';
+import { useState } from 'react';
 
 
-const schema = yup
-    .object({
-      texto: yup.string()
-    })
-    .required();
 
 
-function InputText({key, eliminarComponente, i}) {
-  const index = i;
-  
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm({resolver: yupResolver(schema),})
-  
+function InputText({eliminarComponente, onChangeTexto, index}) {
+  const [texto,setTexto] = useState();
   const handleClickEliminar = () => {
     eliminarComponente(index);
   };
+  const onChange = (e) =>{
+    setTexto(e.target.value);
+    onChangeTexto(texto, index);
+  }
   return (
     <InputTextContainer>
-      <form id='inputsT' >
+      <form id='inputsT'>
         <input 
           type="text" 
           id='textInput' 
+          value = {texto}
           placeholder='Titulo o Descripciones' 
           maxLength={20}
-          {... register('texto')} 
+          onChange={onChange}
         />
         <button className='buttonImg' onClick={handleClickEliminar}><img src={trash} alt="" className='imgA' /></button>
       </form>
-      <p className='spanA'>{errors.texto?.message}</p>
     </InputTextContainer>
   );
 }

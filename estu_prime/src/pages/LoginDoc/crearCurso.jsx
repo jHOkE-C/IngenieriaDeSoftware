@@ -30,6 +30,7 @@ function CrearCurso() {
   const [componentes, setComponentes] = useState([]);
   const [image, setImage] = useState(null);
   const [name, setName] = useState(null);
+  const [inputText, setInputText] = useState()
 
     const { register, handleSubmit, formState: { errors } } = useForm({
       resolver: yupResolver(schema),
@@ -40,9 +41,7 @@ function CrearCurso() {
 
 
   const onSubmit = async (data) => { 
-    if(!errors.titulo && !errors.precio){
-
-      
+    if(!errors.titulo && !errors.precio){ 
         const response = await fetch('http://localhost:80/IngenieriaDeSoftware/estu_prime/src/api/curso.php', {
         method: 'POST',
         credentials: 'include',
@@ -60,9 +59,6 @@ function CrearCurso() {
         const dataResponse = await response.json();
         console.log(dataResponse.mensaje);
         if(dataResponse.mensaje === 'a'){
-          
-          //console.log("Entre al if:"+nombre_docente);
-          //console.log(idCurso);
           Swal.fire({
             icon: 'success',
             text: 'Curso Creado Exitosamente',
@@ -82,16 +78,17 @@ function CrearCurso() {
             confirmButtonColor:'#15292E',
           })
         }
-      submitVideosYTexto(); //!!!si funciona el submit de los otros datos proba este
     }
     
   }
 
 
   const eliminarComponente = (index) => {
-    const nuevosComponentes = componentes.filter((i) => i !== index);
-    setComponentes(nuevosComponentes);
+    console.log("Index:", index);
+    const updatedComponentes = componentes.filter((_, i) => i !== index);
+    setComponentes(updatedComponentes);
   };
+  
 
 
 
@@ -109,31 +106,38 @@ function CrearCurso() {
 
   useEffect(() => {
     const getNombre = async ()=>{
-      const response = await fetch('http://localhost:80/IngenieriaDeSoftware/estu_prime/src/api/obtenerNombre.php', {
-                        method: 'GET',
-                        credentials: 'include',
-                        headers: {
-                          'Content-Type': 'application/json',
-                        },
-                      });
-      const responseData = await response.json();
-      setName(responseData.nombre_docente);
-      console.log(responseData.nombre_docente)
+      
+      try {
+        const response = await fetch('http://localhost:80/IngenieriaDeSoftware/estu_prime/src/api/obtenerNombre.php', {
+          method: 'GET',
+          credentials: 'include',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+        const responseData = await response.json();
+                
+        setName(responseData.nombre_docente);
+        console.log(responseData.nombre_docente)
+      } catch (error) {
+          console.error('Error al obtener o analizar datos JSON:', error);
+      }
       return "a";
     } 
     const a =getNombre();
   }, []);
 
 
-  
-  const submitVideosYTexto = async () => {
-    await componentes.forEach((comp) => {
-      // Check if comp has an onSubmit function before calling it
-      if (typeof comp.props.onSubmit === 'function') {
-        comp.props.onSubmit();
-      }
-    });
-  };
+  const onChangeTexto = (texto, key) =>{
+    setInputText((previus) =>
+      [...previus,
+        {
+          posicion: key,
+          text: texto
+        }
+      ]
+    )
+  }
   const agregarComponente = () => {
     const newIndex = componentes.length;
     const newComponentes = [
@@ -141,7 +145,8 @@ function CrearCurso() {
       <InputT
         key={newIndex}
         eliminarComponente={eliminarComponente}
-        i={newIndex}
+        onChangeTexto={onChangeTexto}
+        index = {newIndex}
       />,
     ];
     setComponentes(newComponentes);
@@ -153,7 +158,6 @@ function CrearCurso() {
       <InputA
         key={newIndex}
         eliminarComponente={eliminarComponente}
-        i={newIndex}
       />,
     ];
     setComponentes(newComponentes);
