@@ -30,7 +30,9 @@ function CrearCurso() {
   const [componentes, setComponentes] = useState([]);
   const [image, setImage] = useState(null);
   const [name, setName] = useState(null);
-  const [inputText, setInputText] = useState()
+
+  const [inputTexts, setInputTexts] = useState();
+  const [inputVideos, setInputVideos] = useState();
 
     const { register, handleSubmit, formState: { errors } } = useForm({
       resolver: yupResolver(schema),
@@ -53,7 +55,9 @@ function CrearCurso() {
             descripcion: data.descripcion,
             docente: data.docente,
             precio: data.precio,
-            img: image
+            img: image,
+            textos : inputTexts,
+            videos : inputVideos
           }),
         });
         const dataResponse = await response.json();
@@ -128,12 +132,22 @@ function CrearCurso() {
   }, []);
 
 
-  const onChangeTexto = (texto, key) =>{
-    setInputText((previus) =>
+  const onChangeTexto = (texto, pos) =>{
+    setInputTexts((previus) =>
       [...previus,
         {
-          posicion: key,
+          posicion: pos,
           text: texto
+        }
+      ]
+    )
+  }
+  const onChangeVideo = (video, pos) =>{
+    setInputVideos((previus) =>
+      [...previus,
+        {
+          posicion: pos,
+          video: video
         }
       ]
     )
@@ -158,6 +172,8 @@ function CrearCurso() {
       <InputA
         key={newIndex}
         eliminarComponente={eliminarComponente}
+        onChangeVideo={onChangeVideo}
+        index = {newIndex}
       />,
     ];
     setComponentes(newComponentes);

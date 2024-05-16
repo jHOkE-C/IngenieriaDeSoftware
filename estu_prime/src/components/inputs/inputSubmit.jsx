@@ -1,12 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import trash from '../../assents/basurero.png';
 
-function InputA({ key, eliminarComponente}) {
+function InputA({ key, eliminarComponente, onChangeVideo, index}) {
 
-  
+  const [video, setVideo] = useState();
 
-
+  const onChange = (e) => {
+    setVideo(e.event.value)
+    onChangeVideo(video, index)
+  }
   const handleClickEliminar = () => {
     eliminarComponente(key);
   };
@@ -18,7 +21,9 @@ function InputA({ key, eliminarComponente}) {
         <input
           type="file"
           id="fileInput"
+          value = {video}
           accept=".mp4, .mkv, .AVI, .H.264"
+          onChange={onChange}
         />
         <button className="buttonImg" onClick={handleClickEliminar}>
           <img src={trash} alt="" className="imgA" />
