@@ -4,6 +4,7 @@ import { ReactComponent as ArrowLeft } from '../../assents/svg/left.svg';
 import { ReactComponent as ArrowRight } from '../../assents/svg/right.svg';
 import CardsCursos from '../../components/courseCard/cardCursoEstudiante';
 
+
 function PaginaCursos() {
   const [cursosRecomendados, setCursosRecomendados] = useState([]);
   const [cursosNuevos, setCursosNuevos] = useState([]);
@@ -38,7 +39,7 @@ function PaginaCursos() {
     const startIndex = currentPage * 4;
     const endIndex = startIndex + 4;
     return cursos.slice(startIndex, endIndex).map((curso) => (
-      <CardsCursos key={curso.idCurso} title={curso.titulo} nombre_docente={curso.nombre_docente} precio={curso.precio} />
+      <CardsCursos key={curso.idCurso} title={curso.titulo} id={curso.idCurso} nombre_docente={curso.nombre_docente} precio={curso.precio} />
     ));
   };
 
