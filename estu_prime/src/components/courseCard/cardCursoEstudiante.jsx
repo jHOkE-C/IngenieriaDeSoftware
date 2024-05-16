@@ -5,12 +5,11 @@ import manoHover from '../../assents/img/handHover.png'
 import { Navigate, useNavigate } from "react-router-dom";
 
 
-function CardsCursoDocente({ title, ide, nombre_docente, precio,img }) {
+function CardsCursoDocente({ title, id, nombre_docente, precio,img }) {
     const navigate = useNavigate();
   
-    const nav = () => {
-      navigate('/LoginDocente/CrearCurso', { replace: true });
-      window.location.reload();
+    const navegarDetalle = () => {
+      navigate(`/LoginEstudiante/ListCursos/DetalleCurso/${id}`);
     };
   
     return (
@@ -19,14 +18,15 @@ function CardsCursoDocente({ title, ide, nombre_docente, precio,img }) {
           <img src={img} alt='imgCurso' className='card__img'></img>
           <p className='card__title'><strong>{title}</strong></p>
           <div className='cardFondo'>
-            <button type='button' className='cardFondo__edit' onClick={nav}>
+            <button type='button' className='cardFondo__edit' onClick={() => navegarDetalle()}>
               <img src={mano} alt='' className='cardFondo__img' />
               <img src={manoHover} alt='' className='cardFondo__imgHover' />
             </button>
           </div>
-
+        
           <p className='card__details'>Docente: {nombre_docente}</p>
           <p className='card__details'>Precio: {precio} Bs.</p>
+    
         </div>
       </ContainerCard>
     );
