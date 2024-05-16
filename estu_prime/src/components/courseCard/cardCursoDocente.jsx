@@ -1,14 +1,14 @@
 import React from 'react';
 import styled from 'styled-components';
 import ImgEdit from '../../assents/img/edit.png'
-import { Navigate, useNavigate } from "react-router-dom";
+import { Navigate, useNavigate, Link } from "react-router-dom";
 
 
 function CardsCursoDocente({ title, ide, nombre_docente, precio,img }) {
     const navigate = useNavigate();
   
     const nav = () => {
-      navigate('/LoginDocente/CrearCurso', { replace: true });
+      navigate('/LoginDocente/EditCurso', { replace: true });
       window.location.reload();
     };
   
@@ -22,7 +22,6 @@ function CardsCursoDocente({ title, ide, nombre_docente, precio,img }) {
               <img src={ImgEdit} alt='' className='cardFondo__img' />
             </button>
           </div>
-
           <p className='card__details'>Docente: {nombre_docente}</p>
           <p className='card__details'>Precio: {precio}</p>
         </div>

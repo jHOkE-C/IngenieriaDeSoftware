@@ -30,7 +30,7 @@ function CrearCurso() {
   const [componentes, setComponentes] = useState([]);
   const [image, setImage] = useState(null);
   const [name, setName] = useState(null);
-  const [idCurso, setIdCurso] = useState(null);
+
     const { register, handleSubmit, formState: { errors } } = useForm({
       resolver: yupResolver(schema),
     });
@@ -108,9 +108,8 @@ function CrearCurso() {
   };
 
   useEffect(() => {
-    
     const getNombre = async ()=>{
-      const response = await fetch('http://localhost:80/IngenieriaDeSoftware/estu_prime/src/api/obtenerNombreYIdCurso.php', {
+      const response = await fetch('http://localhost:80/IngenieriaDeSoftware/estu_prime/src/api/obtenerNombre.php', {
                         method: 'GET',
                         credentials: 'include',
                         headers: {
@@ -118,24 +117,11 @@ function CrearCurso() {
                         },
                       });
       const responseData = await response.json();
-        //setIdCurso(responseData.idCurso);
-        setName(responseData.nombre_docente);
-        return "a";
+      setName(responseData.nombre_docente);
+      console.log(responseData.nombre_docente)
+      return "a";
     } 
-    const getId = async ()=>{
-      const response = await fetch('http://localhost:80/IngenieriaDeSoftware/estu_prime/src/api/curso.php', {
-                        method: 'GET',
-                        credentials: 'include',
-                        headers: {
-                          'Content-Type': 'application/json',
-                        },
-                      });
-                      const responseData = await response.json();
-        setIdCurso(responseData.idCurso);
-        return "a";
-    } 
-    const b = getId();
-    const a = getNombre();
+    const a =getNombre();
   }, []);
 
 
@@ -148,22 +134,6 @@ function CrearCurso() {
       }
     });
   };
-  const handleInputASubmit = async (data, i) => {
-    const response = await fetch('http://localhost:80/IngenieriaDeSoftware/estu_prime/src/api/cursoArchivo.php', {
-        method: 'POST',
-        credentials: 'include',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-          body: JSON.stringify({
-            idCursoDocente: idCurso,
-            posicion: i,
-            texto: data.texto,
-          }),
-        });
-        const dataResponse = await response.json();
-    console.log('InputA submitted with data:', dataResponse);
-  };
   const agregarComponente = () => {
     const newIndex = componentes.length;
     const newComponentes = [
@@ -171,9 +141,7 @@ function CrearCurso() {
       <InputT
         key={newIndex}
         eliminarComponente={eliminarComponente}
-        onSubmit={handleInputASubmit} 
         i={newIndex}
-        idCurso = {idCurso}
       />,
     ];
     setComponentes(newComponentes);
@@ -185,9 +153,7 @@ function CrearCurso() {
       <InputA
         key={newIndex}
         eliminarComponente={eliminarComponente}
-        onSubmit={handleInputASubmit} 
         i={newIndex}
-        idCurso = {idCurso}
       />,
     ];
     setComponentes(newComponentes);

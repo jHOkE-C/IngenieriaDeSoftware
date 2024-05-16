@@ -12,7 +12,7 @@ const schema = yup
     .required();
 
 
-function InputText({ eliminarComponente, i, onSubmit, idCurso }) {
+function InputText({key, eliminarComponente, i}) {
   const index = i;
   
   const {
@@ -24,12 +24,9 @@ function InputText({ eliminarComponente, i, onSubmit, idCurso }) {
   const handleClickEliminar = () => {
     eliminarComponente(index);
   };
-  const handleFormSubmit =  (data) => {
-    onSubmit(schema, i);
-  };
   return (
     <InputTextContainer>
-      <form id='inputsT' onSubmit={handleSubmit(handleFormSubmit)}>
+      <form id='inputsT' >
         <input 
           type="text" 
           id='textInput' 

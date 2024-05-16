@@ -49,7 +49,6 @@ function TusCursos() {
 
   return (
     <ListaCrearCursoContainer>
-      
       {renderCursos()}
       <div className='arrows'>
         <button className='arrows__flecha' onClick={goToPreviousPage}>
