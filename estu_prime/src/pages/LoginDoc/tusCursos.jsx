@@ -1,147 +1,127 @@
-import React, { useState } from 'react';
-import styled from 'styled-components'
-import Trash from '../../assents/basurero.png'
-import Subir from '../../assents/subir.png'
-import Text from '../../assents/text.png'
-import Save from '../../assents/save.png'
-import Cancelar from '../../assents/cancelar.png'
-import InputT from '../../components/inputs/inputText'
-import InputA from '../../components/inputs/inputSubmit'
+import React, { useState, useEffect } from 'react';
+import styled from 'styled-components';
+import { ReactComponent as ArrowLeft } from '../../assents/svg/left.svg';
+import { ReactComponent as ArrowRight } from '../../assents/svg/right.svg';
+import CardsCursos from '../../components/courseCard/cardCursoDocente';
 
-function CrearCurso() {
-  const [componentes, setComponentes] = useState([]);
-  const [image, setImage] = useState(null);
+function TusCursos() {
+  const [cursos, setCursos] = useState([]);
+  const [currentPage, setCurrentPage] = useState(0);
 
-  const agregarComponente = () => {
-    setComponentes([...componentes, <InputT key={componentes.length} eliminarComponente={eliminarComponente} />]);
+  useEffect(() => {
+    peticionDocenteCursosCreados();
+  }, []);
+
+  const peticionDocenteCursosCreados = () => {
+    fetch('http://localhost:80/IngenieriaDeSoftware/estu_prime/src/api/mostrarCurso.php', {
+      method: 'GET',
+      credentials: 'include'
+    })
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error('Error fetching data');
+        }
+        return res.json();
+      })
+      .then((data) => {
+        setCursos(data);
+      })
+      .catch((error) => {
+        console.error('Error fetching data:', error);
+      });
   };
 
-  const agregarComponenteA = () => {
-    setComponentes([...componentes, <InputA key={componentes.length} eliminarComponente={eliminarComponente} />]);
+ const renderCursos = () => {
+    const startIndex = currentPage * 8;
+    const endIndex = startIndex + 8;
+    return cursos.slice(startIndex, endIndex).map((curso) => (
+      <CardsCursos key={curso.idCurso} title={curso.titulo} nombre_docente={curso.nombre_docente} precio={curso.precio} img={curso.ruta}/>
+    ));
   };
 
-  const eliminarComponente = (index) => {
-    const nuevosComponentes = componentes.filter((_, i) => i !== index);
-    setComponentes(nuevosComponentes);
+  const goToNextPage = () => {
+    setCurrentPage((prevPage) => prevPage + 1);
   };
 
-  const handleImageChange = (event) => {
-    const file = event.target.files[0];
-    const reader = new FileReader();
-
-    reader.onloadend = () => {
-      setImage(reader.result);
-    };
-
-    if (file) {
-      reader.readAsDataURL(file);
-      const formData = new FormData();
-      formData.append('imagen', file);
-      // Puedes enviar formData a través de una solicitud HTTP POST si es necesario
-    }
+  const goToPreviousPage = () => {
+    setCurrentPage((prevPage) => (prevPage === 0 ? prevPage : prevPage - 1));
   };
 
   return (
-    <CrearCursoContainer>
-      <form action='http://localhost:80/estu_prime/src/api/curso.php' id='formC' method='post' encType='multipart/form-data'>
-        <div id='laminaBotonesRight'>
-          <button type='submit' className='buttonImg'><img src={Save} alt=""className='imgA' /></button>
-          <button type='button' className='buttonImg'><img src={Cancelar} alt=""className='imgA' /></button>
-        </div>
-        <h2>Crear Curso</h2>
-        <div>
-          <label id='especialL' >Titulo: </label>
-          <input type="text" name='titulo' className='inputText'required/>
-          <label >Docente: </label>
-          <input type="text" value='Juan Carlos Luna' readOnly className='inputText'/>
-          <input type="file" accept="image/*" onChange={handleImageChange} id='inputSubmit' name="imagen" />     
-          <div id='divPrueba'>
-            <label >Descripcion: </label>
-            <textarea type="text" name='descripcion' maxLength={200} id='descripcionText' />
-            {image && (
-              <div className="image-container">
-                <img src={image} alt="Uploaded" className="uploaded-image" />
-              </div>
-            )}
-          </div>
-        </div>
-        <div>
-          {componentes.map((componente, index) => (
-            <div key={index}>{componente}</div>
-          ))}
-        </div>
-        <div>
-          <button type='button' onClick={agregarComponenteA} className='buttonImg'><img src={Subir} alt=""className='imgA' /></button>
-          <button type='button' onClick={agregarComponente} className='buttonImg'><img src={Text} alt="" className='imgA'/></button>
-        </div>
-      </form>
-    </CrearCursoContainer>
-  )
+    <ListaCrearCursoContainer>
+      {renderCursos()}
+      <div className='arrows'>
+        <button className='arrows__flecha' onClick={goToPreviousPage}>
+          <ArrowLeft className='home__icon' />
+        </button>
+        <button className='arrows__flecha' onClick={goToNextPage}>
+          <ArrowRight className='home__icon' />
+        </button>
+      </div>
+    </ListaCrearCursoContainer>
+  );
 }
 
-export default CrearCurso
 
-const CrearCursoContainer = styled.nav`
-  display: flex;
-  align-items: center;
-  align-content: center;
-  justify-content: center;
-  margin: 50px;
-  min-height: calc(65vh);
-  width: 100%;
-  min-width: 1000px;
-  #divPrueba{
-    display: inline;
-  }
-  .image-container{
-    display: inline;
-  }
-  #inputSubmit{
+export default TusCursos;
+
+const ListaCrearCursoContainer = styled.nav`
+  width: 80vw;
+  position: relative;
+  left: 10%;
+  min-height: 80vh;
+  .arrows {
+    display: flex;
     position: relative;
+    justify-content: center;
+    margin: 1.5%;
   }
-  #formC{
-    width: 60%;
-  }
-  #especialL{
-    margin-right: 5%;
-  }
-  .inputText{
+  .arrows__flecha {
+    background: none;
+    margin: 0.1em;
     border: none;
-    height: 30px;
-    background-color: #AAC7CE;
-    border-radius: 8px;
-    margin-right: 1%;
   }
-  #descripcionText{
-    display: inline;
+  .arrows__flecha svg:hover {
+    fill: #b4d2da;
+    transition: 100ms;
+    stroke: black;
+  }
+  .arrows__flecha svg:active {
+    fill: white;
+  }
+  .cursos-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px; /* Espacio entre los cuadros */
+  }
+  
+  .curso-box {
+    flex: 1 0 30%; /* Ancho de cada cuadro */
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    background-color: #f5f5f5;
+  }
+  
+  .curso-box h2 {
+    margin-top: 0;
+  }
+  
+  .curso-box p {
+    margin-bottom: 10px;
+  }
+  
+  .detalle-button {
+    padding: 8px 16px;
+    background-color: #007bff;
+    color: #fff;
     border: none;
-    background-color: #AAC7CE;
-    resize: none;
-    width: 52%;
-    height: 100px;
-    border-radius: 8px;
-    margin-top: 2%;
+    border-radius: 4px;
+    cursor: pointer;
   }
-  #laminaBotonesRight{
-    justify-content: right;
+  
+  .detalle-button:hover {
+    background-color: #0056b3;
   }
-  .imgA{
-    width: 38px;
-    height: 38px;
-  }
-  .buttonImg{
-    border: none;
-    margin-top: 1%;
-    background-color: #15292E;
-    border-radius: 8px;
-    margin-right: 10px;
-  }
-  .buttonImg:hover{
-    border: none;
-    background-color: #035058;
-    border-radius: 8px;
-  }
-  .uploaded-image{
-    width: 20%;
-  }
+
 `

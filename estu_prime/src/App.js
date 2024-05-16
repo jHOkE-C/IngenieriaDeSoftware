@@ -2,22 +2,46 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import NavB from './components/navbar';
 import Footer from './components/footer';
-import HeaderMain from './components/header/header'
-import HeaderDoc from './components/header/headerDocente'
+import Header from './components/header/header';
+import HeaderEst from './components/header/headerEstudiante';
+import HeaderDoc from './components/header/headerDocente';
+
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [role, setRole] = useState('');
 
   useEffect(() => {
-    // Verificar si hay información de autenticación en el almacenamiento local al cargar la aplicación
     const userLoggedIn = localStorage.getItem('isLoggedIn');
     if (userLoggedIn) {
       setIsLoggedIn(true);
     }
+
+    const userRole = localStorage.getItem('userRole');
+    if (userRole) {
+      setRole(userRole);
+    }
   }, []);
+
+  const handleLogout = () => {
+    setIsLoggedIn(false);
+    localStorage.removeItem('isLoggedIn');
+    localStorage.removeItem('userRole');
+  };
+
+  let headerComponent = () => {
+    if (isLoggedIn) {
+      if (role === 'estudiante') {
+        return <HeaderEst onLogout={handleLogout} />;
+      } else if (role === 'docente') {
+        return <HeaderDoc onLogout={handleLogout} />;
+      }
+    }
+    return <Header onLogout={handleLogout} />;
+  };
+
   return (
     <MainFrame className='main'>
-      {isLoggedIn ? <HeaderDoc /> : <HeaderMain />}
-      {/* Resto de tu aplicación */}
+      {headerComponent()}
       <NavB/>
       <Footer/>
     </MainFrame>
@@ -27,8 +51,8 @@ function App() {
 export default App;
 
 const MainFrame = styled.nav`
-  .main{
+  .main {
     min-height: 768px;
-    background-color: black
+    background-color: black;
   }
-`
+`;

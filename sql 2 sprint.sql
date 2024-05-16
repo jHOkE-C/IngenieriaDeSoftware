@@ -11,7 +11,6 @@ SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,N
 -- Schema estuprime
 -- -----------------------------------------------------
 
-
 -- -----------------------------------------------------
 -- Schema estuprime
 -- -----------------------------------------------------
@@ -29,7 +28,7 @@ CREATE TABLE IF NOT EXISTS `estuprime`.`docente` (
   `password` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 14
+AUTO_INCREMENT = 30
 DEFAULT CHARACTER SET = utf8;
 
 
@@ -44,7 +43,7 @@ CREATE TABLE IF NOT EXISTS `estuprime`.`estudiante` (
   `password` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 6
+AUTO_INCREMENT = 23
 DEFAULT CHARACTER SET = utf8;
 
 
@@ -52,23 +51,14 @@ DEFAULT CHARACTER SET = utf8;
 -- Table `estuprime`.`curso`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `estuprime`.`curso` (
-  `idcurso` INT NOT NULL AUTO_INCREMENT,
-  `nombre` VARCHAR(255) NOT NULL,
-  `descripcion` VARCHAR(255) NOT NULL,
-  `elemento1` BLOB NULL,
-  `elemento2` BLOB NULL,
-  `elemento3` BLOB NULL,
-  `elemento4` BLOB NULL,
-  `elemento5` BLOB NULL,
-  `elemento6` BLOB NULL,
-  `elemento7` BLOB NULL,
-  `elemento8` BLOB NULL,
-  `elemento9` BLOB NULL,
-  `elemento10` BLOB NULL,
-  `elemento11` BLOB NULL,
-  `creacion` DATE NULL,
+  `idCurso` INT NOT NULL AUTO_INCREMENT,
+  `titulo` VARCHAR(45) NOT NULL,
+  `descripcion` VARCHAR(45) NOT NULL,
+  `precio` int not null,
+  `ruta` varchar(45) not null,
   `docente_id` INT(11) NOT NULL,
-  PRIMARY KEY (`idcurso`),
+  
+  PRIMARY KEY (`idCurso`, `docente_id`),
   INDEX `fk_curso_docente_idx` (`docente_id` ASC) ,
   CONSTRAINT `fk_curso_docente`
     FOREIGN KEY (`docente_id`)
@@ -78,6 +68,25 @@ CREATE TABLE IF NOT EXISTS `estuprime`.`curso` (
 ENGINE = InnoDB;
 
 
+-- -----------------------------------------------------
+-- Table `estuprime`.`archivo`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `estuprime`.`archivo` (
+  `idArchivo` INT NOT NULL,
+  `ruta` VARCHAR(255) NOT NULL,
+  `curso_idCurso` INT NOT NULL,
+  `curso_docente_id` INT(11) NOT NULL,
+  PRIMARY KEY (`idArchivo`),
+  INDEX `fk_archivo_curso1_idx` (`curso_idCurso` ASC, `curso_docente_id` ASC) ,
+  CONSTRAINT `fk_archivo_curso1`
+    FOREIGN KEY (`curso_idCurso` , `curso_docente_id`)
+    REFERENCES `estuprime`.`curso` (`idCurso` , `docente_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
+

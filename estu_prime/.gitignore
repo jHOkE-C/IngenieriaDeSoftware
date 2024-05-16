@@ -4,6 +4,8 @@
 /node_modules
 /.pnp
 .pnp.js
+/backXFront
+/.vscode
 
 # testing
 /coverage

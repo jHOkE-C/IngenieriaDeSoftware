@@ -33,27 +33,26 @@ function Header( { onLogout } ) {
     }
 
   return (
-    <HeaderContainerDoc>
+    <HeaderContainerEst>
         <header id='navC'>
             <Logo/>
             <div>
-                <Link to={'/LoginDocente'}>Inicio</Link>
-                <Link href="">Explorar</Link>
-                <Link to={'/LoginDocente/CrearCurso'}>Crear Curso</Link>
-                <Link to={'/LoginDocente/TusCursos'}>Tus cursos</Link>
+                <Link to={'/LoginEstudiante'}>Inicio</Link>
+                <Link to={'/LoginEstudiante/Explorar'}>Explorar</Link>
+                <Link to={'/LoginEstudiante/ListCursos'}>Cursos Disponibles</Link>
             </div>
             <div>
                 <Link className='buttonE' >Perfil</Link>
                 <Link className='buttonE' onClick={cerrarSesion}>Cerrar Sesion</Link>
             </div>
         </header>
-    </HeaderContainerDoc>
+    </HeaderContainerEst>
   )
 }
 
 export default Header
 
-const HeaderContainerDoc = styled.nav`
+const HeaderContainerEst = styled.nav`
 
     #navC{
         display: flex;
