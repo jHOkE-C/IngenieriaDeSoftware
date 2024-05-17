@@ -1,6 +1,7 @@
-import React, {useState} from 'react'
+import React, {Fragment, useState} from 'react'
 import styled from 'styled-components'
 import SearchSVG from '../../assents/svg/search.svg'
+import Cursos from './tusCursos'
 function ExplorarD() {
   const [resultados, setResultados] = useState(null)
   const [buscado, setBuscado] = useState()
@@ -8,29 +9,33 @@ function ExplorarD() {
     
   }
   return (
-    <ExplorarContainer>
-      <form className='formS'>
-        <div className='boxS'>
-          <input 
-            type="text" 
-            className='boxS__search'
-            value={buscado}
-            onChange={buscarDatos}
-          ></input>  
-          <div className="resultados">
-            {resultados === null ? 
-            <h5>Búsqueda no encontrada...</h5> 
-            : 
-            resultados.map((resultado)=>{
-                        
-            })
-            }
+    <Fragment>
+      <ExplorarContainer>
+        <form className='formS'>
+          <div className='boxS'>
+            <input 
+              type="text" 
+              className='boxS__search'
+              value={buscado}
+              onChange={buscarDatos}
+            ></input>  
+            <div className="resultados">
+              {resultados === null ? 
+              <h5>Búsqueda no encontrada...</h5> 
+              : 
+              resultados.map((resultado)=>{
+                          
+              })
+              }
+            </div>
+            <img src={SearchSVG} alt="" className='boxS__img'/> 
           </div>
-          <img src={SearchSVG} alt="" className='boxS__img'/> 
-        </div>
+          
+        </form>
         
-      </form>
-    </ExplorarContainer>
+      </ExplorarContainer>
+      <Cursos></Cursos>
+    </Fragment>
   )
 }
 
@@ -39,7 +44,6 @@ export default ExplorarD
 const ExplorarContainer = styled.nav`
   display: flex;
   justify-content: space-around;
-  min-height: 90vh;
   .formS{
     position: relative;
     width: 35vw;
