@@ -198,7 +198,7 @@ function CrearCurso() {
     setDescripcion(e.target.value);
  }
  const handlePrecio = (e) =>{
-    setPrecio(e.target.value);
+setPrecio(e.target.value);
  }
   return (
     <CrearCursoContainer>
