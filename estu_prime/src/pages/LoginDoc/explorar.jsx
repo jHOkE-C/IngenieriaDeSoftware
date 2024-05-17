@@ -18,7 +18,9 @@ function ExplorarD() {
           {resultados === null ? 
           <h5>Búsqueda no encontrada...</h5> 
           : 
-          null
+          resultados.map((resultado)=>{
+            
+          })
           }
         </div>
       </form>
@@ -55,6 +57,7 @@ const ExplorarContainer = styled.nav`
       border-radius: 3px;
       visibility: hidden;
       padding: 1%;
+      max-height: 220%;
   }
   .boxS__search:focus-visible + .resultados{
     visibility: visible;
