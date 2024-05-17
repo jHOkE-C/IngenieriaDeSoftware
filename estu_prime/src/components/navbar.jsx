@@ -12,6 +12,7 @@ import Explorar from '../pages/LoginEst/Explorar.jsx'
 import HomeEstudiante from '../pages/LoginEst/inicioEst.jsx'
 import DetalleCurso from '../pages/LoginEst/DetalleCurso.jsx'
 import EditCurso from '../pages/LoginDoc/editCurso.jsx'
+import ExplorarD from '../pages/LoginDoc/explorar.jsx'
 function Navbar() {
   return ( 
       <Routes>
@@ -25,8 +26,8 @@ function Navbar() {
         <Route path="/LoginEstudiante/ListCursos" element={<ListadoCursos/>}/> 
          
         <Route path="/LoginDocente/TusCursos/editCurso/:postId" element={<EditCurso/>}/>  
-        
         <Route path="/LoginEstudiante/Explorar" element={<Explorar/>}/>
+        <Route path="/LoginDocente/Explorar" element={<ExplorarD/>}/>
         <Route path="/LoginEstudiante/ListCursos/DetalleCurso" element={<DetalleCurso/>}/>
         <Route path="/LoginEstudiante/ListCursos/DetalleCurso/:idCurso" element={<DetalleCurso />} />
       </Routes>
