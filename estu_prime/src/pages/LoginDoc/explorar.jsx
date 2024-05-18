@@ -9,7 +9,8 @@ function ExplorarD() {
   const [buscado, setBuscado] = useState()
   const buscarDatos = async (e) =>{
     setBuscado(e.target.value);
-    const response = await fetch('', {
+    console.log(buscado);
+    const response = await fetch('http://localhost:80/IngenieriaDeSoftware/estu_prime/src/api/cursoBuscar.php', {
         method: 'POST',
         credentials: 'include',
         headers: {
@@ -23,7 +24,7 @@ function ExplorarD() {
     console.log(dataResponse.mensaje);
     setResultados(null)
     let res = dataResponse.map(data => {
-        <Link to={`/detalleCurso/${data.id}`}>{data.titulo}</Link>
+        <Link to={`/detalleCurso/${data.idCurso}`}>{data.titulo}</Link>
     })
     setResultados(res);
   }

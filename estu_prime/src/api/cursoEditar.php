@@ -60,16 +60,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
     // Guardar la imagen en un archivo (opcional)
     // Obtener la imagen en base64 del JSON
-   # $imagenBase64 = $data['img'];
-    #$idUnic = uniqid()."."."jpeg";
-    #$idFront = $rutaImagen.$idUnic;
-    //$idBase = "http://localhost:80/IngenieriaDeSoftware/estu_prime/archivo/". $idUnic;
+    $imagenBase64 = $data['img'];
+ 
+    $idUnic = uniqid()."."."jpeg";
+    $idFront = $rutaImagen.$idUnic;
+    $idBase = "http://localhost:80/IngenieriaDeSoftware/estu_prime/archivo/". $idUnic;
     // Decodificar la imagen base64
-    //$imagenDecodificada = base64_decode($imagenBase64);
-    #$imagenDecodificada = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $imagenBase64));
-      #file_put_contents($idFront, $imagenDecodificada);
+    $imagenDecodificada = base64_decode($imagenBase64);
+    $imagenDecodificada = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $imagenBase64));
+    file_put_contents($idFront, $imagenDecodificada);
 
-      $query_update = "UPDATE `estuprime`.`curso` SET `titulo` = '$titulo', `descripcion` = '$descripcion', `precio` = '$precio' WHERE (`idCurso` = '$cursoId')";
+      $query_update = "UPDATE `estuprime`.`curso` SET `titulo` = '$titulo', `descripcion` = '$descripcion', `precio` = '$precio', `ruta` = '$idBase' WHERE (`idCurso` = '$cursoId')";
       $conn->query($query_update);
             // Registro exitoso
             $response = array("mensaje" => "a");
