@@ -36,18 +36,34 @@ function CrearCurso() {
   const [precio, setPrecio] = useState(null);
   const [inputTexts, setInputTexts] = useState();
   const [inputVideos, setInputVideos] = useState();
-    const { register, handleSubmit, formState: { errors } } = useForm({
-        resolver: yupResolver(schema),
-    });
+  const { register, handleSubmit, formState: { errors }, setValue } = useForm({
+    resolver: yupResolver(schema),
+    defaultValues: {
+       titulo: '',
+       docente: '',
+       precio: '',
+       img: null,
+       descripcion: '',
+    }
+ });
+ 
+ useEffect(() => {
+    // Una vez que recibes los datos del fetch, usa setValue para actualizar los valores
+    setValue('titulo', titulo);
+    setValue('docente', name);
+    setValue('precio', precio);
+    setValue('descripcion', descripcion);
+    setValue('img', image);
+ }, [titulo, name, precio, descripcion, image, setValue]);
+ 
 
     const navigate = useNavigate();
 
 
     useEffect(() => {
-            let cadena = window.location.pathname;
-            let cadena2 = cadena.split('/');
-            console.log(cadena2);
-            let id = cadena2[cadena2.length-1];
+      let cadena = window.location.pathname;
+      let cadena2 = cadena.split('/');
+      let id = cadena2[cadena2.length-1];
         fetch(`http://localhost:80/IngenieriaDeSoftware/estu_prime/src/api/cursoEditar.php?id=${encodeURIComponent(id)}`, {
         method: 'GET',
         credentials: 'include'
@@ -62,9 +78,7 @@ function CrearCurso() {
           setImage(data2.ruta);
           setDescripcion(data2.descripcion);
           setPrecio(data2.precio);
-
-        })
-        .catch((error) => {
+        }).catch((error) => {
             console.error('Error fetching data:', error);
         });
     }, []);
@@ -84,10 +98,9 @@ function CrearCurso() {
           'Content-Type': 'application/json',
         },
           body: JSON.stringify({
-            title: data.titulo,
-            descripcion: data.descripcion,
-            docente: data.docente,
-            precio: data.precio,
+            title: titulo,
+            descripcion: descripcion,
+            precio: precio,
             img: image,
             textos : inputTexts,
             videos : inputVideos,
@@ -139,6 +152,7 @@ function CrearCurso() {
     reader.onloadend = () => {
       const imageUrl = reader.result; // Obtener la URL de la imagen cargada
       setImage(imageUrl); // Establecer la imagen en el estado
+      setValue('img', image);
     };
   };
 
@@ -193,17 +207,21 @@ function CrearCurso() {
 
  
  function cancelarTodo (){
-  window.location.reload();
+    window.location.reload();
  }
- const handleName = (e) =>{
+  const handleName = (e) => {
     setTitulo(e.target.value);
- }
- const handleDescripcion = (e) =>{
+    setValue('titulo', e.target.value);
+  };
+  const handleDescripcion = (e) => {
     setDescripcion(e.target.value);
- }
- const handlePrecio = (e) =>{
-setPrecio(e.target.value);
- }
+    setValue('descripcion', e.target.value);
+  };
+  const handlePrecio = (e) => {
+    setPrecio(e.target.value);
+    setValue('precio', e.target.value);
+  };
+
   return (
     <CrearCursoContainer>
       <div id='divInline' >
