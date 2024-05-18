@@ -57,17 +57,12 @@ function CrearCurso() {
             }
             return res.json();
         }).then((data2) => {
+          setName(data2.nombre_docente);
+          setTitulo(data2.titulo)
+          setImage(data2.ruta);
+          setDescripcion(data2.descripcion);
+          setPrecio(data2.precio);
 
-            let tam = data2.length
-            for (let i = 0; i < tam; i++) {
-                if(data2[i].idCurso === id){
-                    setName(data2[i].nombre_docente);
-                    setTitulo(data2[i].titulo)
-                    setImage(data2[i].ruta);
-                    setDescripcion(data2[i].descripcion);
-                    setPrecio(data2[i].precio);
-                }
-            }
         })
         .catch((error) => {
             console.error('Error fetching data:', error);
