@@ -1,50 +1,34 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import trash from '../../assents/basurero.png';
-import { useForm } from 'react-hook-form';
-import * as yup from "yup";
-import { yupResolver } from "@hookform/resolvers/yup";
-const schema = yup
-    .object({
-      position: yup.string(),
-      video: yup.mixed()
-    })
-    .required();
 
-function InputA({ eliminarComponente, i, onSubmit,  idCurso }) {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm({resolver: yupResolver(schema),})
+function InputA({ key, eliminarComponente, onChangeVideo, index}) {
 
-  const index = i;
-  
+  const [video, setVideo] = useState();
 
-
+  const onChange = (e) => {
+    setVideo(e.event.value)
+    onChangeVideo(video, index)
+  }
   const handleClickEliminar = () => {
-    eliminarComponente(index);
+    eliminarComponente(key);
   };
 
-  const handleFormSubmit = (data) => {
-    // Trigger the onSubmit function passed from the parent component
-    onSubmit(data);
-  };
 
   return (
     <InputSubmitContainer>
-      <form id='inputsT' onSubmit={handleSubmit(handleFormSubmit)}>
+      <form id='inputsT' >
         <input
           type="file"
           id="fileInput"
+          value = {video}
           accept=".mp4, .mkv, .AVI, .H.264"
-          {...register('video')}
+          onChange={onChange}
         />
         <button className="buttonImg" onClick={handleClickEliminar}>
           <img src={trash} alt="" className="imgA" />
         </button>
       </form>
-      <p className='spanA'>{errors.video?.message}</p>
     </InputSubmitContainer>
   );
 }

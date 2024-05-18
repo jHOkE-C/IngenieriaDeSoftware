@@ -26,7 +26,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Obtener los datos del correo y la contraseña
         $correo = $data['correo'];
         $contrasena = $data['contrasena'];
-        $queryDocente = "SELECT id FROM docente where email = '$correo' AND password = '$contrasena'";
+        $queryDocente = "SELECT id,firstname,lastname FROM docente where email = '$correo' AND password = '$contrasena'";
         $queryEstudiante = "SELECT id FROM estudiante where email = '$correo' AND password = '$contrasena'";
         $resultDocente = $conn->query($queryDocente);
         $resultEstudiante = $conn->query($queryEstudiante);
@@ -34,6 +34,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if ($resultDocente && $resultDocente->num_rows > 0) {
             $row = $resultDocente->fetch_assoc();
             $_SESSION['id_docente'] = $row['id'];
+            $_SESSION['nombre_docente'] = $row['firstname']." ".$row['lastname'];
             $response = array("mensaje" => "Inicio de sesión exitoso como docente", "tipo" => "docente");
         } 
         elseif ($resultEstudiante && $resultEstudiante->num_rows > 0) {

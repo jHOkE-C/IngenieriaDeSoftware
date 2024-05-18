@@ -22,6 +22,16 @@ if ($conn->connect_error) {
     // Decodificar los datos JSON a un array asociativo de PHP
     $data = json_decode($json_data, true);
 
+    //Enviar id
+    if ($_SERVER["REQUEST_METHOD"] == "GET") {
+      $query = "SELECT MAX(idCurso) AS max_id FROM curso";
+      $resultado = $conn->query($query);
+      $row = $resultado->fetch_assoc();
+      $max_id = $row['max_id'] + 1;
+      $response = array("idCurso" => $max_id);
+      header('Content-Type: application/json');
+      echo json_encode($response);
+    }
 // Verificar si se recibieron los datos del formulario
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $titulo = $data['title'];
@@ -41,13 +51,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 // Guardar la imagen en un archivo (opcional)
 // Obtener la imagen en base64 del JSON
 $imagenBase64 = $data['img'];
-$idUnic = $rutaImagen.uniqid()."."."jpeg";
+$idUnic = uniqid()."."."jpeg";
+$idFront = $rutaImagen.$idUnic;
+$idBase = "http://localhost:80/IngenieriaDeSoftware/estu_prime/archivo/". $idUnic;
 // Decodificar la imagen base64
 //$imagenDecodificada = base64_decode($imagenBase64);
 $imagenDecodificada = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $imagenBase64));
-  file_put_contents($idUnic, $imagenDecodificada);
+  file_put_contents($idFront, $imagenDecodificada);
 
-    $query_insert = "INSERT INTO `curso` (`titulo`, `descripcion`, `precio`, `ruta`, `docente_id`) VALUES ('$titulo','$descripcion','$precio', '$idUnic','$id')";
+    $query_insert = "INSERT INTO `curso` (`titulo`, `descripcion`, `precio`, `ruta`, `docente_id`) VALUES ('$titulo','$descripcion','$precio', '$idBase','$id')";
        $conn->query($query_insert);
             // Registro exitoso
             $response = array("mensaje" => "a");
