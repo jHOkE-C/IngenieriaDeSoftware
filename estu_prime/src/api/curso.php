@@ -40,7 +40,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $precio = $data['precio'];
     //$imagen = $data['img'];
     // Procesar la imagen
-  $rutaImagen = 'http://localhost:80/IngenieriaDeSoftware/estu_prime/archivo/';
+  $rutaImagen = 'C:/xampp/htdocs/IngenieriaDeSoftware/estu_prime/archivo/';
 
 // Obtener la imagen en base64 del JSON
  // $imagenBase64 = $imagenData->imagen;
@@ -51,13 +51,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 // Guardar la imagen en un archivo (opcional)
 // Obtener la imagen en base64 del JSON
 $imagenBase64 = $data['img'];
-$idUnic = $rutaImagen.uniqid()."."."jpeg";
+$idUnic = uniqid()."."."jpeg";
+$idFront = $rutaImagen.$idUnic;
+$idBase = "http://localhost:80/IngenieriaDeSoftware/estu_prime/archivo/". $idUnic;
 // Decodificar la imagen base64
 //$imagenDecodificada = base64_decode($imagenBase64);
 $imagenDecodificada = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $imagenBase64));
-  file_put_contents($idUnic, $imagenDecodificada);
+  file_put_contents($idFront, $imagenDecodificada);
 
-    $query_insert = "INSERT INTO `curso` (`titulo`, `descripcion`, `precio`, `ruta`, `docente_id`) VALUES ('$titulo','$descripcion','$precio', '$idUnic','$id')";
+    $query_insert = "INSERT INTO `curso` (`titulo`, `descripcion`, `precio`, `ruta`, `docente_id`) VALUES ('$titulo','$descripcion','$precio', '$idBase','$id')";
        $conn->query($query_insert);
             // Registro exitoso
             $response = array("mensaje" => "a");
