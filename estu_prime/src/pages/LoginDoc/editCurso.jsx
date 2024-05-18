@@ -44,10 +44,10 @@ function CrearCurso() {
 
 
     useEffect(() => {
-            let cadena = window.location.pathname
-            let cadena2 = cadena.split('/')
-            console.log(cadena2)
-            let id = cadena2[cadena2.length-1]
+            let cadena = window.location.pathname;
+            let cadena2 = cadena.split('/');
+            console.log(cadena2);
+            let id = cadena2[cadena2.length-1];
         fetch(`http://localhost:80/IngenieriaDeSoftware/estu_prime/src/api/cursoEditar.php?id=${encodeURIComponent(id)}`, {
         method: 'GET',
         credentials: 'include'
@@ -71,6 +71,11 @@ function CrearCurso() {
 
   const onSubmit = async (data) => { 
     console.log(data);
+    let cadena = window.location.pathname;
+    let cadena2 = cadena.split('/');
+    
+    let id = cadena2[cadena2.length-1];
+    console.log(id);
     if(!errors.titulo && !errors.precio){ 
         const response = await fetch('http://localhost:80/IngenieriaDeSoftware/estu_prime/src/api/cursoEditar.php', {
         method: 'POST',
@@ -85,7 +90,8 @@ function CrearCurso() {
             precio: data.precio,
             img: image,
             textos : inputTexts,
-            videos : inputVideos
+            videos : inputVideos,
+            cursoIden : id
           }),
         });
         const dataResponse = await response.json();
