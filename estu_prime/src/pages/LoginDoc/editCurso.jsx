@@ -54,11 +54,12 @@ function CrearCurso() {
             return res.json();
         }).then((data2) => {
             let cadena = window.location.pathname
-            let id = cadena[cadena.length-1]
+            let cadena2 = cadena.split('/')
+            console.log(cadena2)
+            let id = cadena2[cadena2.length-1]
             let tam = data2.length
             for (let i = 0; i < tam; i++) {
                 if(data2[i].idCurso === id){
-                    console.log(data2[i])
                     setName(data2[i].nombre_docente);
                     setTitulo(data2[i].titulo)
                     setImage(data2[i].ruta);
