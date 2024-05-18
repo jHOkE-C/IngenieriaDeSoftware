@@ -24,7 +24,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($data['buscado'])) {
             "mensaje" => "Buscado vacio"
         );
     }else{
-    $sql = "SELECT idCurso, titulo,ruta, precio FROM curso WHERE titulo LIKE '%$buscado%' AND docente_id = '$id'";
+    $sql = "SELECT c.idCurso, c.titulo, c.ruta, c.precio, CONCAT(d.firstname, ' ', d.lastname) as nombre_docente FROM curso c
+    INNER JOIN docente AS d ON c.docente_id = d.id
+    WHERE titulo LIKE '%$buscado%'";
     $result = $conn->query($sql);
     $cursos = array();
 if ($result->num_rows > 0) {
@@ -33,7 +35,8 @@ if ($result->num_rows > 0) {
       "idCurso" => $row["idCurso"],
       "titulo" => $row["titulo"],
       "ruta" => $row["ruta"],
-      "precio" => $row["precio"]
+      "precio" => $row["precio"],
+      "nombre_docente" => $row["nombre_docente"]
     );
     array_push($cursos, $curso);
   }
