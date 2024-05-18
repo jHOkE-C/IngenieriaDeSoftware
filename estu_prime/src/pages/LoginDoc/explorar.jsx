@@ -2,11 +2,30 @@ import React, {Fragment, useState} from 'react'
 import styled from 'styled-components'
 import SearchSVG from '../../assents/svg/search.svg'
 import Cursos from './tusCursos'
+import {Link} from "react-router-dom";
+
 function ExplorarD() {
   const [resultados, setResultados] = useState(null)
   const [buscado, setBuscado] = useState()
-  const buscarDatos = (e) =>{
-    
+  const buscarDatos = async (e) =>{
+    setBuscado(e.target.value);
+    const response = await fetch('', {
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+          body: JSON.stringify({
+            buscado: buscado
+          }),
+        });
+    const dataResponse = await response.json();
+    console.log(dataResponse.mensaje);
+    setResultados(null)
+    let res = dataResponse.map(data => {
+        <Link to={`/detalleCurso/${data.id}`}>{data.titulo}</Link>
+    })
+    setResultados(res);
   }
   return (
     <Fragment>
@@ -23,8 +42,8 @@ function ExplorarD() {
               {resultados === null ? 
               <h5>Búsqueda no encontrada...</h5> 
               : 
-              resultados.map((resultado)=>{
-                          
+              resultados.map((componentes)=>{
+                <div>{componentes}</div>
               })
               }
             </div>
@@ -80,5 +99,6 @@ const ExplorarContainer = styled.nav`
   }
   .boxS__search:focus-visible + .resultados{
     visibility: visible;
+    z-index: 100;
   } 
 `

@@ -26,6 +26,8 @@ function Navbar() {
         <Route path="/LoginEstudiante/ListCursos" element={<ListadoCursos/>}/> 
          
         <Route path="/LoginDocente/TusCursos/editCurso/:postId" element={<EditCurso/>}/>  
+        <Route path="/detalleCurso/:postId" element={<EditCurso/>}/>  
+        
         <Route path="/LoginEstudiante/Explorar" element={<Explorar/>}/>
         <Route path="/LoginDocente/Explorar" element={<ExplorarD/>}/>
         <Route path="/LoginEstudiante/ListCursos/DetalleCurso" element={<DetalleCurso/>}/>

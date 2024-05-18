@@ -29,16 +29,14 @@ export default CardsCursoDocente;
 
 
 const ContainerCard = styled.div`
-  display: inline;
-
+  display: flex;
+  margin-top: 1%;
+  margin-left: 3%;
+  margin-bottom:1%;
     .card{
       position: relative;
       padding: 1vh;
       text-align: center;
-      display: inline-block; 
-      margin-top: 3%;
-      margin-left: 2.5%;
-      margin-right: 2.5%;
       width: 15vw;
       height: 15vw;
       background-color: #F2E9E4;
