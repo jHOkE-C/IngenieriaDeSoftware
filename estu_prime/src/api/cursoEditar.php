@@ -14,6 +14,7 @@ $dbname = "estuprime";
 
 $conn = new mysqli($servername, $username, $password, $dbname);
 
+$idGet;
 if ($conn->connect_error) {
   die("Error de conexión: " . $conn->connect_error);
 }
@@ -45,29 +46,31 @@ if ($conn->connect_error) {
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $titulo = $data['title'];
     $descripcion = $data['descripcion'];
-    $docente = $data['docente'];
+    #$docente = $data['docente'];
     $precio = $data['precio'];
-    //$imagen = $data['img'];
+      $cursoId = $data['cursoIden'];
     // Procesar la imagen
-  $rutaImagen = 'C:/xampp/htdocs/IngenieriaDeSoftware/estu_prime/archivo/';
+    $rutaImagen = 'C:/xampp/htdocs/IngenieriaDeSoftware/estu_prime/archivo/';
 
-// Obtener la imagen en base64 del JSON
- // $imagenBase64 = $imagenData->imagen;
+    // Obtener la imagen en base64 del JSON
+     // $imagenBase64 = $imagenData->imagen;
+    
+    // Decodificar la imagen base64
+     
+    
+    // Guardar la imagen en un archivo (opcional)
+    // Obtener la imagen en base64 del JSON
+   # $imagenBase64 = $data['img'];
+    #$idUnic = uniqid()."."."jpeg";
+    #$idFront = $rutaImagen.$idUnic;
+    //$idBase = "http://localhost:80/IngenieriaDeSoftware/estu_prime/archivo/". $idUnic;
+    // Decodificar la imagen base64
+    //$imagenDecodificada = base64_decode($imagenBase64);
+    #$imagenDecodificada = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $imagenBase64));
+      #file_put_contents($idFront, $imagenDecodificada);
 
-// Decodificar la imagen base64
- 
-
-// Guardar la imagen en un archivo (opcional)
-// Obtener la imagen en base64 del JSON
-$imagenBase64 = $data['img'];
-$idUnic = $rutaImagen.uniqid()."."."jpeg";
-// Decodificar la imagen base64
-//$imagenDecodificada = base64_decode($imagenBase64);
-$imagenDecodificada = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $imagenBase64));
-  file_put_contents($idUnic, $imagenDecodificada);
-
-    $query_insert = "INSERT INTO `curso` (`titulo`, `descripcion`, `precio`, `ruta`, `docente_id`) VALUES ('$titulo','$descripcion','$precio', '$idUnic','$id')";
-       $conn->query($query_insert);
+      $query_update = "UPDATE `estuprime`.`curso` SET `titulo` = '$titulo', `descripcion` = '$descripcion', `precio` = '$precio' WHERE (`idCurso` = '$cursoId')";
+      $conn->query($query_update);
             // Registro exitoso
             $response = array("mensaje" => "a");
             header('Content-Type: application/json');
