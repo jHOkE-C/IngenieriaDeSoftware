@@ -68,6 +68,7 @@ function TusCursos() {
 export default TusCursos;
 
 const ListaCrearCursoContainer = styled.nav`
+  min-width: 700px;
   .cursos{
     display: flex;
     min-height: 75vh;

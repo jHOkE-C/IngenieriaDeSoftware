@@ -1,8 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import ImgEdit from '../../assents/img/edit.png'
-import { Navigate, useNavigate, Link,Route } from "react-router-dom";
-import EditCurso from '../../pages/LoginDoc/editCurso'
+import {useNavigate, Link} from "react-router-dom";
 
 function CardsCursoDocente({ title, id, nombre_docente, precio,img }) {
     const navigate = useNavigate();

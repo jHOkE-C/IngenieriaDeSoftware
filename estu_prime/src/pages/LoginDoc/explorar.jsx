@@ -1,15 +1,16 @@
-import React, {Fragment, useState} from 'react'
+import React, {Fragment, useEffect, useState} from 'react'
 import styled from 'styled-components'
 import SearchSVG from '../../assents/svg/search.svg'
 import Cursos from './tusCursos'
 import {Link} from "react-router-dom";
-
+import Cursos2 from ''
 function ExplorarD() {
-  const [resultados, setResultados] = useState(null)
-  const [buscado, setBuscado] = useState()
+  const [resultados, setResultados] = useState([]);
+  const [buscado, setBuscado] = useState();
+  const [cursos, setCursos] = useState();
   const buscarDatos = async (e) =>{
     setBuscado(e.target.value);
-    console.log(buscado);
+    console.log(buscado)
     const response = await fetch('http://localhost:80/IngenieriaDeSoftware/estu_prime/src/api/cursoBuscar.php', {
         method: 'POST',
         credentials: 'include',
@@ -17,44 +18,64 @@ function ExplorarD() {
           'Content-Type': 'application/json',
         },
           body: JSON.stringify({
-            buscado: buscado
+            buscado: e.target.value
           }),
         });
-    const dataResponse = await response.json();
-    console.log(dataResponse.mensaje);
-    setResultados(null)
-    let res = dataResponse.map(data => {
-        <Link to={`/detalleCurso/${data.idCurso}`}>{data.titulo}</Link>
-    })
-    setResultados(res);
+
+        // Asumiendo que 'response' es la respuesta de una solicitud fetch
+    response.json().then(result => {
+      setResultados([]);
+      console.log(result)
+      const res = result.map(data => (
+        <Link 
+          key={data.idCurso} 
+          to={`/detalleCurso/${data.idCurso}`}
+        >
+          {data.titulo}
+        </Link>
+      ));
+      setResultados(res);
+      console.log(resultados)
+    }).catch(error => {
+      console.error('problema con el pedido', error);
+    });
+
+  }
+  useEffect(()=>{
+    setCursos(
+      <Cursos></Cursos>
+    )
+  },[])
+  const changeCursos = () =>{
+    setCursos(
+
+    )
   }
   return (
     <Fragment>
       <ExplorarContainer>
-        <form className='formS'>
-          <div className='boxS'>
+        <form className='boxS'>
             <input 
               type="text" 
               className='boxS__search'
               value={buscado}
               onChange={buscarDatos}
-            ></input>  
+            ></input> 
+            
             <div className="resultados">
-              {resultados === null ? 
-              <h5>Búsqueda no encontrada...</h5> 
+              {resultados.length === 0 ? 
+                (<h5>Búsqueda no encontrada...</h5>)
               : 
-              resultados.map((componentes)=>{
-                <div>{componentes}</div>
-              })
+                (resultados.map(componente =>
+                  <div key={componente.key}>{componente}</div>
+                ))
               }
             </div>
             <img src={SearchSVG} alt="" className='boxS__img'/> 
-          </div>
-          
+            <button type='Button' className='boxS__bButton' onClick={changeCursos}>Buscar</button>
         </form>
-        
       </ExplorarContainer>
-      <Cursos></Cursos>
+      {cursos}
     </Fragment>
   )
 }
@@ -64,15 +85,31 @@ export default ExplorarD
 const ExplorarContainer = styled.nav`
   display: flex;
   justify-content: space-around;
-  .formS{
+  min-width: 700px;
+  .boxS{
     position: relative;
-    width: 35vw;
+    width: calc(35vw + .9em);
     height: 3vw;
   }
-  .boxS{
-    display: block;
+  .boxS__bButton{
+    top: 0;
+    margin-top: 0.3vw;
+    left: 105%;
+    position: absolute;
+    height: 100%;
+    color: white;
+    border: none;
+    background-color: #15292E;
+    border-radius: 4px;
+    border: #15292E solid 1px;
+  }
+  .boxS__bButton:hover{
+    background-color: #F2E9E4;
+    color: #15292E;
   }
   .boxS__search{
+    display: flex;
+    
     margin-top: 0.3vw;
     background-color: #F2E9E4;
     border: none;
@@ -84,22 +121,30 @@ const ExplorarContainer = styled.nav`
   }
   .boxS__img{
     position: absolute;
-    height: 20px;
-    top: 0.5vw;
-    left: 97%;
+    opacity: 1;
+    height: calc(0.5vw + .9em);
+    top: 30%; 
+    left: 47%
   }
   .resultados{
-      width: 100%;
-      position: absolute;
-      background-color: #F2E9E4;
-      border: 1px solid black;
-      border-radius: 3px;
-      visibility: hidden;
-      padding: 1%;
-      max-height: 220%;
+    width: 100%;
+    position: absolute;
+    background-color: #F2E9E4;
+    border: 1px solid black;
+    border-radius: 3px;
+    visibility: hidden;
+    padding: 1%;
+    max-height: 10vw;
+    overflow-y: auto;
   }
-  .boxS__search:focus-visible + .resultados{
+  
+  .boxS__search:focus + .resultados{
     visibility: visible;
     z-index: 100;
-  } 
+  }
+
+  .resultados:hover{
+    visibility: visible;
+    z-index: 100;
+  }
 `

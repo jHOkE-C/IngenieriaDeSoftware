@@ -1,6 +1,5 @@
 import React from 'react';
-import './compraCursos.css';
-
+import styled from 'styled-components'
 const CompraCursos = () => {
   return (
     <div className="fondo container">
