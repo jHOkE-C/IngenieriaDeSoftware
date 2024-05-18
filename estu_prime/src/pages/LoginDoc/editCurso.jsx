@@ -12,7 +12,7 @@ import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from 'react-hook-form';
 import { Navigate, useNavigate } from 'react-router-dom/dist';
-
+import { useParams } from 'react-router-dom/dist';
 
 const validFileExtensionsImage = { image: ['jpg', 'png', 'jpeg', 'svg', 'webp'] };
 function isValidFileType(fileName, fileType) {
@@ -28,36 +28,83 @@ const schema = yup.object({
     }).required()  
 function CrearCurso() {
   const [componentes, setComponentes] = useState([]);
-  const [image, setImage] = useState(null);
-  const [name, setName] = useState(null);
 
+  const [titulo, setTitulo] = useState(null);
+  const [name, setName] = useState(null);
+  const [image, setImage] = useState(null);
+  const [descripcion, setDescripcion] = useState(null);
+  const [precio, setPrecio] = useState(null);
   const [inputTexts, setInputTexts] = useState();
   const [inputVideos, setInputVideos] = useState();
-
-    const { register, handleSubmit, formState: { errors } } = useForm({
-      resolver: yupResolver(schema),
-    });
+  const { register, handleSubmit, formState: { errors }, setValue } = useForm({
+    resolver: yupResolver(schema),
+    defaultValues: {
+       titulo: '',
+       docente: '',
+       precio: '',
+       img: null,
+       descripcion: '',
+    }
+ });
+ 
+ useEffect(() => {
+    // Una vez que recibes los datos del fetch, usa setValue para actualizar los valores
+    setValue('titulo', titulo);
+    setValue('docente', name);
+    setValue('precio', precio);
+    setValue('descripcion', descripcion);
+    setValue('img', image);
+ }, [titulo, name, precio, descripcion, image, setValue]);
+ 
 
     const navigate = useNavigate();
 
 
+    useEffect(() => {
+      let cadena = window.location.pathname;
+      let cadena2 = cadena.split('/');
+      let id = cadena2[cadena2.length-1];
+        fetch(`http://localhost:80/IngenieriaDeSoftware/estu_prime/src/api/cursoEditar.php?id=${encodeURIComponent(id)}`, {
+        method: 'GET',
+        credentials: 'include'
+        }).then((res) => {
+            if (!res.ok) {
+            throw new Error('Error fetching data');
+            }
+            return res.json();
+        }).then((data2) => {
+          setName(data2.nombre_docente);
+          setTitulo(data2.titulo)
+          setImage(data2.ruta);
+          setDescripcion(data2.descripcion);
+          setPrecio(data2.precio);
+        }).catch((error) => {
+            console.error('Error fetching data:', error);
+        });
+    }, []);
 
   const onSubmit = async (data) => { 
+    console.log(data);
+    let cadena = window.location.pathname;
+    let cadena2 = cadena.split('/');
+    
+    let id = cadena2[cadena2.length-1];
+    console.log(id);
     if(!errors.titulo && !errors.precio){ 
-        const response = await fetch('http://localhost:80/IngenieriaDeSoftware/estu_prime/src/api/curso.php', {
+        const response = await fetch('http://localhost:80/IngenieriaDeSoftware/estu_prime/src/api/cursoEditar.php', {
         method: 'POST',
         credentials: 'include',
         headers: {
           'Content-Type': 'application/json',
         },
           body: JSON.stringify({
-            title: data.titulo,
-            descripcion: data.descripcion,
-            docente: data.docente,
-            precio: data.precio,
+            title: titulo,
+            descripcion: descripcion,
+            precio: precio,
             img: image,
             textos : inputTexts,
-            videos : inputVideos
+            videos : inputVideos,
+            cursoIden : id
           }),
         });
         const dataResponse = await response.json();
@@ -68,12 +115,12 @@ function CrearCurso() {
             text: 'Curso Creado Exitosamente',
             background:'#F2E9E4',
             confirmButtonColor:'#15292E',
-          }).then(respuesta => {
+          })/*.then(respuesta => {
             if (respuesta) {
               navigate('/LoginDocente', { replace: true }) 
               window.location.reload();
             }
-          });
+          }); */
         }else{
           Swal.fire({
             icon: 'error',
@@ -105,31 +152,9 @@ function CrearCurso() {
     reader.onloadend = () => {
       const imageUrl = reader.result; // Obtener la URL de la imagen cargada
       setImage(imageUrl); // Establecer la imagen en el estado
+      setValue('img', image);
     };
   };
-
-  useEffect(() => {
-    const getNombre = async ()=>{
-      
-      try {
-        const response = await fetch('http://localhost:80/IngenieriaDeSoftware/estu_prime/src/api/obtenerNombre.php', {
-          method: 'GET',
-          credentials: 'include',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        });
-        const responseData = await response.json();
-                
-        setName(responseData.nombre_docente);
-        console.log(responseData.nombre_docente)
-      } catch (error) {
-          console.error('Error al obtener o analizar datos JSON:', error);
-      }
-      return "a";
-    } 
-    const a =getNombre();
-  }, []);
 
 
   const onChangeTexto = (texto, pos) =>{
@@ -182,8 +207,20 @@ function CrearCurso() {
 
  
  function cancelarTodo (){
-  window.location.reload();
+    window.location.reload();
  }
+  const handleName = (e) => {
+    setTitulo(e.target.value);
+    setValue('titulo', e.target.value);
+  };
+  const handleDescripcion = (e) => {
+    setDescripcion(e.target.value);
+    setValue('descripcion', e.target.value);
+  };
+  const handlePrecio = (e) => {
+    setPrecio(e.target.value);
+    setValue('precio', e.target.value);
+  };
 
   return (
     <CrearCursoContainer>
@@ -193,13 +230,16 @@ function CrearCurso() {
             <button type='submit'className='buttonImg'><img src={Save} alt= '' className='imgA' /></button>
             <button  type='button' onClick={cancelarTodo} className='buttonImg'><img src={Cancelar} alt=""className='imgA' /></button>
           </div>
-          <h2>Crear Curso</h2>
+          <h2>Actualizar Curso</h2>
           <div>
             <label className='especialL' >Titulo: </label>
             <input 
               type="text" 
               className='inputText'
-              {... register('titulo')}
+              value={titulo}           
+              {... register('titulo',{
+                onChange: (e)=>{handleName(e)}
+              })}
             />
             <label >Docente: </label>
             <input 
@@ -210,6 +250,7 @@ function CrearCurso() {
               {... register('docente')}
               />
             <input 
+            src={image}
             type="file" 
             accept=".jpg, .jpeg, .png"
             id='inputSubmit'
@@ -222,9 +263,12 @@ function CrearCurso() {
               <label >Descripcion: </label>
               <textarea 
                 type="text" 
+                value={descripcion}
                 maxLength={200} 
                 id='descripcionText' 
-                {... register('descripcion')}
+                {... register('descripcion',{
+                    onChange: (e)=>{handleDescripcion(e)}
+                  })}
               />
               {image && (
                   <img src={image} alt="Uploaded" className="uploaded-image" /> 
@@ -237,7 +281,10 @@ function CrearCurso() {
               type="text" 
               className='inputText'
               maxLength={5}
-              {... register('precio')}
+              value={precio}
+              {... register('precio',{
+                onChange: (e)=>{handlePrecio(e)}
+              })}
           />
           
         </form>
