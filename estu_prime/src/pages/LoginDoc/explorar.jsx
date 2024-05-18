@@ -3,7 +3,6 @@ import styled from 'styled-components'
 import SearchSVG from '../../assents/svg/search.svg'
 import Cursos from './tusCursos'
 import {Link} from "react-router-dom";
-import Cursos2 from ''
 function ExplorarD() {
   const [resultados, setResultados] = useState([]);
   const [buscado, setBuscado] = useState();
