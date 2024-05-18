@@ -44,7 +44,11 @@ function CrearCurso() {
 
 
     useEffect(() => {
-        fetch(`http://localhost:80/IngenieriaDeSoftware/estu_prime/src/api/mostrarCurso.php`, {
+            let cadena = window.location.pathname
+            let cadena2 = cadena.split('/')
+            console.log(cadena2)
+            let id = cadena2[cadena2.length-1]
+        fetch(`http://localhost:80/IngenieriaDeSoftware/estu_prime/src/api/cursoEditar.php?id=${encodeURIComponent(id)}`, {
         method: 'GET',
         credentials: 'include'
         }).then((res) => {
@@ -53,10 +57,7 @@ function CrearCurso() {
             }
             return res.json();
         }).then((data2) => {
-            let cadena = window.location.pathname
-            let cadena2 = cadena.split('/')
-            console.log(cadena2)
-            let id = cadena2[cadena2.length-1]
+
             let tam = data2.length
             for (let i = 0; i < tam; i++) {
                 if(data2[i].idCurso === id){
