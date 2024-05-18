@@ -3,13 +3,13 @@ import styled from 'styled-components'
 import SearchSVG from '../../assents/svg/search.svg'
 import Cursos from './tusCursos'
 import {Link} from "react-router-dom";
+import CursosBuscados from '../../components/courseCardList/cursosBuscados'
 function ExplorarD() {
   const [resultados, setResultados] = useState([]);
   const [buscado, setBuscado] = useState();
   const [cursos, setCursos] = useState();
   const buscarDatos = async (e) =>{
     setBuscado(e.target.value);
-    console.log(buscado)
     const response = await fetch('http://localhost:80/IngenieriaDeSoftware/estu_prime/src/api/cursoBuscar.php', {
         method: 'POST',
         credentials: 'include',
@@ -24,17 +24,8 @@ function ExplorarD() {
         // Asumiendo que 'response' es la respuesta de una solicitud fetch
     response.json().then(result => {
       setResultados([]);
-      console.log(result)
-      const res = result.map(data => (
-        <Link 
-          key={data.idCurso} 
-          to={`/detalleCurso/${data.idCurso}`}
-        >
-          {data.titulo}
-        </Link>
-      ));
-      setResultados(res);
-      console.log(resultados)
+  
+      setResultados(result);
     }).catch(error => {
       console.error('problema con el pedido', error);
     });
@@ -47,7 +38,7 @@ function ExplorarD() {
   },[])
   const changeCursos = () =>{
     setCursos(
-
+      <CursosBuscados resultados = {resultados}></CursosBuscados>
     )
   }
   return (
@@ -65,8 +56,15 @@ function ExplorarD() {
               {resultados.length === 0 ? 
                 (<h5>Búsqueda no encontrada...</h5>)
               : 
-                (resultados.map(componente =>
-                  <div key={componente.key}>{componente}</div>
+                (resultados.map(data =>
+                  <div key={data.idCurso}>
+                    <Link 
+                      key={data.idCurso} 
+                      to={`/detalleCurso/${data.idCurso}`}
+                    >
+                      {data.titulo}
+                    </Link>
+                  </div>
                 ))
               }
             </div>
