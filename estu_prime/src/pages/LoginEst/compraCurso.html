@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" type="text/css" href="compraCursos.css">
+</head>
+
+<body class="fondo">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+
+        <div>
+            <div>
+                <h2 class="tituloDir">Dirección de facturación</h2>
+                <div>
+                    <label for="pais" class="bloque">País</label>
+                    <select id="pais" name="pais" class="">
+                        <option>Bolivia</option>
+                        <option>(OPCIONES)</option>
+                    </select>
+                </div>
+            </div>
+
+
+            <div>
+                <h2 class="tituloMet">Método de pago</h2>
+                <div>
+                    <input id="tarjetacredito" name="tipoPago" type="radio">
+                    <label>
+                        Tarjeta de crédito/débito
+                    </label>
+                    <div class="ml-4 flex">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/a/ac/Old_Visa_Logo.svg" alt="tarjeta">
+                    </div>
+                </div>
+
+                <div>
+                    <h2 class="DetallePed">Detalles del pedido</h2>
+                    <div class="textoMen">
+                        <label class="datosCurso">(Nombre Curso)</label>
+                        <label class="precioCurso"> (PrecioCurso)</label>
+                    </div>
+                </div>
+            </div>
+
+
+            <div>
+                <div>
+                    <h2 class="Resumen">Resumen</h2>
+                    <div class="textoMen1">
+                        <div class="resumen">
+                            <span>Precios:</span>
+                            <span>(PrecioCurso)</span>
+                        </div>
+                        <div class="total">
+                            <span>Total:</span>
+                            <span>(Precio Total)</span>
+                        </div>
+                    </div>
+                </div>
+
+
+                <button
+                    class="completarPago">
+                    Completar pago
+                </button>
+                <p>Garantía de reembolso de 30 días</p>
+            </div>
+        </div>
+</body>
+</html>
+
