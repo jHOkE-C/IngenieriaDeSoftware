@@ -80,5 +80,6 @@ const ExplorarContainer = styled.nav`
   }
   .boxS__search:focus-visible + .resultados{
     visibility: visible;
+    z-index: 100;
   } 
 `

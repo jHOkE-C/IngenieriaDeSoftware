@@ -68,12 +68,12 @@ function CrearCurso() {
             text: 'Curso Creado Exitosamente',
             background:'#F2E9E4',
             confirmButtonColor:'#15292E',
-          })/*.then(respuesta => {
+          }).then(respuesta => {
             if (respuesta) {
               navigate('/LoginDocente', { replace: true }) 
               window.location.reload();
             }
-          }); */
+          });
         }else{
           Swal.fire({
             icon: 'error',
