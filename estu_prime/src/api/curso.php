@@ -40,7 +40,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $precio = $data['precio'];
     //$imagen = $data['img'];
     // Procesar la imagen
-  $rutaImagen = 'C:/xampp/htdocs/IngenieriaDeSoftware/estu_prime/archivo/';
+  $rutaImagen = 'http://localhost:80/IngenieriaDeSoftware/estu_prime/archivo/';
 
 // Obtener la imagen en base64 del JSON
  // $imagenBase64 = $imagenData->imagen;
