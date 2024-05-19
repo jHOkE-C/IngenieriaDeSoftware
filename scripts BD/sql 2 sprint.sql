@@ -55,7 +55,7 @@ CREATE TABLE IF NOT EXISTS `estuprime`.`curso` (
   `titulo` VARCHAR(45) NOT NULL,
   `descripcion` VARCHAR(45) NOT NULL,
   `precio` int not null,
-  `ruta` varchar(45) not null,
+  `ruta` varchar(100) not null,
   `docente_id` INT(11) NOT NULL,
   
   PRIMARY KEY (`idCurso`, `docente_id`),
