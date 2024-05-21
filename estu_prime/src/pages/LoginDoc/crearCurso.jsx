@@ -13,8 +13,8 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from 'react-hook-form';
 import { Navigate, useNavigate } from 'react-router-dom/dist';
 
-
 const validFileExtensionsImage = { image: ['jpg', 'png', 'jpeg', 'svg', 'webp'] };
+
 function isValidFileType(fileName, fileType) {
   return fileName && validFileExtensionsImage[fileType].indexOf(fileName.split('.').pop()) > -1;
 }
@@ -33,13 +33,11 @@ function CrearCurso() {
 
   const [inputTexts, setInputTexts] = useState();
   const [inputVideos, setInputVideos] = useState();
-
     const { register, handleSubmit, formState: { errors } } = useForm({
       resolver: yupResolver(schema),
     });
 
     const navigate = useNavigate();
-
 
 
   const onSubmit = async (data) => { 
@@ -87,11 +85,13 @@ function CrearCurso() {
   }
 
 
-  const eliminarComponente = (index) => {
-    console.log("Index:", index);
-    const updatedComponentes = componentes.filter((_, i) => i !== index);
-    setComponentes(updatedComponentes);
+  const eliminarComponente = (id) => {
+    console.log("ID:", id);
+    setComponentes(
+      (prevComponentes) => prevComponentes.filter((componente) => componente.id !== id)
+    );
   };
+  
   
 
 
@@ -153,34 +153,36 @@ function CrearCurso() {
     )
   }
   const agregarComponente = () => {
-    const newIndex = componentes.length;
+    const newId = componentes.length
     const newComponentes = [
       ...componentes,
-      <InputT
-        key={newIndex}
-        eliminarComponente={eliminarComponente}
-        onChangeTexto={onChangeTexto}
-        index = {newIndex}
-      />,
+      { id: newId, 
+        component: <InputT 
+          eliminarComponente={() => eliminarComponente(newId)} 
+          onChangeTexto={(text) => onChangeTexto(text, newId)} 
+        /> 
+      }
     ];
+
     setComponentes(newComponentes);
   };
   const agregarComponenteA = () => {
-    const newIndex = componentes.length;
+    const newId = componentes.length
     const newComponentes = [
       ...componentes,
-      <InputA
-        key={newIndex}
-        eliminarComponente={eliminarComponente}
-        onChangeVideo={onChangeVideo}
-        index = {newIndex}
-      />,
+      { id: newId, 
+        component: <InputA 
+            eliminarComponente={() => eliminarComponente(newId)} 
+            onChangeVideo={(video) => onChangeVideo(video, newId)}
+          /> 
+      }
     ];
     setComponentes(newComponentes);
   };
 
 
- 
+
+    
  function cancelarTodo (){
   window.location.reload();
  }
@@ -243,8 +245,8 @@ function CrearCurso() {
         </form>
         <div >
           <div id='componentesFlex'>
-              {componentes.map((componente, index) => (
-                <div key={index}>{componente}</div>
+              {componentes.map(({id,component}) => (
+                <div key={id}>{component}</div>
               ))}
               <button type='button' onClick={agregarComponenteA} className='buttonImg'><img src={Subir} alt=""className='imgA' /></button>
               <button type='button' onClick={agregarComponente} className='buttonImg'><img src={Text} alt="" className='imgA'/></button>

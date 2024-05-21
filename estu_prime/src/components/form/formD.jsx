@@ -95,10 +95,10 @@ function FormD() {
         <form  id='formD'  onSubmit={handleSubmit(onSubmit)}>
             
             <div id ="divLinks">
-                <Link className='buttonEs' to='/CrearCuentaDoc'>Registro Docente</Link>
-                <Link className='buttonE' to='/CrearCuentaEstu'>Registro Estudiante</Link>
+                <Link className='buttonE' to='/CrearCuentaDoc'>Registro Docente</Link>
+                <Link className='buttonEs' to='/CrearCuentaEstu'>Registro Estudiante</Link>
             </div>
-            <h1>Registrate como Docente</h1>
+            <h1>Registrate como Docenteeee</h1>
                 <input 
                     type="text" 
                     placeholder='Nombres' 
@@ -222,8 +222,8 @@ const FormContainer = styled.nav`
         width: 41%  ;
         color:#035058;
         padding: 2.5%;
+        
         border: none;
-        margin-right: 5%;
        /*  background-color: #035058; */
         border-radius: 5px;
         border: #035058 solid 1px;
@@ -236,20 +236,19 @@ const FormContainer = styled.nav`
         color: white;
         padding: 2.5%;
         border: none;
+        margin-right: 4%;
         background-color: #035058;
         border-radius: 5px;
         border: #035058 solid 1px;
         font-size: calc(1vw + .1em);
     }
-    .buttonE:hover{
-        background-color: #F2E9E4;
-        color: #15292E;
-        border: #035058 solid 1px;
-    }
-    .buttonE:active{
+    .buttonEs:hover{
         background-color: #035058;
         color: white;
-        border: #035058 solid 1px;
+    }
+    .buttonEs:active{
+        background-color: #035058;
+        color: white;
     }
     /* .contenedor{
         width: 100%;

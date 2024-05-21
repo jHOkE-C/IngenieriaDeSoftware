@@ -8,13 +8,15 @@ import { useState } from 'react';
 
 function InputText({eliminarComponente, onChangeTexto, index}) {
   const [texto,setTexto] = useState();
-  const handleClickEliminar = () => {
+  const handleClickEliminar = (e) => {
+    e.preventDefault(); 
     eliminarComponente(index);
   };
   const onChange = (e) =>{
     setTexto(e.target.value);
     onChangeTexto(texto, index);
   }
+  
   return (
     <InputTextContainer>
       <form id='inputsT'>
