@@ -15,6 +15,7 @@ function InputText({eliminarComponente, onChangeTexto, index}) {
     setTexto(e.target.value);
     onChangeTexto(texto, index);
   }
+  
   return (
     <InputTextContainer>
       <form id='inputsT'>

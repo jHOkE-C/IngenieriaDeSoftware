@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import trash from '../../assents/basurero.png';
 
-function InputA({ key, eliminarComponente, onChangeVideo, index}) {
+function InputA({eliminarComponente, onChangeVideo, index}) {
 
   const [video, setVideo] = useState();
 
@@ -11,10 +11,10 @@ function InputA({ key, eliminarComponente, onChangeVideo, index}) {
     onChangeVideo(video, index)
   }
   const handleClickEliminar = () => {
-    eliminarComponente(key);
+    eliminarComponente(index);
   };
 
-
+  
   return (
     <InputSubmitContainer>
       <form id='inputsT' >

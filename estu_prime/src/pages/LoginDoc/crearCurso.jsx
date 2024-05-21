@@ -33,7 +33,7 @@ function CrearCurso() {
 
   const [inputTexts, setInputTexts] = useState();
   const [inputVideos, setInputVideos] = useState();
-
+  let contador = 0;
     const { register, handleSubmit, formState: { errors } } = useForm({
       resolver: yupResolver(schema),
     });
@@ -157,7 +157,6 @@ function CrearCurso() {
     const newComponentes = [
       ...componentes,
       <InputT
-        key={newIndex}
         eliminarComponente={eliminarComponente}
         onChangeTexto={onChangeTexto}
         index = {newIndex}
@@ -170,7 +169,6 @@ function CrearCurso() {
     const newComponentes = [
       ...componentes,
       <InputA
-        key={newIndex}
         eliminarComponente={eliminarComponente}
         onChangeVideo={onChangeVideo}
         index = {newIndex}

@@ -24,7 +24,7 @@ function header() {
 export default header
 
 const HeaderContainer = styled.nav`
-
+    
     #navC{
         display: flex;
         align-items: center;
@@ -32,6 +32,7 @@ const HeaderContainer = styled.nav`
         block: inline;
         height: calc(10vh);
         width: calc(97.8vw);
+        min-width: 800px;
         padding: 15px;
         background-color: #035058;
     }
