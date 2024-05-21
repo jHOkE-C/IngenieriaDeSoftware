@@ -57,12 +57,14 @@ function ExplorarD() {
                 (<h5>Búsqueda no encontrada...</h5>)
               : 
                 (resultados.map(data =>
-                  <div key={data.idCurso}>
+                  <div key={data.idCurso} className='resultados__links'>
                     <Link 
                       key={data.idCurso} 
                       to={`/detalleCurso/${data.idCurso}`}
                     >
+                      <img src={data.ruta} alt="" className='links__img' />
                       {data.titulo}
+                      <span id='especial'>: {data.nombre_docente}</span>
                     </Link>
                   </div>
                 ))
@@ -83,6 +85,33 @@ const ExplorarContainer = styled.nav`
   display: flex;
   justify-content: space-around;
   min-width: 700px;
+  span{
+    font-weight: 400;
+    color: #8b8b8b;
+  }
+  a{
+    display: flex;
+    align-content: center;
+    margin-left: 0.5vw;
+    text-decoration: none;
+    color: #15292E;
+    font-weight: bold ;
+    font-size: calc(1vw+ .1em);
+  }
+  .resultados__links{
+    border-radius: 5px ;
+    padding-top: 2%;
+    padding-bottom: 2%; 
+  }
+  .resultados__links:hover{
+    background-color: #D6CDC8;
+  }
+  .links__img{
+    border-radius: 5px;
+    height: 40px;
+    width: 40px;
+    margin-right: 1vw;
+  }
   .boxS{
     position: relative;
     width: calc(35vw + .9em);
@@ -106,7 +135,6 @@ const ExplorarContainer = styled.nav`
   }
   .boxS__search{
     display: flex;
-    
     margin-top: 0.3vw;
     background-color: #F2E9E4;
     border: none;
@@ -115,6 +143,7 @@ const ExplorarContainer = styled.nav`
     width: 100%;
     height: 70%;
     padding: 1%;
+    padding-left: 0.9vw;
   }
   .boxS__img{
     position: absolute;
@@ -124,7 +153,7 @@ const ExplorarContainer = styled.nav`
     left: 47%
   }
   .resultados{
-    width: 100%;
+    width: 101.4%;
     position: absolute;
     background-color: #F2E9E4;
     border: 1px solid black;
@@ -133,6 +162,7 @@ const ExplorarContainer = styled.nav`
     padding: 1%;
     max-height: 10vw;
     overflow-y: auto;
+    
   }
   
   .boxS__search:focus + .resultados{
