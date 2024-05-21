@@ -26,17 +26,17 @@ if ($conn->connect_error) {
     //Enviar id
     if ($_SERVER["REQUEST_METHOD"] == "GET") {
         $idGet = $_GET['id'];
-        $sql = "SELECT c.titulo, c.descripcion, c.precio, c.ruta, CONCAT(d.firstname, ' ', d.lastname) AS nombre_docente 
+        $sql = "SELECT c.NOMBRECURSO, c.DESCRIPCIONCURSO, c.PRECIOCURSO, c.RUTACURSO, CONCAT(d.NOMBREDOCENTE, ' ', d.APELLIDODOCENTE) AS nombre_docente 
         FROM curso c 
-        INNER JOIN docente d ON c.docente_id = d.id 
-        WHERE c.docente_id = '$id' AND c.idCurso = '$idGet'";
+        INNER JOIN docente d ON c.docente_IDDOCENTE = d.IDDOCENTE 
+        WHERE c.docente_IDDOCENTE = '$id' AND c.IDCURSO = '$idGet'";
         $result = $conn->query($sql);
         $row = $result->fetch_assoc();
         $response = array(
-            'titulo' => $row['titulo'],
-            'precio' => $row['precio'],
-            'descripcion' => $row['descripcion'],
-            'ruta' => $row['ruta'],
+            'titulo' => $row['NOMBRECURSO'],
+            'precio' => $row['PRECIOCURSO'],
+            'descripcion' => $row['DESCRIPCIONCURSO'],
+            'ruta' => $row['RUTACURSO'],
             'nombre_docente' => $row['nombre_docente']
         );
         echo json_encode($response);
@@ -51,31 +51,34 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       $cursoId = $data['cursoIden'];
     // Procesar la imagen
     $rutaImagen = 'C:/xampp/htdocs/IngenieriaDeSoftware/estu_prime/archivo/';
-
-    // Obtener la imagen en base64 del JSON
-     // $imagenBase64 = $imagenData->imagen;
     
-    // Decodificar la imagen base64
-     
-    
-    // Guardar la imagen en un archivo (opcional)
-    // Obtener la imagen en base64 del JSON
-    $imagenBase64 = $data['img'];
+    if(isset($data['img'])){
+      $imagenBase64 = $data['img'];
  
-    $idUnic = uniqid()."."."jpeg";
-    $idFront = $rutaImagen.$idUnic;
-    $idBase = "http://localhost:80/IngenieriaDeSoftware/estu_prime/archivo/". $idUnic;
-    // Decodificar la imagen base64
-    $imagenDecodificada = base64_decode($imagenBase64);
-    $imagenDecodificada = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $imagenBase64));
-    file_put_contents($idFront, $imagenDecodificada);
+      $idUnic = uniqid()."."."jpeg";
+      $idFront = $rutaImagen.$idUnic;
+      $idBase = "http://localhost:80/IngenieriaDeSoftware/estu_prime/archivo/". $idUnic;
+      // Decodificar la imagen base64
+      $imagenDecodificada = base64_decode($imagenBase64);
+      $imagenDecodificada = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $imagenBase64));
+      file_put_contents($idFront, $imagenDecodificada);
+  
+        $query_update = "UPDATE `estuprime`.`curso` SET `NOMBRECURSO` = '$titulo', `DESCRIPCIONCURSO` = '$descripcion', `PRECIOCURSO` = '$precio', `RUTACURSO` = '$idBase', `FECHAACTUALIZACION` = NOW() WHERE (`IDCURSO` = '$cursoId')";
+        $conn->query($query_update);
+              // Registro exitoso
+              $response = array("mensaje" => "a");
+              header('Content-Type: application/json');
+              echo json_encode($response);
 
-      $query_update = "UPDATE `estuprime`.`curso` SET `titulo` = '$titulo', `descripcion` = '$descripcion', `precio` = '$precio', `ruta` = '$idBase' WHERE (`idCurso` = '$cursoId')";
-      $conn->query($query_update);
-            // Registro exitoso
-            $response = array("mensaje" => "a");
-            header('Content-Type: application/json');
-            echo json_encode($response);
+    }else {
+        $query_update = "UPDATE `estuprime`.`curso` SET `NOMBRECURSO` = '$titulo', `DESCRIPCIONCURSO` = '$descripcion', `PRECIOCURSO` = '$precio', `FECHAACTUALIZACION` = NOW() WHERE (`IDCURSO` = '$cursoId')";
+        $conn->query($query_update);
+              // Registro exitoso
+              $response = array("mensaje" => "a");
+              header('Content-Type: application/json');
+              echo json_encode($response);
+    }
+
         
 
 }

@@ -24,18 +24,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($data['buscado'])) {
             "mensaje" => "Buscado vacio"
         );
     }else{
-    $sql = "SELECT c.idCurso, c.titulo, c.ruta, c.precio, CONCAT(d.firstname, ' ', d.lastname) as nombre_docente FROM curso c
-    INNER JOIN docente AS d ON c.docente_id = d.id
+    $sql = "SELECT c.IDCURSO, c.NOMBRECURSO, c.RUTACURSO, c.PRECIOCURSO, CONCAT(d.NOMBREDOCENTE, ' ', d.APELLIDODOCENTE) as nombre_docente FROM curso c
+    INNER JOIN docente AS d ON c.docente_IDDOCENTE = d.IDDOCENTE
     WHERE titulo LIKE '%$buscado%'";
     $result = $conn->query($sql);
     $cursos = array();
 if ($result->num_rows > 0) {
   while($row = $result->fetch_assoc()) {
     $curso = array(
-      "idCurso" => $row["idCurso"],
-      "titulo" => $row["titulo"],
-      "ruta" => $row["ruta"],
-      "precio" => $row["precio"],
+      "idCurso" => $row["IDCURSO"],
+      "titulo" => $row["NOMBRECURSO"],
+      "ruta" => $row["RUTACURSO"],
+      "precio" => $row["PRECIOCURSO"],
       "nombre_docente" => $row["nombre_docente"]
     );
     array_push($cursos, $curso);

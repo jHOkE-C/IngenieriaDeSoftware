@@ -26,20 +26,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Obtener los datos del correo y la contraseña
         $correo = $data['correo'];
         $contrasena = $data['contrasena'];
-        $queryDocente = "SELECT id,firstname,lastname FROM docente where email = '$correo' AND password = '$contrasena'";
-        $queryEstudiante = "SELECT id FROM estudiante where email = '$correo' AND password = '$contrasena'";
+        $queryDocente = "SELECT IDDOCENTE, NOMBREDOCENTE, APELLIDODOCENTE FROM docente where EMAILDOCENTE = '$correo' AND CONTRASENADOCENTE = '$contrasena'";
+        $queryEstudiante = "SELECT IDESTUDIANTE FROM estudiante where EMAILESTUDIANTE = '$correo' AND CONTRASENAESTUDIANTE = '$contrasena'";
         $resultDocente = $conn->query($queryDocente);
         $resultEstudiante = $conn->query($queryEstudiante);
 
         if ($resultDocente && $resultDocente->num_rows > 0) {
             $row = $resultDocente->fetch_assoc();
-            $_SESSION['id_docente'] = $row['id'];
-            $_SESSION['nombre_docente'] = $row['firstname']." ".$row['lastname'];
+            $_SESSION['id_docente'] = $row['IDDOCENTE'];
+            $_SESSION['nombre_docente'] = $row['NOMBREDOCENTE']." ".$row['APELLIDODOCENTE'];
             $response = array("mensaje" => "Inicio de sesión exitoso como docente", "tipo" => "docente");
         } 
         elseif ($resultEstudiante && $resultEstudiante->num_rows > 0) {
             $rowE = $resultEstudiante->fetch_assoc();
-            $_SESSION['id_estudiante'] = $rowE['id'];
+            $_SESSION['id_estudiante'] = $rowE['IDESTUDIANTE'];
             $response = array("mensaje" => "Inicio de sesión exitoso como estudiante", "tipo" => "estudiante");
         } 
         else {
@@ -61,4 +61,4 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     header('Content-Type: application/json');
     echo json_encode($response);
 }
-?>
+

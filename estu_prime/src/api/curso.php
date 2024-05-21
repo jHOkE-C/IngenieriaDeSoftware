@@ -59,7 +59,7 @@ $idBase = "http://localhost:80/IngenieriaDeSoftware/estu_prime/archivo/". $idUni
 $imagenDecodificada = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $imagenBase64));
   file_put_contents($idFront, $imagenDecodificada);
 
-    $query_insert = "INSERT INTO `curso` (`titulo`, `descripcion`, `precio`, `ruta`, `docente_id`) VALUES ('$titulo','$descripcion','$precio', '$idBase','$id')";
+    $query_insert = "INSERT INTO `curso` (`NOMBRECURSO`, `DESCRIPCIONCURSO`, `PRECIOCURSO`, `RUTACURSO`, `docente_IDDOCENTE`, `FECHACREACION`) VALUES ('$titulo','$descripcion','$precio', '$idBase','$id', NOW())";
        $conn->query($query_insert);
             // Registro exitoso
             $response = array("mensaje" => "a");

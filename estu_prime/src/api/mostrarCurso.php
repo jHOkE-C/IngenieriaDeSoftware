@@ -22,7 +22,7 @@ if ($conn->connect_error) {
 $id_docente = $_SESSION['id_docente'];
 
 // Consulta SQL para obtener los cursos con más información
-$sql = "SELECT c.idCurso, c.titulo, c.precio, c.ruta, CONCAT(d.firstname, ' ', d.lastname) AS nombre_docente 
+$sql = "SELECT c.IDCURSO, c.NOMBRECURSO, c.PRECIOCURSO, c.RUTACURSO, CONCAT(d.firstname, ' ', d.lastname) AS nombre_docente 
         FROM curso c 
         INNER JOIN docente d ON c.docente_id = d.id 
         WHERE docente_id = '$id_docente'";
