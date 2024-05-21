@@ -12,7 +12,6 @@ function DetalleCurso() {
   useEffect(() => {
     setLoading(true);
     setError(null);
-
     fetch(`http://localhost:80/IngenieriaDeSoftware/estu_prime/src/api/mostrarCursoPorId.php?id=${idCurso}`, {
       method: 'GET',
       credentials: 'include' // Esto es necesario si tu PHP utiliza sesiones
