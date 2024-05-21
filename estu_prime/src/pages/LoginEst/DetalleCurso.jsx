@@ -37,9 +37,10 @@ function DetalleCurso() {
   const addToCart = () => {
     // Lógica para añadir el curso al carrito
     console.log('Curso añadido al carrito');
-  };
+  };  
 
   const buyNow = () => {
+    console.log(idCurso)
     setMensaje(null); // Resetear el mensaje
     fetch('http://localhost:80/IngenieriaDeSoftware/estu_prime/src/api/comprarCurso.php', {
       method: 'POST',
@@ -49,7 +50,6 @@ function DetalleCurso() {
       },
       body: JSON.stringify({ idCurso })
     })
-    
     .then(response => {
       if (!response.ok) {
         throw new Error('Error al realizar la compra');
