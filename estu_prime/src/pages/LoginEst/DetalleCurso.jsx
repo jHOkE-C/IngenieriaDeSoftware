@@ -7,12 +7,13 @@ function DetalleCurso() {
   const [curso, setCurso] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null); 
+  const [mensaje, setMensaje] = useState(null); // Para mostrar mensajes de éxito o error
   let { idCurso } = useParams();
 
   useEffect(() => {
     setLoading(true);
     setError(null);
-
+    
     fetch(`http://localhost:80/IngenieriaDeSoftware/estu_prime/src/api/mostrarCursoPorId.php?id=${idCurso}`, {
       method: 'GET',
       credentials: 'include' // Esto es necesario si tu PHP utiliza sesiones
@@ -39,8 +40,31 @@ function DetalleCurso() {
   };
 
   const buyNow = () => {
-    // Lógica para comprar el curso
-    console.log('Comprar curso');
+    setMensaje(null); // Resetear el mensaje
+    fetch('http://localhost:80/IngenieriaDeSoftware/estu_prime/src/api/comprarCurso.php', {
+      method: 'POST',
+      credentials: 'include', // Esto es necesario si tu PHP utiliza sesiones
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ idCurso })
+    })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Error al realizar la compra');
+      }
+      return response.json();
+    })
+    .then(data => {
+      if (data.success) {
+        setMensaje('Compra realizada con éxito');
+      } else {
+        setMensaje('Error al realizar la compra');
+      }
+    })
+    .catch(error => {
+      setMensaje(`Error: ${error.message}`);
+    });
   };
 
   if (loading) {
