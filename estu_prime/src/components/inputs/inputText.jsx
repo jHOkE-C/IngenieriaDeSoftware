@@ -8,7 +8,8 @@ import { useState } from 'react';
 
 function InputText({eliminarComponente, onChangeTexto, index}) {
   const [texto,setTexto] = useState();
-  const handleClickEliminar = () => {
+  const handleClickEliminar = (e) => {
+    e.preventDefault(); 
     eliminarComponente(index);
   };
   const onChange = (e) =>{
