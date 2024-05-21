@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from "react-router-dom";
 import styled from 'styled-components';
+import corazon from '../../assents/img/heart.png'
 
 function DetalleCurso() {
   const [curso, setCurso] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState(null); 
   let { idCurso } = useParams();
 
   useEffect(() => {
@@ -58,27 +59,34 @@ function DetalleCurso() {
     <DetalleCursoCSS>
     <div className="container">
       <div className="row">
-        <div className="col-md-6">
-        <div className="curso-imagen">
-            <img src={curso.ruta} alt={curso.titulo} />
-            <p>Precio: {curso.precio}Bs.</p>
-          </div>
-          <div className="curso-detalles">
-            <button onClick={addToCart}>Añadir a la cesta</button>
-            <button onClick={buyNow}>Comprar ahora</button>
+        <div className="col-md-imagen">
+          <div className="curso-imagen">
+          <h2>DETALLE DE CURSO</h2>
+          <br/>
+          <img src={curso.ruta} alt={curso.titulo} />
+            <p className="precio">Precio: <strong>{curso.precio}Bs.</strong></p>
+            <div className="botones">
+              <button className="anadir" onClick={addToCart}><b>Añadir a la cesta</b></button>
+              <button className="corazon" onClick={addToCart}>
+                <img src={corazon} alt='' className='corazon__img' />
+              </button>
+            </div>
+            <div className="botones">
+              <button className="comprar" onClick={buyNow}><strong>COMPRAR AHORA</strong></button>
+            </div>
           </div>
         </div>
-        <div className="col-md-6">
-            <div className="curso-detalles">
-                <h2>{curso.titulo}</h2>
+        <div className="col-md-detalles">
+          <div className="curso-detalles">
+
+                <h3>{curso.titulo}</h3>
                 <p>Docente: {curso.nombre_docente}</p>
                 <p>Descripción: {curso.descripcion}</p>
-            </div>
-
+          </div>
         </div>
       </div>
     </div>
-    </DetalleCursoCSS>
+  </DetalleCursoCSS>
   );
 }
 
@@ -90,13 +98,18 @@ const DetalleCursoCSS= styled.nav`
     margin: 0 auto;
   }
   
-  .curso-detalles {
-    padding: 20px;
-  }
-  
   .curso-imagen {
     padding: 20px;
+    flex: 0 0 40%; /* Define un ancho del 40% del contenedor */
   }
+  
+  .curso-detalles {
+    margin-top: 50px;
+    font-size: 1.2rem;
+    padding: 20px;
+    flex: 0 0 60%; /* Define un ancho del 60% del contenedor */
+  }
+  
   
   .curso-imagen img {
     max-width: 100%;
@@ -106,29 +119,75 @@ const DetalleCursoCSS= styled.nav`
   .curso-detalles p {
     margin-bottom: 10px;
   }
-  
-  .curso-detalles button,
-  .curso-imagen button {
-    background-color: #007bff;
-    color: #fff;
-    padding: 10px 20px;
-    border: none;
+
+  .precio {
+    text-align: center;
+    font-weight: bold;
+  }
+
+  .botones {
+    display: flex;
+    justify-content: center;
+    margin-top: 5px;
+  }
+
+  .botones button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid;
     border-radius: 5px;
+    //padding: 10px 20px;
     cursor: pointer;
     transition: background-color 0.3s ease;
   }
-  
-  .curso-detalles button:hover,
-  .curso-imagen button:hover {
-    background-color: #0056b3;
+
+  .corazon {
+    border: none;
+    background-color: transparent;
+    margin-left: 5px;
   }
-  
+
+  .corazon__img{  
+    height: auto; /* Para mantener la relación de aspecto */
+    width: 35px; /* Ajusta el ancho de la imagen según sea necesario */
+  }
+
+  .corazon:hover, .anadir:hover  {
+    transition: 300ms;
+    color: black;  
+    background-color: #B4D2DA;
+  }
+
+  .anadir {
+    width: 245px;
+    height: 50px;
+    background-color: transparent;
+  }
+  .comprar {
+    transition: 300ms;
+    width: 300px;
+    height: 40px;
+    background-color: #035058;
+    color: white;    
+    border: 1px solid;
+  }
+
+  .comprar:hover {
+    transition: 300ms;
+    color: black;  
+    background-color: #B4D2DA;
+
+  }
   .row {
     display: flex;
   }
   
-  .col-md-6 {
-    flex: 0 0 50%;
+  .col-md-imagen {
+    flex: 0 0 45%;
+  }
+  .col-md-detalles {
+    flex: 0 0 55%;
   }
   
   @media (max-width: 768px) {
