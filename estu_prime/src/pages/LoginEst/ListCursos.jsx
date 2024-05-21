@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { ReactComponent as ArrowLeft } from '../../assents/svg/left.svg';
 import { ReactComponent as ArrowRight } from '../../assents/svg/right.svg';
 import CardsCursos from '../../components/courseCard/cardCursoEstudiante';
-
+import { useNavigate } from "react-router-dom";
 
 function PaginaCursos() {
   const [cursosRecomendados, setCursosRecomendados] = useState([]);
@@ -13,6 +13,34 @@ function PaginaCursos() {
   const [currentPageRecomendados, setCurrentPageRecomendados] = useState(0);
   const [currentPageNuevos, setCurrentPageNuevos] = useState(0);
   const [currentPageRecientes, setCurrentPageRecientes] = useState(0);
+
+/* parte de Explorar.jsx */
+const [cursos, setCursos] = useState([]);
+const [searchTerm, setSearchTerm] = useState('');
+const [filteredCursos, setFilteredCursos] = useState([]);
+const navigate = useNavigate();
+  useEffect(() => {
+    cursosBuscar();
+  }, []);
+  useEffect(() => {
+    const filtered = cursos.filter(curso =>
+      curso.titulo.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    setFilteredCursos(filtered);
+  }, [searchTerm, cursos]);
+const cursosBuscar = () => {
+  fetch('http://localhost:80/IngenieriaDeSoftware/estu_prime/src/api/cursoEstudiante.php')
+    .then(res => res.json())
+    .then(data => setCursos(data))
+    .catch(error => console.error('Error fetching data:', error));
+};
+
+const navegarDetalle = (idCurso) => {
+  navigate(`/LoginEstudiante/ListCursos/DetalleCurso/${idCurso}`);
+
+};
+
+/* fin explorar*/
 
   useEffect(() => {
     obtenerCursos();
@@ -59,7 +87,29 @@ function PaginaCursos() {
 
   return (
     <div>
-      <Titulo>Listado de Cursos</Titulo>
+      {/* explorar inicio*/}
+      <Container>
+        <Titulo>Listado de Cursos</Titulo>
+        <SearchBarContainer>
+          <SearchInput
+            type="text"
+            placeholder="Buscar cursos..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+          {searchTerm && (
+            <SuggestionsList>
+              {filteredCursos.map(curso => (
+                <li key={curso.idCurso} onClick={() => navegarDetalle(curso.idCurso)}>
+                  {curso.titulo}
+                </li>
+              ))}
+            </SuggestionsList>
+          )}
+        </SearchBarContainer>
+      </Container>
+      {/* explorar fin*/}
+   {/*      <Titulo>Listado de Cursos</Titulo>*/}
       <h2>Cursos recomendados</h2>
       <ListaCrearCursoContainer>
         {renderCursos(cursosRecomendados, currentPageRecomendados, setCurrentPageRecomendados)}
@@ -143,5 +193,47 @@ const ListaCrearCursoContainer = styled.nav`
     text-align: center;
     margin-bottom: 20px;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+  }
+`;
+const Container = styled.div`
+  padding: 20px;
+`;
+
+
+const SearchBarContainer = styled.div`
+  position: relative;
+  width: 80%;
+  margin: 20px auto;
+`;
+
+const SearchInput = styled.input`
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  border: 2px solid #ccc;
+  border-radius: 20px;
+  outline: none;
+`;
+
+const SuggestionsList = styled.ul`
+  position: absolute;
+  top: calc(100% + 5px);
+  left: 0;
+  width: 102%;
+  background: white;
+  border: 1px solid #ccc;
+  border-radius: 20px;
+  z-index: 1000; /* Asegúrate de que esté por encima de otros elementos */
+  max-height: 200px;
+  overflow-y: auto;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  li {
+    padding: 10px;
+    cursor: pointer;
+    &:hover {
+      background: #f0f0f0;
+    }
   }
 `;
