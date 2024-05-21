@@ -35,7 +35,7 @@ function TusCursos() {
     const startIndex = currentPage * 10;
     const endIndex = startIndex + 10;
     return cursos.slice(startIndex, endIndex).map((curso) => (
-      <CardsCursos key={curso.idCurso} title={curso.titulo} id={curso.idCurso} nombre_docente={curso.nombre_docente} precio={curso.precio} img={curso.ruta}/>
+      <CardsCursos key={curso.IDCURSO} title={curso.NOMBRECURSO} id={curso.IDCURSO} nombre_docente={curso.nombre_docente} precio={curso.PRECIOCURSO} img={curso.RUTACURSO}/>
     ));
   };
 
