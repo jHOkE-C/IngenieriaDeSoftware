@@ -26,7 +26,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($data['buscado'])) {
     }else{
     $sql = "SELECT c.IDCURSO, c.NOMBRECURSO, c.RUTACURSO, c.PRECIOCURSO, CONCAT(d.NOMBREDOCENTE, ' ', d.APELLIDODOCENTE) as nombre_docente FROM curso c
     INNER JOIN docente AS d ON c.docente_IDDOCENTE = d.IDDOCENTE
-    WHERE titulo LIKE '%$buscado%'";
+    WHERE NOMBRECURSO LIKE '%$buscado%'";
     $result = $conn->query($sql);
     $cursos = array();
 if ($result->num_rows > 0) {
