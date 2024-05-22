@@ -52,7 +52,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Procesar la imagen
     $rutaImagen = 'C:/xampp/htdocs/IngenieriaDeSoftware/estu_prime/archivo/';
     
-    if(isset($data['img'])){
+    if(($data['fueCambiadoImg'])){
       $imagenBase64 = $data['img'];
  
       $idUnic = uniqid()."."."jpeg";
