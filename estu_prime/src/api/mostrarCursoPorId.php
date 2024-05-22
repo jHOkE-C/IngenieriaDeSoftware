@@ -1,4 +1,5 @@
 <?php
+// Permitir acceso desde cualquier origen (útil para desarrollo, pero no recomendado para producción)
 $origin = isset($_SERVER['HTTP_ORIGIN']) ? $_SERVER['HTTP_ORIGIN'] : '';
 
 header('Access-Control-Allow-Origin: ' . $origin);
@@ -24,14 +25,15 @@ $conn = new mysqli($servername, $username, $password, $dbname);
 
 // Comprobar la conexión
 if ($conn->connect_error) {
-  die("Connection failed: " . $conn->connect_error);
+  die("Error de conexión: " . $conn->connect_error);
 }
 
 // Consulta SQL para obtener los detalles del curso según su ID
-$sql = "SELECT c.idCurso, c.titulo, c.descripcion, c.precio, c.ruta, CONCAT(d.firstname, ' ', d.lastname) AS nombre_docente 
+$sql = "SELECT c.IDCURSO, c.NOMBRECURSO AS titulo, c.DESCRIPCIONCURSO AS descripcion, c.PRECIOCURSO AS precio, c.RUTACURSO AS ruta, 
+               CONCAT(d.NOMBREDOCENTE, ' ', d.APELLIDODOCENTE) AS nombre_docente 
         FROM curso c 
-        INNER JOIN docente d ON c.docente_id = d.id 
-        WHERE c.idCurso = '$idCurso'";
+        INNER JOIN docente d ON c.docente_IDDOCENTE = d.IDDOCENTE 
+        WHERE c.IDCURSO = '$idCurso'";
 $result = $conn->query($sql);
 
 // Verificar si se encontraron resultados
