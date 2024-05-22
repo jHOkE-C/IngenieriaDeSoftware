@@ -36,6 +36,7 @@ function CrearCurso() {
   const [precio, setPrecio] = useState(null);
   const [inputTexts, setInputTexts] = useState();
   const [inputVideos, setInputVideos] = useState();
+  const [fueCambiadoImg, setFueCambiadoImg] = useState(false);
   const { register, handleSubmit, formState: { errors }, setValue } = useForm({
     resolver: yupResolver(schema),
     defaultValues: {
@@ -104,7 +105,8 @@ function CrearCurso() {
             img: image,
             textos : inputTexts,
             videos : inputVideos,
-            cursoIden : id
+            cursoIden : id,
+            fueCambiadoImg : fueCambiadoImg
           }),
         });
         const dataResponse = await response.json();
@@ -144,6 +146,7 @@ function CrearCurso() {
 
 
   const handleImageChange = (event) => {
+    setFueCambiadoImg(true);
     const file = event.target.files[0];
     const reader = new FileReader();
     if (file) {
