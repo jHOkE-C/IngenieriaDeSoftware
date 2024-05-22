@@ -61,6 +61,7 @@ const HeaderContainerEst = styled.nav`
         block: inline;
         height: calc(10vh);
         width: calc(97.8vw);
+        min-width: 800px;
         padding: 15px;
         background-color: #035058;
     }

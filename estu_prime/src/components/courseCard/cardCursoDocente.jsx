@@ -1,16 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
 import ImgEdit from '../../assents/img/edit.png'
-import { Navigate, useNavigate } from "react-router-dom";
+import {useNavigate, Link} from "react-router-dom";
 
-
-function CardsCursoDocente({ title, ide, nombre_docente, precio,img }) {
+function CardsCursoDocente({ title, id, nombre_docente, precio,img }) {
     const navigate = useNavigate();
-  
-    const nav = () => {
-      navigate('/LoginDocente/CrearCurso', { replace: true });
-      window.location.reload();
-    };
   
     return (
       <ContainerCard>
@@ -18,14 +12,14 @@ function CardsCursoDocente({ title, ide, nombre_docente, precio,img }) {
           <img src={img} alt='imgCurso' className='card__img'></img>
           <p className='card__title'><strong>{title}</strong></p>
           <div className='cardFondo'>
-            <button type='button' className='cardFondo__edit' onClick={nav}>
+            <Link to={`/LoginDocente/TusCursos/editCurso/${id}`} className='cardFondo__edit'>
               <img src={ImgEdit} alt='' className='cardFondo__img' />
-            </button>
+            </Link>
           </div>
-
           <p className='card__details'>Docente: {nombre_docente}</p>
           <p className='card__details'>Precio: {precio}</p>
         </div>
+       
       </ContainerCard>
     );
   }
@@ -34,16 +28,14 @@ export default CardsCursoDocente;
 
 
 const ContainerCard = styled.div`
-  display: inline;
-
+  display: flex;
+  margin-top: 1%;
+  margin-left: 3%;
+  margin-bottom:1%;
     .card{
       position: relative;
       padding: 1vh;
       text-align: center;
-      display: inline-block; 
-      margin-top: 3%;
-      margin-left: 2.5%;
-      margin-right: 2.5%;
       width: 15vw;
       height: 15vw;
       background-color: #F2E9E4;
@@ -66,18 +58,21 @@ const ContainerCard = styled.div`
         height: 100%;
     }
     .cardFondo__edit{
-        border: none;
-        display: flex;
-        position: relative;
-        align-items: center;
-        left: 36%;
-        top: 40%;
-        height: 28%;
-        opacity: 0;
-        border-radius: 1vw;
+      border: none;
+      display: flex;
+      position: relative;
+      align-items: center;
+      justify-content: center;
+      left: 36%;
+      top: 40%;
+      height: 28%;
+      width: 28%;
+      opacity: 0;
+      border-radius: 1vw;
     }
     .cardFondo__img{
-        opacity: 0;
+      opacity: 0;
+      display: flex;
     }
     .cardFondo:hover{
         transition: 500ms;

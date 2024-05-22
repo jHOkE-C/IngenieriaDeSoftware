@@ -7,7 +7,7 @@ import Logo from './logo'
 const footer = () => {
   return (
     <FooterContainer> 
-      <footer>
+      <footer className='footerMain'>
         <div id="luDiv">
           <ul id='ulFooter'>
             <li>
@@ -47,7 +47,9 @@ const footer = () => {
 export default footer
 
 const FooterContainer = styled.nav`
-  position: relative;
+  .footerMain{
+    min-height: 210px;
+  }
   #luDiv{
     display: flex;
   }
@@ -88,6 +90,6 @@ const FooterContainer = styled.nav`
   }
   p{
     position: absolute;
-    left: 85%;
+    left: 84vw;
   }
 `

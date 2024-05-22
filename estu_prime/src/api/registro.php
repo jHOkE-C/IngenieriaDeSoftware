@@ -49,8 +49,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Consulta SQL para verificar si el correo ya está en uso
     $correo_escapado = $conn->real_escape_string($correo);
-    $query = "SELECT email FROM docente WHERE email = '$correo_escapado'";
-    $queryE = "SELECT email FROM estudiante WHERE email = '$correo_escapado'";
+    $query = "SELECT EMAILDOCENTE FROM docente WHERE EMAILDOCENTE = '$correo_escapado'";
+    $queryE = "SELECT EMAILESTUDIANTE FROM estudiante WHERE EMAILESTUDIANTE = '$correo_escapado'";
     $result = $conn->query($query);
     $resultE = $conn->query($queryE);
 //redirectToError();
@@ -61,7 +61,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         redirectToError();
     } else{
         // Insertar nuevo registro si el correo no está en uso
-        $query_insert = "INSERT INTO `docente` (`firstname`, `lastname`, `email`, `password`) VALUES ('$nombre', '$apellido', '$correo_escapado', '$password')";
+        $query_insert = "INSERT INTO `DOCENTE` (`NOMBREDOCENTE`, `APELLIDODOCENTE`, `EMAILDOCENTE`, `CONTRASENADOCENTE`) VALUES ('$nombre', '$apellido', '$correo_escapado', '$password')";
         if ($conn->query($query_insert) === TRUE) {
             // Registro exitoso
             $response = array("mensaje" => "Cuenta docente creada");
@@ -80,9 +80,9 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
 
     // Consulta SQL para verificar si el correo ya está en uso
     $correo_escapado = $conn->real_escape_string($correoE);
-    $query = "SELECT email FROM estudiante WHERE email = '$correo_escapado'";
+    $query = "SELECT EMAILESTUDIANTE FROM estudiante WHERE EMAILESTUDIANTE = '$correo_escapado'";
     $result = $conn->query($query);
-    $queryD = "SELECT email FROM docente WHERE email = '$correo_escapado'";
+    $queryD = "SELECT EMAILDOCENTE FROM docente WHERE EMAILDOCENTE = '$correo_escapado'";
     $resultD = $conn->query($queryD);
     // Verificar si se encontraron resultados
     if ($result && $result->num_rows > 0) {
@@ -91,7 +91,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
         redirectToError();
     }else {
         // Insertar nuevo registro si el correo no está en uso
-        $query_insert = "INSERT INTO `estudiante` (`firstname`, `lastname`, `email`, `password`) VALUES ('$nombreE', '$apellidoE', '$correo_escapado', '$passwordE')";
+        $query_insert = "INSERT INTO `estudiante` (`NOMBREESTUDIANTE`, `APELLIDOESTUDIANTE`, `EMAILESTUDIANTE`, `CONTRASENAESTUDIANTE`) VALUES ('$nombreE', '$apellidoE', '$correo_escapado', '$passwordE')";
         if ($conn->query($query_insert) === TRUE) {
             $response = array("mensaje" => "Cuenta Estudiante creada");
             header('Content-Type: application/json');

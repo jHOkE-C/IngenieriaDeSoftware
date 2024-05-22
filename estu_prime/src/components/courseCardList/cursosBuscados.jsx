@@ -1,41 +1,34 @@
 import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { ReactComponent as ArrowLeft } from '../../assents/svg/left.svg';
 import { ReactComponent as ArrowRight } from '../../assents/svg/right.svg';
 import CardsCursos from '../../components/courseCard/cardCursoDocente';
 
-function TusCursos() {
+function TusCursos({ resultados }) {
   const [cursos, setCursos] = useState([]);
   const [currentPage, setCurrentPage] = useState(0);
 
   useEffect(() => {
-    peticionDocenteCursosCreados();
-  }, []);
+    if (Array.isArray(resultados)) {
+      setCursos(resultados);
+    } else {
+      console.error('Expected resultados to be an array', resultados);
+    }
+  }, [resultados]);
 
-  const peticionDocenteCursosCreados = () => {
-    fetch('http://localhost:80/IngenieriaDeSoftware/estu_prime/src/api/mostrarCurso.php', {
-      method: 'GET',
-      credentials: 'include'
-    })
-      .then((res) => {
-        if (!res.ok) {
-          throw new Error('Error fetching data');
-        }
-        return res.json();
-      })
-      .then((data) => {
-        setCursos(data);
-      })
-      .catch((error) => {
-        console.error('Error fetching data:', error);
-      });
-  };
-
- const renderCursos = () => {
+  const renderCursos = () => {
     const startIndex = currentPage * 10;
     const endIndex = startIndex + 10;
     return cursos.slice(startIndex, endIndex).map((curso) => (
-      <CardsCursos key={curso.IDCURSO} title={curso.NOMBRECURSO} id={curso.IDCURSO} nombre_docente={curso.nombre_docente} precio={curso.PRECIOCURSO} img={curso.RUTACURSO}/>
+      <CardsCursos
+        key={curso.idCurso}
+        title={curso.titulo}
+        id={curso.idCurso}
+        nombre_docente={curso.nombre_docente}
+        precio={curso.precio}
+        img={curso.ruta}
+      />
     ));
   };
 
@@ -50,7 +43,12 @@ function TusCursos() {
   return (
     <ListaCrearCursoContainer>
       <div className='cursos'>
-        {renderCursos()}
+        {resultados.length === 0?
+            
+            <div className='cursos__noFound'><h1>Busqueda no encontrada...</h1></div>
+        :
+            (renderCursos())
+        }
       </div>
       <div className='arrows'>
         <button className='arrows__flecha' onClick={goToPreviousPage}>
@@ -64,15 +62,22 @@ function TusCursos() {
   );
 }
 
+TusCursos.propTypes = {
+  resultados: PropTypes.array.isRequired,
+};
 
 export default TusCursos;
 
 const ListaCrearCursoContainer = styled.nav`
   min-width: 700px;
-  .cursos{
+  .cursos {
     display: flex;
     min-height: 75vh;
     flex-wrap: wrap;
+  }
+  .cursos__noFound{
+    margin-top: 2vw;
+    margin-left:5vw;
   }
   .arrows {
     display: flex;
@@ -93,4 +98,4 @@ const ListaCrearCursoContainer = styled.nav`
   .arrows__flecha svg:active {
     fill: white;
   }
-`
+`;
