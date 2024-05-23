@@ -60,6 +60,7 @@ const CompraCursos = () => {
   );
 };
 
+
 export default CompraCursos;
 
 const compraCursos= styled.nav`
