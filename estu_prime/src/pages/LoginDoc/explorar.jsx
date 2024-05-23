@@ -71,7 +71,7 @@ function ExplorarD() {
               }
             </div>
             <img src={SearchSVG} alt="" className='boxS__img'/> 
-            <button type='Button' className='boxS__bButton' onClick={changeCursos}>Buscar</button>
+            <button type='Button'  className='boxS__bButton' onClick={changeCursos}>Buscar</button>
         </form>
       </ExplorarContainer>
       {cursos}

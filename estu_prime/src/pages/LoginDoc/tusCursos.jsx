@@ -7,11 +7,15 @@ import CardsCursos from '../../components/courseCard/cardCursoDocente';
 function TusCursos() {
   const [cursos, setCursos] = useState([]);
   const [currentPage, setCurrentPage] = useState(0);
-
+  const [hayMasCursos, setHayMasCursos] = useState(false);
   useEffect(() => {
     peticionDocenteCursosCreados();
   }, []);
-
+  useEffect(() => {
+    const startIndex = currentPage * 10;
+    const endIndex = startIndex + 10;
+    setHayMasCursos(endIndex < cursos.length);
+  }, [currentPage, cursos]);
   const peticionDocenteCursosCreados = () => {
     fetch('http://localhost:80/IngenieriaDeSoftware/estu_prime/src/api/mostrarCurso.php', {
       method: 'GET',
@@ -53,12 +57,16 @@ function TusCursos() {
         {renderCursos()}
       </div>
       <div className='arrows'>
-        <button className='arrows__flecha' onClick={goToPreviousPage}>
-          <ArrowLeft className='home__icon' />
-        </button>
-        <button className='arrows__flecha' onClick={goToNextPage}>
-          <ArrowRight className='home__icon' />
-        </button>
+        {currentPage > 0 && (
+          <button className='arrows__flecha' onClick={goToPreviousPage}>
+            <ArrowLeft className='home__icon' />
+          </button>
+        )}
+        {hayMasCursos && (
+          <button className='arrows__flecha' onClick={goToNextPage}>
+            <ArrowRight className='home__icon' />
+          </button>
+        )}
       </div>
     </ListaCrearCursoContainer>
   );

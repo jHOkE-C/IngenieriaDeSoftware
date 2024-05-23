@@ -75,7 +75,7 @@ function CrearCurso() {
         }else{
           Swal.fire({
             icon: 'error',
-            text: 'Curso Creado Exitosamente',
+            text: 'Error al Guardar, pruebe mas tarde',
             background:'#F2E9E4',
             confirmButtonColor:'#15292E',
           })
