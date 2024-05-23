@@ -67,8 +67,15 @@ const navegarDetalle = (idCurso) => {
     const startIndex = currentPage * 4;
     const endIndex = startIndex + 4;
     return cursos.slice(startIndex, endIndex).map((curso) => (
-      <CardsCursos key={curso.idCurso} title={curso.titulo} id={curso.idCurso} nombre_docente={curso.nombre_docente} precio={curso.precio} />
-    ));
+    <CardsCursos 
+      key={curso.idCurso} 
+      title={curso.titulo} 
+      id={curso.idCurso} 
+      nombre_docente={curso.nombre_docente} 
+      precio={curso.precio} 
+      img={curso.ruta} 
+    />
+   ));
   };
 
   const goToNextPage = (currentPage, setCurrentPage, cursos) => {
