@@ -114,7 +114,7 @@ function CrearCurso() {
         if(dataResponse.mensaje === 'a'){
           Swal.fire({
             icon: 'success',
-            text: 'Curso Creado Exitosamente',
+            text: 'Curso Editado Exitosamente',
             background:'#F2E9E4',
             confirmButtonColor:'#15292E',
           })/*.then(respuesta => {
@@ -126,7 +126,7 @@ function CrearCurso() {
         }else{
           Swal.fire({
             icon: 'error',
-            text: 'Curso Creado Exitosamente',
+            text: 'Error al Guardar, pruebe mas tarde',
             background:'#F2E9E4',
             confirmButtonColor:'#15292E',
           })
@@ -210,7 +210,19 @@ function CrearCurso() {
 
  
  function cancelarTodo (){
-    window.location.reload();
+  Swal.fire({
+    icon: 'success',
+    text: 'Se Descartaran los cambios hechos, esta Seguro?',
+    background:'#F2E9E4',
+    confirmButtonColor:'#15292E',
+    showCancelButton: true,
+    confirmButtonText: "No Guardar",
+  }).then(result => {
+    if (result.isConfirmed) {
+      navigate('/LoginDocente', { replace: true }) 
+      window.location.reload();
+    }
+  }); 
  }
   const handleName = (e) => {
     setTitulo(e.target.value);
