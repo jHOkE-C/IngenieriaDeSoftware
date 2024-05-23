@@ -40,6 +40,7 @@ function Header( { onLogout } ) {
                 <Link to={'/LoginEstudiante'}>Inicio</Link>
                 <Link to={'/LoginEstudiante/Explorar'}>Explorar</Link>
                 <Link to={'/LoginEstudiante/ListCursos'}>Cursos Disponibles</Link>
+                <Link to={'/LoginEstudiante/ListCursosComprados'}>Cursos COMPRADOS</Link>
             </div>
             <div>
                 <Link className='buttonE' >Perfil</Link>
