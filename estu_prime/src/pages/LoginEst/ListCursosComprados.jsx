@@ -86,7 +86,7 @@ const navegarDetalle = (idCurso) => {
     <div>
       {/* explorar inicio*/}
       <Container>
-        <Titulo>Listado de Cursos</Titulo>
+        <Titulo>Listado de Cursos Comprados</Titulo>
         <SearchBarContainer>
           <SearchInput
             type="text"
@@ -107,7 +107,7 @@ const navegarDetalle = (idCurso) => {
       </Container>
       {/* explorar fin*/}
    {/*      <Titulo>Listado de Cursos</Titulo>*/}
-      <h2>Cursos recomendados</h2>
+      <h2>Cursos Comprados</h2>
       <ListaCrearCursoContainer>
         {renderCursos(cursosRecomendados, currentPageRecomendados, setCurrentPageRecomendados)}
         <div className='arrows'>
