@@ -8,12 +8,14 @@ import CrearCurso from '../pages/LoginDoc/crearCurso.jsx';
 import TusCursos from '../pages/LoginDoc/tusCursos.jsx';
 import HomeDocente from '../pages/LoginDoc/inicioDoc.jsx'
 import ListadoCursos from '../pages/LoginEst/ListCursos.jsx'
+import ListadoCursosComprados from '../pages/LoginEst/ListCursosComprados.jsx'
 import Explorar from '../pages/LoginEst/Explorar.jsx'
 import HomeEstudiante from '../pages/LoginEst/inicioEst.jsx'
 import DetalleCurso from '../pages/LoginEst/DetalleCurso.jsx'
 import ComprarCurso from '../pages/LoginEst/compraCurso.jsx'
 import EditCurso from '../pages/LoginDoc/editCurso.jsx'
 import ExplorarD from '../pages/LoginDoc/explorar.jsx'
+
 function Navbar() {
   return ( 
       <Routes>
@@ -25,6 +27,7 @@ function Navbar() {
         <Route path='/LoginDocente/TusCursos'element={<TusCursos/>}/>
         <Route path="/LoginEstudiante" element={<HomeEstudiante/>}/>  
         <Route path="/LoginEstudiante/ListCursos" element={<ListadoCursos/>}/> 
+        <Route path="/LoginEstudiante/ListCursosComprados" element={<ListadoCursosComprados/>}/> 
          <Route path="/LoginEstudiante/ComprarCurso" element={<ComprarCurso/>}/>
          
         <Route path="/LoginDocente/TusCursos/editCurso/:id" element={<EditCurso/>}/>  
