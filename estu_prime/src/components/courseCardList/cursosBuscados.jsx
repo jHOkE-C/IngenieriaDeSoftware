@@ -5,9 +5,12 @@ import { ReactComponent as ArrowLeft } from '../../assents/svg/left.svg';
 import { ReactComponent as ArrowRight } from '../../assents/svg/right.svg';
 import CardsCursos from '../../components/courseCard/cardCursoDocente';
 
+
+
 function TusCursos({ resultados }) {
   const [cursos, setCursos] = useState([]);
   const [currentPage, setCurrentPage] = useState(0);
+  const [hayMasCursos, setHayMasCursos] = useState(false);
 
   useEffect(() => {
     if (Array.isArray(resultados)) {
@@ -16,6 +19,12 @@ function TusCursos({ resultados }) {
       console.error('Expected resultados to be an array', resultados);
     }
   }, [resultados]);
+
+  useEffect(() => {
+    const startIndex = currentPage * 10;
+    const endIndex = startIndex + 10;
+    setHayMasCursos(endIndex < cursos.length);
+  }, [currentPage, cursos]);
 
   const renderCursos = () => {
     const startIndex = currentPage * 10;
@@ -33,7 +42,9 @@ function TusCursos({ resultados }) {
   };
 
   const goToNextPage = () => {
-    setCurrentPage((prevPage) => prevPage + 1);
+    if (hayMasCursos) {
+      setCurrentPage((prevPage) => prevPage + 1);
+    }
   };
 
   const goToPreviousPage = () => {
@@ -43,20 +54,23 @@ function TusCursos({ resultados }) {
   return (
     <ListaCrearCursoContainer>
       <div className='cursos'>
-        {resultados.length === 0?
-            
-            <div className='cursos__noFound'><h1>Busqueda no encontrada...</h1></div>
-        :
-            (renderCursos())
-        }
+        {resultados.length === 0 ? (
+          <div className='cursos__noFound'><h1>Busqueda no encontrada...</h1></div>
+        ) : (
+          renderCursos()
+        )}
       </div>
       <div className='arrows'>
-        <button className='arrows__flecha' onClick={goToPreviousPage}>
-          <ArrowLeft className='home__icon' />
-        </button>
-        <button className='arrows__flecha' onClick={goToNextPage}>
-          <ArrowRight className='home__icon' />
-        </button>
+        {currentPage > 0 && (
+          <button className='arrows__flecha' onClick={goToPreviousPage}>
+            <ArrowLeft className='home__icon' />
+          </button>
+        )}
+        {hayMasCursos && (
+          <button className='arrows__flecha' onClick={goToNextPage}>
+            <ArrowRight className='home__icon' />
+          </button>
+        )}
       </div>
     </ListaCrearCursoContainer>
   );
@@ -67,6 +81,7 @@ TusCursos.propTypes = {
 };
 
 export default TusCursos;
+
 
 const ListaCrearCursoContainer = styled.nav`
   min-width: 700px;
