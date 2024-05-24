@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { ReactComponent as ArrowLeft } from '../../assents/svg/left.svg';
 import { ReactComponent as ArrowRight } from '../../assents/svg/right.svg';
-import CardsCursos from '../../components/courseCard/cardCursoDocente';
+import CardsCursos from '../../components/courseCard/cardCursosDocExp';
 
 
 
