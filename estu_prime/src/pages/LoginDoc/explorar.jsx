@@ -1,7 +1,6 @@
 import React, {Fragment, useEffect, useState} from 'react'
 import styled from 'styled-components'
 import SearchSVG from '../../assents/svg/search.svg'
-import Cursos from './tusCursos'
 import {Link} from "react-router-dom";
 import CursosBuscados from '../../components/courseCardList/cursosBuscados'
 function ExplorarD() {
@@ -21,7 +20,6 @@ function ExplorarD() {
           }),
         });
 
-        // Asumiendo que 'response' es la respuesta de una solicitud fetch
     response.json().then(result => {
       setResultados([]);
   
@@ -32,10 +30,20 @@ function ExplorarD() {
 
   }
   useEffect(()=>{
-    setCursos(
-      <Cursos></Cursos>
-    )
+    fetch('http://localhost:80/IngenieriaDeSoftware/estu_prime/src/api/cursoEstudiante.php')
+      .then(res => res.json())
+      .then(result => {
+        setResultados(result);
+        setCursos(
+          <CursosBuscados resultados = {result}></CursosBuscados>
+        )
+      })
+      .catch(error => {
+        console.error('problema con el pedido', error);
+      });
   },[])
+
+  
   const changeCursos = () =>{
     setCursos(
       <CursosBuscados resultados = {resultados}></CursosBuscados>
