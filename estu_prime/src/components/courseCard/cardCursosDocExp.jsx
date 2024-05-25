@@ -1,9 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
 import ImgEdit from '../../assents/img/edit.png'
+import mano from '../../assents/img/hand.png'
 import {useNavigate, Link} from "react-router-dom";
 
-function CardsCursoDocente({ title, id, nombre_docente, precio,img }) {
+function CardsCursoDocenteExp({ title, id, nombre_docente, precio,img }) {
     const navigate = useNavigate();
   
     return (
@@ -12,8 +13,8 @@ function CardsCursoDocente({ title, id, nombre_docente, precio,img }) {
           <img src={img} alt='imgCurso' className='card__img'></img>
           <p className='card__title'><strong>{title}</strong></p>
           <div className='cardFondo'>
-            <Link to={`/LoginDocente/TusCursos/editCurso/${id}`} className='cardFondo__edit'>
-              <img src={ImgEdit} alt='' className='cardFondo__img' />
+            <Link to={`/LoginDocente/Explorar/DetalleCurso/${id}`} className='cardFondo__edit'>
+              <img src={mano} alt='' className='cardFondo__img' />
             </Link>
           </div>
           <p className='card__details'>Docente: {nombre_docente}</p>
@@ -24,7 +25,7 @@ function CardsCursoDocente({ title, id, nombre_docente, precio,img }) {
     );
   }
 
-export default CardsCursoDocente;
+export default CardsCursoDocenteExp;
 
 
 const ContainerCard = styled.div`
@@ -71,6 +72,7 @@ const ContainerCard = styled.div`
       border-radius: 1vw;
     }
     .cardFondo__img{
+        height: 95%;
       opacity: 0;
       display: flex;
     }

@@ -15,6 +15,7 @@ import DetalleCurso from '../pages/LoginEst/DetalleCurso.jsx'
 import ComprarCurso from '../pages/LoginEst/compraCurso.jsx'
 import EditCurso from '../pages/LoginDoc/editCurso.jsx'
 import ExplorarD from '../pages/LoginDoc/explorar.jsx'
+import DetalleCursoDoc from '../pages/LoginDoc/DetalleCursoDoc.jsx'
 
 function Navbar() {
   return ( 
@@ -32,7 +33,8 @@ function Navbar() {
          
         <Route path="/LoginDocente/TusCursos/editCurso/:id" element={<EditCurso/>}/>  
         <Route path="/detalleCurso/:idCurso" element={<EditCurso/>}/>  
-        
+        <Route path="/LoginDocente/Explorar/DetalleCurso/:idCurso" element={<DetalleCursoDoc />} />
+
         <Route path="/LoginEstudiante/Explorar" element={<Explorar/>}/>
         <Route path="/LoginDocente/Explorar" element={<ExplorarD/>}/>
         <Route path="/LoginEstudiante/ListCursos/DetalleCurso" element={<DetalleCurso/>}/>

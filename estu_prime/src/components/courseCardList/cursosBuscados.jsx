@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { ReactComponent as ArrowLeft } from '../../assents/svg/left.svg';
 import { ReactComponent as ArrowRight } from '../../assents/svg/right.svg';
-import CardsCursos from '../../components/courseCard/cardCursoDocente';
+import CardsCursos from '../../components/courseCard/cardCursosDocExp';
 
 
 
@@ -61,16 +61,24 @@ function TusCursos({ resultados }) {
         )}
       </div>
       <div className='arrows'>
-        {currentPage > 0 && (
-          <button className='arrows__flecha' onClick={goToPreviousPage}>
+        {currentPage > 0 ? 
+          (<button className='arrows__flecha' onClick={goToPreviousPage}>
             <ArrowLeft className='home__icon' />
-          </button>
-        )}
-        {hayMasCursos && (
-          <button className='arrows__flecha' onClick={goToNextPage}>
+          </button>)
+        :
+          (<button className='arrows__flecha--desactivado'>
+            <ArrowLeft className='home__icon' />
+          </button>)
+        }
+        {hayMasCursos ?
+          (<button className='arrows__flecha' onClick={goToNextPage}>
             <ArrowRight className='home__icon' />
-          </button>
-        )}
+          </button>)
+        :
+          (<button className='arrows__flecha--desactivado'>
+            <ArrowRight className='home__icon' />
+          </button>)
+        }
       </div>
     </ListaCrearCursoContainer>
   );
@@ -112,5 +120,14 @@ const ListaCrearCursoContainer = styled.nav`
   }
   .arrows__flecha svg:active {
     fill: white;
+  }
+  .arrows__flecha--desactivado{
+    
+    background: none;
+    margin: 0.1em;
+    border: none;
+  }
+  .arrows__flecha--desactivado svg{
+    fill: #F2E9E4;
   }
 `;

@@ -211,7 +211,7 @@ function CrearCurso() {
  
  function cancelarTodo (){
   Swal.fire({
-    icon: 'success',
+    icon: 'question',
     text: 'Se Descartaran los cambios hechos, esta Seguro?',
     background:'#F2E9E4',
     confirmButtonColor:'#15292E',
