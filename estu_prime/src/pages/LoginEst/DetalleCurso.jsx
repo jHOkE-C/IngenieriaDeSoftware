@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from "react-router-dom";
 import styled from 'styled-components';
-import corazon from '../../assents/img/heart.png'
+import Swal from 'sweetalert2';
+import corazon from '../../assents/img/heart.png';
 
 function DetalleCurso() {
   const [curso, setCurso] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null); 
   const [mensaje, setMensaje] = useState(null); // Para mostrar mensajes de éxito o error
+  const [haComprado, setHaComprado] = useState(false);
   let { idCurso } = useParams();
 
   useEffect(() => {
@@ -34,13 +36,49 @@ function DetalleCurso() {
     });
   }, [idCurso]);
 
+  
+  useEffect(() => {
+    if (curso) {
+      verificarCompra();
+    }
+  }, [curso]);
+
   const addToCart = () => {
     // Lógica para añadir el curso al carrito
     console.log('Curso añadido al carrito');
   };  
 
+  const verificarCompra = async () => {
+    try {
+      const response = await fetch('http://localhost:80/IngenieriaDeSoftware/estu_prime/src/api/verificarCompra.php', {
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ idCurso })
+      });
+      
+      if (!response.ok) {
+        throw new Error('Error al verificar la compra');
+      }
+
+      const data = await response.json();
+
+      if (data.success) {
+        setHaComprado(data.haComprado);
+      } else {
+        setError(data.message);
+      }
+    } catch (error) {
+      setError(error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const buyNow = () => {
-    console.log(idCurso)
+    console.log(idCurso);
     setMensaje(null); // Resetear el mensaje
     fetch('http://localhost:80/IngenieriaDeSoftware/estu_prime/src/api/comprarCurso.php', {
       method: 'POST',
@@ -58,13 +96,36 @@ function DetalleCurso() {
     })
     .then(data => {
       if (data.success) {
-        setMensaje('Compra realizada con éxito');
+        Swal.fire({
+          title: 'Compra realizada con éxito',
+          icon: 'success',
+          confirmButtonText: 'OK'
+        }).then(() => {
+          // Recargar la página
+          window.location.reload();
+        }); 
       } else {
-        setMensaje('Error al realizar la compra');
+        Swal.fire({
+          title: 'Error al realizar la compra',
+          icon: 'error',
+          text: data.message || 'Por favor, inténtelo de nuevo más tarde',
+          confirmButtonText: 'OK'
+        }).then(() => {
+          // Recargar la página
+          window.location.reload();
+        }); 
       }
     })
     .catch(error => {
-      setMensaje(`Error: ${error.message}`);
+      Swal.fire({
+        title: 'Error',
+        icon: 'error',
+        text: `Error: ${error.message}`,
+        confirmButtonText: 'OK'
+      }).then(() => {
+        // Recargar la página
+        window.location.reload();
+      }); 
     });
   };
 
@@ -90,20 +151,23 @@ function DetalleCurso() {
           <br/>
           <img src={curso.ruta} alt={curso.titulo} />
             <p className="precio">Precio: <strong>{curso.precio}Bs.</strong></p>
-            <div className="botones">
-              <button className="anadir" onClick={addToCart}><b>Añadir a la cesta</b></button>
-              <button className="corazon" onClick={addToCart}>
-                <img src={corazon} alt='' className='corazon__img' />
-              </button>
-            </div>
-            <div className="botones">
-              <button className="comprar" onClick={buyNow}><strong>COMPRAR AHORA</strong></button>
-            </div>
+            {!haComprado && (
+              <>
+                <div className="botones">
+                  <button className="anadir" onClick={addToCart}><b>Añadir a la cesta</b></button>
+                  <button className="corazon" onClick={addToCart}>
+                    <img src={corazon} alt='' className='corazon__img' />
+                  </button>
+                </div>
+                <div className="botones">
+                  <button className="comprar" onClick={buyNow}><strong>COMPRAR AHORA</strong></button>
+                </div>
+              </>
+            )}
           </div>
         </div>
         <div className="col-md-detalles">
           <div className="curso-detalles">
-
                 <h3>{curso.titulo}</h3>
                 <p>Docente: {curso.nombre_docente}</p>
                 <p>Descripción: {curso.descripcion}</p>
@@ -117,8 +181,8 @@ function DetalleCurso() {
 
 export default DetalleCurso;
 
-const DetalleCursoCSS= styled.nav`
-.container {
+const DetalleCursoCSS = styled.nav`
+  .container {
     max-width: 1200px;
     margin: 0 auto;
   }
@@ -134,7 +198,6 @@ const DetalleCursoCSS= styled.nav`
     padding: 20px;
     flex: 0 0 60%; /* Define un ancho del 60% del contenedor */
   }
-  
   
   .curso-imagen img {
     max-width: 100%;
@@ -162,7 +225,6 @@ const DetalleCursoCSS= styled.nav`
     justify-content: center;
     border: 1px solid;
     border-radius: 5px;
-    //padding: 10px 20px;
     cursor: pointer;
     transition: background-color 0.3s ease;
   }
@@ -173,7 +235,7 @@ const DetalleCursoCSS= styled.nav`
     margin-left: 5px;
   }
 
-  .corazon__img{  
+  .corazon__img {  
     height: auto; /* Para mantener la relación de aspecto */
     width: 35px; /* Ajusta el ancho de la imagen según sea necesario */
   }
@@ -189,6 +251,7 @@ const DetalleCursoCSS= styled.nav`
     height: 50px;
     background-color: transparent;
   }
+
   .comprar {
     transition: 300ms;
     width: 300px;
@@ -202,8 +265,8 @@ const DetalleCursoCSS= styled.nav`
     transition: 300ms;
     color: black;  
     background-color: #B4D2DA;
-
   }
+
   .row {
     display: flex;
   }
@@ -211,6 +274,7 @@ const DetalleCursoCSS= styled.nav`
   .col-md-imagen {
     flex: 0 0 45%;
   }
+
   .col-md-detalles {
     flex: 0 0 55%;
   }
