@@ -5,7 +5,7 @@ header('Access-Control-Allow-Origin: ' . $origin);
 header('Access-Control-Allow-Methods: GET, POST, OPTIONS');
 header('Access-Control-Allow-Headers: Content-Type');
 header('Access-Control-Allow-Credentials: true');
-
+session_start();
 // Conexión a la base de datos
 $servername = "localhost";
 $username = "root";
@@ -19,7 +19,7 @@ if ($conn->connect_error) {
 }
 
 // ID del estudiante (puedes obtenerlo de la autenticación)
-$idEstudiante = 1;
+$idEstudiante = $_SESSION['id_estudiante'];
 
 // Consulta SQL para seleccionar todos los cursos comprados por el estudiante
 $sql = "SELECT c.IDCURSO, c.NOMBRECURSO, c.PRECIOCURSO, c.RUTACURSO, CONCAT(d.NOMBREDOCENTE, ' ', d.APELLIDODOCENTE) AS nombre_docente 
