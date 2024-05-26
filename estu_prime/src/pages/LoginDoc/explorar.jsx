@@ -7,6 +7,14 @@ function ExplorarD() {
   const [resultados, setResultados] = useState([]);
   const [buscado, setBuscado] = useState();
   const [cursos, setCursos] = useState();
+
+
+  const submitBuscado =(e) =>{
+    e.preventDefault();
+    changeCursos();
+  }
+
+
   const buscarDatos = async (e) =>{
     setBuscado(e.target.value);
     const response = await fetch('http://localhost:80/IngenieriaDeSoftware/estu_prime/src/api/cursoBuscar.php', {
@@ -52,7 +60,7 @@ function ExplorarD() {
   return (
     <Fragment>
       <ExplorarContainer>
-        <form className='boxS'>
+        <form onSubmit={submitBuscado} className='boxS'>
             <input 
               type="text" 
               className='boxS__search'
