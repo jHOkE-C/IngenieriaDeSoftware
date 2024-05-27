@@ -65,6 +65,9 @@ function Header( { onLogout } ) {
 export default Header
 
 const HeaderContainerDoc = styled.nav`
+    position: sticky;
+    top: 0%;
+    z-index: 1;
     .navC__espacio{
         padding: 0.8vw;
         position: relative;

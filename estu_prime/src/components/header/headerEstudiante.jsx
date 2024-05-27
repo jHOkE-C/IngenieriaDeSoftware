@@ -54,7 +54,9 @@ function Header( { onLogout } ) {
 export default Header
 
 const HeaderContainerEst = styled.nav`
-
+    position: sticky;
+    top: 0%;
+    z-index: 1;
     #navC{
         display: flex;
         align-items: center;
