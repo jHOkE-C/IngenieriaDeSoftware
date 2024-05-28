@@ -45,10 +45,24 @@ const navegarDetalle = (idCurso) => {
   useEffect(() => {
     obtenerCursos();
   }, []);
-
+/** 
   const obtenerCursos = () => {
     fetch('http://localhost:80/IngenieriaDeSoftware/estu_prime/src/api/mostrarComprados.php')
       .then(res => res.json())
+      .then(data => setCursosRecomendados(data))
+      .catch(error => console.error('Error fetching data:', error));
+  };*/
+  const obtenerCursos = () => {
+    fetch('http://localhost:80/IngenieriaDeSoftware/estu_prime/src/api/mostrarComprados.php', {
+      method: 'GET',
+      credentials: 'include' // Esto es necesario si tu PHP utiliza sesiones
+    })
+      .then(res => {
+        if (!res.ok) {
+          throw new Error('Error al obtener los cursos');
+        }
+        return res.json();
+      })
       .then(data => setCursosRecomendados(data))
       .catch(error => console.error('Error fetching data:', error));
   };
