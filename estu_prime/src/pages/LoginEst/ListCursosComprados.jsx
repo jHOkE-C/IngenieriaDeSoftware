@@ -7,76 +7,53 @@ import { useNavigate } from "react-router-dom";
 
 function PaginaCursos() {
   const [cursosRecomendados, setCursosRecomendados] = useState([]);
-  const [cursosNuevos, setCursosNuevos] = useState([]);
-  const [cursosRecientes, setCursosRecientes] = useState([]);
-  
-  const [currentPageRecomendados, setCurrentPageRecomendados] = useState(0);
-  const [currentPageNuevos, setCurrentPageNuevos] = useState(0);
-  const [currentPageRecientes, setCurrentPageRecientes] = useState(0);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [filteredCursos, setFilteredCursos] = useState([]);
+  const [currentPage, setCurrentPage] = useState(0);
+  const navigate = useNavigate();
 
-/* parte de Explorar.jsx */
-const [cursos, setCursos] = useState([]);
-const [searchTerm, setSearchTerm] = useState('');
-const [filteredCursos, setFilteredCursos] = useState([]);
-const navigate = useNavigate();
   useEffect(() => {
-    cursosBuscar();
+    fetchCursos();
   }, []);
+
   useEffect(() => {
-    const filtered = cursos.filter(curso =>
-      curso.titulo.toLowerCase().includes(searchTerm.toLowerCase())
+    const filtered = cursosRecomendados.filter(curso =>
+      curso.NOMBRECURSO.toLowerCase().includes(searchTerm.toLowerCase())
     );
     setFilteredCursos(filtered);
-  }, [searchTerm, cursos]);
-const cursosBuscar = () => {
-  fetch('http://localhost:80/IngenieriaDeSoftware/estu_prime/src/api/mostrarComprados.php')
-    .then(res => res.json())
-    .then(data => setCursos(data))
-    .catch(error => console.error('Error fetching data:', error));
-};
+  }, [searchTerm, cursosRecomendados]);
 
-const navegarDetalle = (idCurso) => {
-  navigate(`/LoginEstudiante/ListCursos/DetalleCurso/${idCurso}`);
-
-};
-
-/* fin explorar*/
-
-  useEffect(() => {
-    obtenerCursos();
-  }, []);
-
-  const obtenerCursos = () => {
+  const fetchCursos = () => {
     fetch('http://localhost:80/IngenieriaDeSoftware/estu_prime/src/api/mostrarComprados.php')
       .then(res => res.json())
-      .then(data => setCursosRecomendados(data))
+      .then(data => {
+        console.log('Cursos comprados:', data);
+        setCursosRecomendados(data);
+        setFilteredCursos(data); // Inicialmente mostrar todos los cursos
+      })
       .catch(error => console.error('Error fetching data:', error));
   };
 
-  const renderCursos = (cursos, currentPage, setCurrentPage) => {
-    const startIndex = currentPage * 12;
-    const endIndex = startIndex + 12;
-    return cursos.slice(startIndex, endIndex).map((curso) => (
-    <CardsCursos 
-      key={curso.idCurso} 
-      title={curso.titulo} 
-      id={curso.idCurso} 
-      nombre_docente={curso.nombre_docente} 
-      precio={curso.precio} 
-      img={curso.ruta} 
-    />
-   ));
+  const navegarDetalle = (idCurso) => {
+    navigate(`/LoginEstudiante/ListCursos/DetalleCurso/${idCurso}`);
   };
 
-  const goToNextPage = (currentPage, setCurrentPage, cursos) => {
-    const startIndex = currentPage * 12;
-    const endIndex = startIndex + 12;
-    if (endIndex < cursos.length) {
+  const renderCursos = (cursos, currentPage) => {
+    const startIndex = currentPage * 10;
+    const endIndex = startIndex + 10;
+    return cursos.slice(startIndex, endIndex).map((curso) => (
+      <CardsCursos key={curso.IDCURSO} title={curso.NOMBRECURSO} id={curso.IDCURSO} nombre_docente={curso.nombre_docente} precio={curso.PRECIOCURSO} img={curso.RUTACURSO}/>
+    ));
+  };
+
+  const goToNextPage = () => {
+    const startIndex = (currentPage + 1) * 10;
+    if (startIndex < filteredCursos.length) {
       setCurrentPage(prevPage => prevPage + 1);
     }
   };
 
-  const goToPreviousPage = (currentPage, setCurrentPage) => {
+  const goToPreviousPage = () => {
     if (currentPage > 0) {
       setCurrentPage(prevPage => prevPage - 1);
     }
@@ -84,7 +61,6 @@ const navegarDetalle = (idCurso) => {
 
   return (
     <div>
-      {/* explorar inicio*/}
       <Container>
         <Titulo>Listado de Cursos Comprados</Titulo>
         <SearchBarContainer>
@@ -97,26 +73,24 @@ const navegarDetalle = (idCurso) => {
           {searchTerm && (
             <SuggestionsList>
               {filteredCursos.map(curso => (
-                <li key={curso.idCurso} onClick={() => navegarDetalle(curso.idCurso)}>
-                  {curso.titulo}
+                <li key={curso.IDCURSO} onClick={() => navegarDetalle(curso.IDCURSO)}>
+                  {curso.NOMBRECURSO}
                 </li>
               ))}
             </SuggestionsList>
           )}
         </SearchBarContainer>
       </Container>
-      {/* explorar fin*/}
-   {/*      <Titulo>Listado de Cursos</Titulo>*/}
       <h2>Cursos Comprados</h2>
       <ListaCrearCursoContainer>
-        {renderCursos(cursosRecomendados, currentPageRecomendados, setCurrentPageRecomendados)}
+        {renderCursos(filteredCursos, currentPage)}
         <div className='arrows'>
-          <button className='arrows__flecha' onClick={() => goToPreviousPage(currentPageRecomendados, setCurrentPageRecomendados)}>
-            <ArrowLeft className='home__icon' style={{ visibility: currentPageRecomendados === 0 ? 'hidden' : 'visible' }} />
+          <button className='arrows__flecha' onClick={goToPreviousPage}>
+            <ArrowLeft className='home__icon' style={{ visibility: currentPage === 0 ? 'hidden' : 'visible' }} />
           </button>
-          <p>Página {currentPageRecomendados + 1}</p>
-          <button className='arrows__flecha' onClick={() => goToNextPage(currentPageRecomendados, setCurrentPageRecomendados, cursosRecomendados)}>
-            <ArrowRight className='home__icon' style={{ visibility: (currentPageRecomendados + 1) * 4 >= cursosRecomendados.length ? 'hidden' : 'visible' }} />
+          <p>Página {currentPage + 1}</p>
+          <button className='arrows__flecha' onClick={goToNextPage}>
+            <ArrowRight className='home__icon' style={{ visibility: (currentPage + 1) * 10 >= filteredCursos.length ? 'hidden' : 'visible' }} />
           </button>
         </div>
       </ListaCrearCursoContainer>
@@ -131,6 +105,7 @@ const Titulo = styled.h1`
   margin-bottom: 1rem;
   text-align: center;
 `;
+
 const ListaCrearCursoContainer = styled.nav`
   width: 81vw;
   position: relative;
@@ -164,10 +139,10 @@ const ListaCrearCursoContainer = styled.nav`
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
   }
 `;
+
 const Container = styled.div`
   padding: 20px;
 `;
-
 
 const SearchBarContainer = styled.div`
   position: relative;
@@ -192,7 +167,7 @@ const SuggestionsList = styled.ul`
   background: white;
   border: 1px solid #ccc;
   border-radius: 20px;
-  z-index: 1000; /* Asegúrate de que esté por encima de otros elementos */
+  z-index: 1000;
   max-height: 200px;
   overflow-y: auto;
   list-style: none;
