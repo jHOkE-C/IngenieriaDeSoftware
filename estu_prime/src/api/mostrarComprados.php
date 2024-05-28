@@ -1,12 +1,12 @@
 <?php
-// Permitir acceso desde cualquier origen (útil para desarrollo, pero no recomendado para producción)
 session_start();
+// Permitir acceso desde cualquier origen (útil para desarrollo, pero no recomendado para producción)
 $origin = isset($_SERVER['HTTP_ORIGIN']) ? $_SERVER['HTTP_ORIGIN'] : '';
 header('Access-Control-Allow-Origin: ' . $origin);
 header('Access-Control-Allow-Methods: GET, POST, OPTIONS');
 header('Access-Control-Allow-Headers: Content-Type');
 header('Access-Control-Allow-Credentials: true');
-session_start();
+
 // Conexión a la base de datos
 $servername = "localhost";
 $username = "root";
@@ -20,7 +20,7 @@ if ($conn->connect_error) {
 }
 
 // ID del estudiante (puedes obtenerlo de la autenticación)
-$idEstudiante = $_SESSION['id_estudiante'];
+$idEstudiante = $_SESSION["id_estudiante"];
 
 // Consulta SQL para seleccionar todos los cursos comprados por el estudiante
 $sql = "SELECT c.IDCURSO, c.NOMBRECURSO, c.PRECIOCURSO, c.RUTACURSO, CONCAT(d.NOMBREDOCENTE, ' ', d.APELLIDODOCENTE) AS nombre_docente 
