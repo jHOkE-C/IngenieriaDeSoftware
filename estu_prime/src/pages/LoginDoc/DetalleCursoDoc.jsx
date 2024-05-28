@@ -73,15 +73,6 @@ function DetalleCurso() {
           <br/>
           <img src={curso.ruta} alt={curso.titulo} className='imagen'/>
             <p className="precio">Precio: <strong>{curso.precio}Bs.</strong></p>
-            <div className="botones">
-              <button className="anadir" onClick={addToCart}><b>Añadir a la cesta</b></button>
-              <button className="corazon" onClick={addToCart}>
-                <img src={corazon} alt='' className='corazon__img' />
-              </button>
-            </div>
-            <div className="botones">
-              <button className="comprar" onClick={buyNow}><strong>COMPRAR AHORA</strong></button>
-            </div>
           </div>
         </div>
         <div className="col-md-detalles">

@@ -73,6 +73,8 @@ const FooterContainer = styled.nav`
     background-color: #035058;
     width: 100vw;
     height: 30vh;
+    position: absolute;
+    bottom: 0;
   }
   .imgR{
     width: 30px;
