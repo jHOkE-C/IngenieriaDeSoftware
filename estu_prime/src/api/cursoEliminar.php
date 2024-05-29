@@ -15,3 +15,8 @@ if ($conn->connect_error) {
 }
 $json_data = file_get_contents("php://input");
 $data = json_decode($json_data, true);
+$id = $data['cursoIden'];
+$sql = "DELETE FROM `estuprime`.`estudiantedecurso` WHERE (`IDESTDECURSO` = '$id');";
+$result = $conn->query($sql);
+$response = array("Mensaje"=>"Curso eliminado Con Exito");
+echo $respone;
