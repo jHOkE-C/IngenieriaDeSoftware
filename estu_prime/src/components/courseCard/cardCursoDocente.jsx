@@ -1,10 +1,16 @@
 import React from 'react';
 import styled from 'styled-components';
-import ImgEdit from '../../assents/img/edit.png'
-import {useNavigate, Link} from "react-router-dom";
+import mano from '../../assents/img/edit.png'
+import manoHover from '../../assents/img/editHover.png'
+import { Navigate, useNavigate } from "react-router-dom";
+
 
 function CardsCursoDocente({ title, id, nombre_docente, precio,img }) {
     const navigate = useNavigate();
+  
+    const navegarDetalle = () => {
+      navigate(`/LoginDocente/TusCursos/editCurso/${id}`);
+    };
   
     return (
       <ContainerCard>
@@ -12,14 +18,16 @@ function CardsCursoDocente({ title, id, nombre_docente, precio,img }) {
           <img src={img} alt='imgCurso' className='card__img'></img>
           <p className='card__title'><strong>{title}</strong></p>
           <div className='cardFondo'>
-            <Link to={`/LoginDocente/TusCursos/editCurso/${id}`} className='cardFondo__edit'>
-              <img src={ImgEdit} alt='' className='cardFondo__img' />
-            </Link>
+            <button type='button' className='cardFondo__edit' onClick={() => navegarDetalle()}>
+              <img src={mano} alt='' className='cardFondo__img' />
+              <img src={manoHover} alt='' className='cardFondo__imgHover' />
+            </button>
           </div>
+        
           <p className='card__details'>Docente: {nombre_docente}</p>
-          <p className='card__details'>Precio: {precio}</p>
+          <p className='card__details'>Precio: {precio} Bs.</p>
+    
         </div>
-       
       </ContainerCard>
     );
   }
@@ -28,14 +36,16 @@ export default CardsCursoDocente;
 
 
 const ContainerCard = styled.div`
-  display: flex;
-  margin-top: 1%;
-  margin-left: 3%;
-  margin-bottom:1%;
+  display: inline;
+
     .card{
       position: relative;
       padding: 1vh;
       text-align: center;
+      display: inline-block; 
+      margin-top: 3%;
+      margin-left: 2.5%;
+      margin-right: 2.5%;
       width: 15vw;
       height: 15vw;
       background-color: #F2E9E4;
@@ -56,45 +66,69 @@ const ContainerCard = styled.div`
         left: 0%;
         width: 100%;
         height: 100%;
+        justify-content: center;
+        align-items: center;
+        background-color: rgba(0, 0, 0, 0); /* Transparente */
+        transition: background-color 0.3s ease-in-out;
     }
     .cardFondo__edit{
-      border: none;
-      display: flex;
-      position: relative;
-      align-items: center;
-      justify-content: center;
-      left: 36%;
-      top: 40%;
-      height: 28%;
-      width: 28%;
-      opacity: 0;
-      border-radius: 1vw;
+        border: none;
+        display: flex;
+        position: relative;
+        align-items: center;
+        //left: 36%;
+        //top: 36%;
+        height: 28%;
+        opacity: 0;
+        border-radius: 1vw;
     }
     .cardFondo__img{
-      opacity: 0;
-      display: flex;
+        opacity: 1;
+        width: 50px; /* Ajusta el ancho de la imagen según sea necesario */
+        height: auto; /* Para mantener la relación de aspecto */
+
+    }
+    .cardFondo__imgHover{
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 50px; /* Ajusta el ancho de la imagen según sea necesario */
+        height: auto; /* Para mantener la relación de aspecto */
+        transition: opacity 0.3s ease-in-out; /* Transición de opacidad */
     }
     .cardFondo:hover{
-        transition: 500ms;
+        transition: 300ms;
         background-color: rgba(21,41,46,0.5);
         .cardFondo__edit{
-            transition: 1000ms;
+            transition: 500ms;
             background-color: #15292E;
             opacity: 1;
+            
         }
         .cardFondo__img{
-            transition: 2000ms;
+            transition: 1000ms;
             opacity: 1;
         }
-        .cardFondo__edit:hover{
-            left: 34%;
-            top: 38%;
-            padding: 2%;
-            transition: 200ms;
-            background-color: #D6CDC8;
+        .cardFondo__imgHover{
+            opacity: 0;
         }
+        .cardFondo__edit:hover{
+            background-color: #D6CDC8;
+            transform: scale(1.1);
+            .cardFondo__imgHover {
+                transition: 300ms;
+                opacity: 1;
+            }
+            .cardFondo__img{
+                transition: 300ms;
+                opacity: 0;
+            }
+        }
+        
         .cardFondo__edit:active{
             background-color: #15292E;
+
         }
     }
   .card__title {
@@ -104,9 +138,14 @@ const ContainerCard = styled.div`
     font-size: 1.2em;
     margin: 10px;
     display: block;
+    max-height: 2.8em;
   }
   .card__details {
     font-size: 0.9em;
     margin: 5px;
+    max-height: 1.4em;
+    overflow: hidden;
   }
+  }
+  
 `;
