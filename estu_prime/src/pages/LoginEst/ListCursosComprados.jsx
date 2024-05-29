@@ -7,33 +7,13 @@ import { useNavigate } from "react-router-dom";
 
 function PaginaCursos() {
   const [cursosRecomendados, setCursosRecomendados] = useState([]);
-  const [cursosNuevos, setCursosNuevos] = useState([]);
-  const [cursosRecientes, setCursosRecientes] = useState([]);
+  const [cursosFavoritos, setCursosFavoritos] = useState([]);
   
   const [currentPageRecomendados, setCurrentPageRecomendados] = useState(0);
-  const [currentPageNuevos, setCurrentPageNuevos] = useState(0);
-  const [currentPageRecientes, setCurrentPageRecientes] = useState(0);
+  const [currentPageFavoritos, setCurrentPageFavoritos] = useState(0);
 
-/* parte de Explorar.jsx */
-const [cursos, setCursos] = useState([]);
-const [searchTerm, setSearchTerm] = useState('');
-const [filteredCursos, setFilteredCursos] = useState([]);
 const navigate = useNavigate();
-  useEffect(() => {
-    cursosBuscar();
-  }, []);
-  useEffect(() => {
-    const filtered = cursos.filter(curso =>
-      curso.titulo.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-    setFilteredCursos(filtered);
-  }, [searchTerm, cursos]);
-const cursosBuscar = () => {
-  fetch('http://localhost:80/IngenieriaDeSoftware/estu_prime/src/api/mostrarComprados.php')
-    .then(res => res.json())
-    .then(data => setCursos(data))
-    .catch(error => console.error('Error fetching data:', error));
-};
+
 
 const navegarDetalle = (idCurso) => {
   navigate(`/LoginEstudiante/ListCursos/DetalleCurso/${idCurso}`);
@@ -44,6 +24,7 @@ const navegarDetalle = (idCurso) => {
 
   useEffect(() => {
     obtenerCursos();
+    obtenerCursosFavoritos();
   }, []);
 /** 
   const obtenerCursos = () => {
@@ -66,7 +47,20 @@ const navegarDetalle = (idCurso) => {
       .then(data => setCursosRecomendados(data))
       .catch(error => console.error('Error fetching data:', error));
   };
-
+  const obtenerCursosFavoritos = () => {
+    fetch('http://localhost:80/IngenieriaDeSoftware/estu_prime/src/api/mostrarFavoritos.php', {
+      method: 'GET',
+      credentials: 'include' // Esto es necesario si tu PHP utiliza sesiones
+    })
+      .then(res => {
+        if (!res.ok) {
+          throw new Error('Error al obtener los cursos');
+        }
+        return res.json();
+      })
+      .then(data => setCursosFavoritos(data))
+      .catch(error => console.error('Error fetching data:', error));
+  };
   const renderCursos = (cursos, currentPage, setCurrentPage) => {
     const startIndex = currentPage * 12;
     const endIndex = startIndex + 12;
@@ -100,7 +94,29 @@ const navegarDetalle = (idCurso) => {
     <div>
    {/*      <Titulo>Listado de Cursos</Titulo>*/}
       <Titulo>Listado de Cursos Comprados</Titulo>
-      <h2>Cursos Comprados</h2>
+      {cursosFavoritos.length > 0 && (
+        <>
+          <h2>Cursos Favoritos</h2>
+          <ListaCrearCursoContainer>
+            {renderCursos(cursosFavoritos, currentPageFavoritos, setCurrentPageFavoritos)}
+            <div className='arrows'>
+              <button className='arrows__flecha' onClick={() => goToPreviousPage(currentPageFavoritos, setCurrentPageFavoritos)}>
+                <ArrowLeft className='home__icon' style={{ visibility: currentPageFavoritos === 0 ? 'hidden' : 'visible' }} />
+              </button>
+              <p>Página {currentPageFavoritos + 1}</p>
+              <button className='arrows__flecha' onClick={() => goToNextPage(currentPageFavoritos, setCurrentPageFavoritos, cursosFavoritos)}>
+                <ArrowRight className='home__icon' style={{ visibility: (currentPageFavoritos + 1) * 4 >= cursosFavoritos.length ? 'hidden' : 'visible' }} />
+              </button>
+            </div>
+          </ListaCrearCursoContainer>
+        </>
+      )}
+      <h2>Cursos Comprados </h2>
+      {!(cursosFavoritos.length > 0) && (
+        <>
+          <span>Al añadir un curso a tus favoritos, se hará una lista de favoritos encima</span>´
+        </>
+      )}
       <ListaCrearCursoContainer>
         {renderCursos(cursosRecomendados, currentPageRecomendados, setCurrentPageRecomendados)}
         <div className='arrows'>
@@ -155,47 +171,5 @@ const ListaCrearCursoContainer = styled.nav`
     text-align: center;
     margin-bottom: 20px;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
-  }
-`;
-const Container = styled.div`
-  padding: 20px;
-`;
-
-
-const SearchBarContainer = styled.div`
-  position: relative;
-  width: 80%;
-  margin: 20px auto;
-`;
-
-const SearchInput = styled.input`
-  width: 100%;
-  padding: 10px;
-  font-size: 16px;
-  border: 2px solid #ccc;
-  border-radius: 20px;
-  outline: none;
-`;
-
-const SuggestionsList = styled.ul`
-  position: absolute;
-  top: calc(100% + 5px);
-  left: 0;
-  width: 102%;
-  background: white;
-  border: 1px solid #ccc;
-  border-radius: 20px;
-  z-index: 1000; /* Asegúrate de que esté por encima de otros elementos */
-  max-height: 200px;
-  overflow-y: auto;
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  li {
-    padding: 10px;
-    cursor: pointer;
-    &:hover {
-      background: #f0f0f0;
-    }
   }
 `;
