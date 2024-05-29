@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import styled from 'styled-components';
 import Swal from 'sweetalert2';
 import corazon from '../../assents/img/heart.png';
+import corazonFavorito from '../../assents/img/heartFavorito.png';
 
 function DetalleCurso() {
   const [curso, setCurso] = useState(null);
@@ -10,6 +11,7 @@ function DetalleCurso() {
   const [error, setError] = useState(null); 
   const [mensaje, setMensaje] = useState(null); // Para mostrar mensajes de éxito o error
   const [haComprado, setHaComprado] = useState(false);
+  const [esFavorito, setEsFavorito] = useState(false);
   let { idCurso } = useParams();
 
   useEffect(() => {
@@ -40,6 +42,7 @@ function DetalleCurso() {
   useEffect(() => {
     if (curso) {
       verificarCompra();
+      verificarFavorito();
     }
   }, [curso]);
 
@@ -77,56 +80,149 @@ function DetalleCurso() {
     }
   };
 
-  const buyNow = () => {
-    console.log(idCurso);
-    setMensaje(null); // Resetear el mensaje
-    fetch('http://localhost:80/IngenieriaDeSoftware/estu_prime/src/api/comprarCurso.php', {
-      method: 'POST',
-      credentials: 'include', // Esto es necesario si tu PHP utiliza sesiones
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ idCurso })
-    })
-    .then(response => {
+  const manejarFavorito = async () => {
+    const url = esFavorito
+      ? 'http://localhost:80/IngenieriaDeSoftware/estu_prime/src/api/quitarFavorito.php'
+      : 'http://localhost:80/IngenieriaDeSoftware/estu_prime/src/api/anadirFavorito.php';
+
+    try {
+      const response = await fetch(url, {
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ idCurso })
+      });
+
       if (!response.ok) {
-        throw new Error('Error al realizar la compra');
+        throw new Error('Error al actualizar favorito');
       }
-      return response.json();
-    })
-    .then(data => {
+
+      const data = await response.json();
+
       if (data.success) {
+        setEsFavorito(!esFavorito);
         Swal.fire({
-          title: 'Compra realizada con éxito',
+          title: esFavorito ? 'Curso quitado de favoritos' : 'Curso añadido a favoritos',
           icon: 'success',
-          confirmButtonText: 'OK'
-        }).then(() => {
-          // Recargar la página
-          window.location.reload();
-        }); 
+          confirmButtonText: 'OK',
+          background:'#F2E9E4',
+          confirmButtonColor:'#15292E',
+        });
       } else {
         Swal.fire({
-          title: 'Error al realizar la compra',
+          title: 'Error',
           icon: 'error',
           text: data.message || 'Por favor, inténtelo de nuevo más tarde',
-          confirmButtonText: 'OK'
-        }).then(() => {
-          // Recargar la página
-          window.location.reload();
-        }); 
+          confirmButtonText: 'OK',
+          background:'#F2E9E4',
+          confirmButtonColor:'#15292E',
+        });
       }
-    })
-    .catch(error => {
+    } catch (error) {
       Swal.fire({
         title: 'Error',
         icon: 'error',
         text: `Error: ${error.message}`,
         confirmButtonText: 'OK'
-      }).then(() => {
-        // Recargar la página
-        window.location.reload();
-      }); 
-    });
+      });
+    }
+  };
+
+  const verificarFavorito = async () => {
+    try {
+      const response = await fetch('http://localhost:80/IngenieriaDeSoftware/estu_prime/src/api/verificarFavorito.php', {
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ idCurso })
+      });
+      
+      if (!response.ok) {
+        throw new Error('Error al verificar favorito');
+      }
+
+      const data = await response.json();
+
+      if (data.success) {
+        setEsFavorito(data.esFavorito);
+      } else {
+        setError(data.message);
+      }
+    } catch (error) {
+      setError(error.message);
+    }
+  };
+
+  const buyNow = () => {
+    Swal.fire({
+      icon: 'question',
+      text: 'Se comprara el curso por el Precio de: '+curso.precio+', esta seguro?',
+      background:'#F2E9E4',
+      confirmButtonColor:'#15292E',
+      showCancelButton: true,
+      confirmButtonText: "Comprar",
+    }).then(result => {
+      if (result.isConfirmed) {
+        console.log(idCurso);
+        setMensaje(null); // Resetear el mensaje
+        fetch('http://localhost:80/IngenieriaDeSoftware/estu_prime/src/api/comprarCurso.php', {
+          method: 'POST',
+          credentials: 'include', // Esto es necesario si tu PHP utiliza sesiones
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ idCurso })
+        })
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Error al realizar la compra');
+          }
+          return response.json();
+        })
+        .then(data => {
+          if (data.success) {
+            Swal.fire({
+              title: 'Compra realizada con éxito',
+              icon: 'success',
+              confirmButtonText: 'OK',
+              background:'#F2E9E4',
+              confirmButtonColor:'#15292E',
+            }).then(() => {
+              // Recargar la página
+              window.location.reload();
+            }); 
+          } else {
+            Swal.fire({
+              title: 'Error al realizar la compra',
+              icon: 'error',
+              text: data.message || 'Por favor, inténtelo de nuevo más tarde',
+              confirmButtonText: 'OK',
+              background:'#F2E9E4',
+              confirmButtonColor:'#15292E',
+            }).then(() => {
+              // Recargar la página
+              window.location.reload();
+            }); 
+          }
+        })
+        .catch(error => {
+          Swal.fire({
+            title: 'Error',
+            icon: 'error',
+            text: `Error: ${error.message}`,
+            confirmButtonText: 'OK'
+          }).then(() => {
+            // Recargar la página
+            window.location.reload();
+          }); 
+        });
+      }
+    }); 
+    
   };
 
   if (loading) {
@@ -150,17 +246,21 @@ function DetalleCurso() {
           <h2>DETALLE DE CURSO</h2>
           <br/>
           <img src={curso.ruta} alt={curso.titulo} />
-            <p className="precio">Precio: <strong>{curso.precio}Bs.</strong></p>
+          <p className="precio">Precio: <strong>{curso.precio}Bs.</strong></p>
             {!haComprado && (
               <>
                 <div className="botones">
-                  <button className="anadir" onClick={addToCart}><b>Añadir a la cesta</b></button>
-                  <button className="corazon" onClick={addToCart}>
-                    <img src={corazon} alt='' className='corazon__img' />
-                  </button>
-                </div>
-                <div className="botones">
                   <button className="comprar" onClick={buyNow}><strong>COMPRAR AHORA</strong></button>
+                </div>
+              </>
+            )}
+            {haComprado && (
+              <>
+                <div className="botones">
+                  <button className="yaComprado" onClick={() => {}}><strong>YA COMPRADO</strong></button>
+                  <button className="corazon" onClick={manejarFavorito}>
+                    <img src={esFavorito ? corazonFavorito : corazon} alt='' className='corazon__img' />
+                  </button>
                 </div>
               </>
             )}
@@ -201,6 +301,7 @@ const DetalleCursoCSS = styled.nav`
   
   .curso-imagen img {
     max-width: 100%;
+    border-radius: 5px;
     height: auto;
   }
   
@@ -216,7 +317,7 @@ const DetalleCursoCSS = styled.nav`
   .botones {
     display: flex;
     justify-content: center;
-    margin-top: 5px;
+    margin: 20px;
   }
 
   .botones button {
@@ -251,13 +352,20 @@ const DetalleCursoCSS = styled.nav`
     height: 50px;
     background-color: transparent;
   }
-
   .comprar {
     transition: 300ms;
     width: 300px;
-    height: 40px;
+    height: 50px;
     background-color: #035058;
     color: white;    
+    border: 1px solid;
+  }
+  .yaComprado {
+    transition: 300ms;
+    width: 245px;
+    height: 50px;
+    background-color: #B4D2DA;
+    color: black;    
     border: 1px solid;
   }
 
