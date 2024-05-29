@@ -26,8 +26,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Obtener los datos del correo y la contraseña
         $correo = $data['correo'];
         $contrasena = $data['contrasena'];
-        $queryDocente = "SELECT IDDOCENTE, NOMBREDOCENTE, APELLIDODOCENTE FROM docente where EMAILDOCENTE = '$correo' AND CONTRASENADOCENTE = '$contrasena'";
-        $queryEstudiante = "SELECT IDESTUDIANTE FROM estudiante where EMAILESTUDIANTE = '$correo' AND CONTRASENAESTUDIANTE = '$contrasena'";
+        $queryDocente = "SELECT IDDOCENTE, NOMBREDOCENTE, APELLIDODOCENTE FROM docente where BINARY EMAILDOCENTE = '$correo' AND BINARY CONTRASENADOCENTE = '$contrasena'";
+        $queryEstudiante = "SELECT IDESTUDIANTE FROM estudiante where BINARY  EMAILESTUDIANTE = '$correo' AND BINARY CONTRASENAESTUDIANTE = '$contrasena'";
         $resultDocente = $conn->query($queryDocente);
         $resultEstudiante = $conn->query($queryEstudiante);
 
