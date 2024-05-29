@@ -99,16 +99,19 @@ const ContainerCard = styled.div`
             background-color: #15292E;
         }
     }
-  .card__title {
-    white-space: normal;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    font-size: 1.2em;
-    margin: 10px;
-    display: block;
-  }
-  .card__details {
-    font-size: 0.9em;
-    margin: 5px;
-  }
+    .card__title {
+      white-space: normal;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      font-size: 1.2em;
+      margin: 10px;
+      display: block;
+      max-height: 2.8em;
+    }
+    .card__details {
+      font-size: 0.9em;
+      margin: 5px;
+      max-height: 1.4em;
+      overflow: hidden;
+    }
 `;

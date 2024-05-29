@@ -38,29 +38,97 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $descripcion = $data['descripcion'];
     $docente = $data['docente'];
     $precio = $data['precio'];
-    //$imagen = $data['img'];
-    // Procesar la imagen
+    //Procesando los textos
+    $texto = $data['textos'];
+    $groupedTexts = [];
+    
+    foreach ($texto as $item) {
+        // Verificar si la clave 'text' está definida en el elemento actual
+        if (isset($item['text'])) {
+            $pos = $item['posicion'];
+            $text = $item['text'];
+    
+            // Verificar si el texto no es null y agregarlo al array agrupado
+            if ($text !== null) {
+                // Verificar si la posición aún no existe en el array agrupado
+                if (!isset($groupedTexts[$pos])) {
+                    $groupedTexts[$pos] = [];
+                }
+    
+                // Agregar el texto al array agrupado
+                $groupedTexts[$pos][] = $text;
+            }
+        }
+    }
+    
+    $length = count($groupedTexts);
+    
+
+  
   $rutaImagen = 'C:/xampp/htdocs/IngenieriaDeSoftware/estu_prime/archivo/';
+  
+if(isset($data['img'])){
+  $imagenBase64 = $data['img'];
+  $idUnic = uniqid()."."."png";
+  $idFront = $rutaImagen.$idUnic;
+  $idBase = "http://localhost:80/IngenieriaDeSoftware/estu_prime/archivo/". $idUnic;
+  // Decodificar la imagen base64
+  //$imagenDecodificada = base64_decode($imagenBase64);
+  $imagenDecodificada = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $imagenBase64));
+    file_put_contents($idFront, $imagenDecodificada);
+  
+      $query_insert = "INSERT INTO `curso` (`NOMBRECURSO`, `DESCRIPCIONCURSO`, `PRECIOCURSO`, `RUTACURSO`, `docente_IDDOCENTE`, `FECHACREACION`) VALUES ('$titulo','$descripcion','$precio', '$idBase','$id', NOW())";
+         $conn->query($query_insert);
+         $ultimo_id = $conn->insert_id;
+         //Procesar textos
+         foreach ($groupedTexts as $pos => $texts) {
+          // Suponiendo que deseas insertar solo el último texto de cada posición
+          $lastText = end($texts);
+  
+          // Preparar la consulta de inserción
+          $stmt = $conn->prepare("INSERT INTO `inputtext` (`IDCURSO`, `POSITIONTEXT`, `STRINGTEXT`) VALUES (?, ?, ?)");
+           
+  
+          // Vincular los parámetros
+          $stmt->bind_param("iis", $ultimo_id, $pos, $lastText);
+  
+          // Ejecutar la consulta
+          $stmt->execute();
+  
+          // Cerrar la declaración preparada
+          $stmt->close();
+      }
 
-// Obtener la imagen en base64 del JSON
- // $imagenBase64 = $imagenData->imagen;
+}else{
+  $idBase = "http://localhost:80/IngenieriaDeSoftware/estu_prime/archivo/NA.jpg";
+  
+      $query_insert = "INSERT INTO `curso` (`NOMBRECURSO`, `DESCRIPCIONCURSO`, `PRECIOCURSO`, `RUTACURSO`, `docente_IDDOCENTE`, `FECHACREACION`) VALUES ('$titulo','$descripcion','$precio', '$idBase','$id', NOW())";
+         $conn->query($query_insert);
+         $ultimo_id = $conn->insert_id;
+         //Procesar textos
+         foreach ($groupedTexts as $pos => $texts) {
+          // Suponiendo que deseas insertar solo el último texto de cada posición
+          $lastText = end($texts);
+  
+          // Preparar la consulta de inserción
+          $stmt = $conn->prepare("INSERT INTO `inputtext` (`IDCURSO`, `POSITIONTEXT`, `STRINGTEXT`) VALUES (?, ?, ?)");
+           
+  
+          // Vincular los parámetros
+          $stmt->bind_param("iis", $ultimo_id, $pos, $lastText);
+  
+          // Ejecutar la consulta
+          $stmt->execute();
+  
+          // Cerrar la declaración preparada
+          $stmt->close();
+      }
+}
 
-// Decodificar la imagen base64
- 
 
-// Guardar la imagen en un archivo (opcional)
-// Obtener la imagen en base64 del JSON
-$imagenBase64 = $data['img'];
-$idUnic = uniqid()."."."jpeg";
-$idFront = $rutaImagen.$idUnic;
-$idBase = "http://localhost:80/IngenieriaDeSoftware/estu_prime/archivo/". $idUnic;
-// Decodificar la imagen base64
-//$imagenDecodificada = base64_decode($imagenBase64);
-$imagenDecodificada = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $imagenBase64));
-  file_put_contents($idFront, $imagenDecodificada);
 
-    $query_insert = "INSERT INTO `curso` (`NOMBRECURSO`, `DESCRIPCIONCURSO`, `PRECIOCURSO`, `RUTACURSO`, `docente_IDDOCENTE`, `FECHACREACION`) VALUES ('$titulo','$descripcion','$precio', '$idBase','$id', NOW())";
-       $conn->query($query_insert);
+
+
             // Registro exitoso
             $response = array("mensaje" => "a");
             header('Content-Type: application/json');
