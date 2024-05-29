@@ -259,7 +259,8 @@ export default CrearCurso;
 const CrearCursoContainer = styled.nav`
   display: flex;
   min-height: calc(65vh);
-  margin: 5vw;
+  margin-top: 1vw;
+  margin-bottom: 2vw;
   margin-left: 20vw;
   #componentesFlex{
     width: 100%;
