@@ -94,29 +94,9 @@ const navegarDetalle = (idCurso) => {
 
   return (
     <div>
-      {/* explorar inicio*/}
-      <Container>
-        <Titulo>Listado de Cursos</Titulo>
-        <SearchBarContainer>
-          <SearchInput
-            type="text"
-            placeholder="Buscar cursos..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-          />
-          {searchTerm && (
-            <SuggestionsList>
-              {filteredCursos.map(curso => (
-                <li key={curso.idCurso} onClick={() => navegarDetalle(curso.idCurso)}>
-                  {curso.titulo}
-                </li>
-              ))}
-            </SuggestionsList>
-          )}
-        </SearchBarContainer>
-      </Container>
-      {/* explorar fin*/}
+      
    {/*      <Titulo>Listado de Cursos</Titulo>*/}
+   <Titulo>Listado de Cursos</Titulo>
       <h2>Cursos recomendados</h2>
       <ListaCrearCursoContainer>
         {renderCursos(cursosRecomendados, currentPageRecomendados, setCurrentPageRecomendados)}
