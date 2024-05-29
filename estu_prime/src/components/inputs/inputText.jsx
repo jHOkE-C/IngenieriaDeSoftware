@@ -12,9 +12,11 @@ function InputText({eliminarComponente, onChangeTexto, index}) {
     e.preventDefault(); 
     eliminarComponente(index);
   };
+  
   useEffect(()=>{
     onChangeTexto(texto, index);
   },[texto])
+  
   const onChange = (e) =>{
     setTexto(e.target.value);
   }
