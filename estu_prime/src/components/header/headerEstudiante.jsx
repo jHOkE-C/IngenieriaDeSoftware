@@ -21,7 +21,7 @@ function Header( { onLogout } ) {
             if (response.ok) {  
                 onLogout();
                 // Si la solicitud fue exitosa, redirigir a la página de inicio de sesión
-                navigate('/IniciarSe', { replace: true });
+                navigate('/', { replace: true });
                 window.location.reload();
             } else {
                 // Manejar errores de solicitud

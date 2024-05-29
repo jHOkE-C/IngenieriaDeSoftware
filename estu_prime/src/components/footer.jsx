@@ -14,7 +14,7 @@ const footer = () => {
               <a href="">Declaracion de Estabilidad</a>
             </li>
             <li>
-              <a href="">Cofiguracion de Cookies</a>
+              <a href="">Configuracion de Cookies</a>
             </li>
             <li>
               <a href="">Politica de Privacidad</a>
@@ -22,13 +22,13 @@ const footer = () => {
           </ul>
           <ul id='ulFooter'>
             <li>
-              <a href="">Declaracion de Estabilidad</a>
+              <a href="">Help</a>
             </li>
             <li>
-              <a href="">Cofiguracion de Cookies</a>
+              <a href="">Contáctanos</a>
             </li>
             <li>
-              <a href="">Politica de Privacidad</a>
+              <a href="">Condiciones</a>
             </li>
           </ul>
         </div>
