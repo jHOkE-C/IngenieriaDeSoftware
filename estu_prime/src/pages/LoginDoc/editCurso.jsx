@@ -22,8 +22,7 @@ const schema = yup.object({
       titulo : yup.string()
                   .required(),
       docente: yup.string(),
-      precio: yup.string()
-                  .required('Se requiere precio del curso'),      
+      precio: yup.number().typeError('El precio debe ser un número').required('Se requiere precio del curso'),    
       img: yup.mixed()  
     }).required()  
 function CrearCurso() {

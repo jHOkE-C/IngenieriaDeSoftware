@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import trash from '../../assents/basurero.png';
 
@@ -7,9 +7,12 @@ function InputA({ eliminarComponente, onChangeVideo, index}) {
 
   const onChange = (e) => {
     setVideo(e.target.value);
-    onChangeVideo(e.target.value, index);
+    
   };
-
+  useEffect(()=>{
+    onChangeVideo(video, index);
+  },[video])
+  
   const handleClickEliminar = (e) => {
     e.preventDefault();  // Previene la recarga de la página
     eliminarComponente(index);

@@ -1,7 +1,7 @@
 
 import styled from 'styled-components';
 import trash from '../../assents/basurero.png';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 
 
@@ -12,9 +12,11 @@ function InputText({eliminarComponente, onChangeTexto, index}) {
     e.preventDefault(); 
     eliminarComponente(index);
   };
+  useEffect(()=>{
+    onChangeTexto(texto, index);
+  },[texto])
   const onChange = (e) =>{
     setTexto(e.target.value);
-    onChangeTexto(texto, index);
   }
   
   return (
