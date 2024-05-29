@@ -76,7 +76,7 @@ function ExplorarD() {
                   <div key={data.idCurso} className='resultados__links'>
                     <Link 
                       key={data.idCurso} 
-                      to={`/detalleCurso/${data.idCurso}`}
+                      to={`/LoginDocente/Explorar/DetalleCurso/${data.idCurso}`}
                     >
                       <img src={data.ruta} alt="" className='links__img' />
                       {data.titulo}
