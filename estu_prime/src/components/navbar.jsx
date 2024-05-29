@@ -1,6 +1,7 @@
 import React from 'react';
 
 import {Routes, Route} from 'react-router-dom';
+import Home from '../pages/Home/home.jsx';
 import CrearEstu from '../pages/Home/crearCuentaEstudiante.jsx';
 import CrearDoc from '../pages/Home/crearCuentaDocente.jsx';
 import IniciarS from '../pages/Home/iniciarSesion.jsx' ;
@@ -30,7 +31,7 @@ function Navbar() {
         <Route path="/LoginEstudiante/ListCursos" element={<ListadoCursos/>}/> 
         <Route path="/LoginEstudiante/ListCursosComprados" element={<ListadoCursosComprados/>}/> 
          <Route path="/LoginEstudiante/ComprarCurso" element={<ComprarCurso/>}/>
-         
+         <Route path="/home" element={<Home/>}/>
         <Route path="/LoginDocente/TusCursos/editCurso/:id" element={<EditCurso/>}/>  
         <Route path="/detalleCurso/:idCurso" element={<EditCurso/>}/>  
         <Route path="/LoginDocente/Explorar/DetalleCurso/:idCurso" element={<DetalleCursoDoc />} />

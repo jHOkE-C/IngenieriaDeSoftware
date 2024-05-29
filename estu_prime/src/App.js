@@ -1,4 +1,6 @@
+// App.js
 import React, { useState, useEffect } from 'react';
+import { Route, Routes, Navigate } from 'react-router-dom';
 import styled from 'styled-components';
 import NavB from './components/navbar';
 import Footer from './components/footer';
@@ -28,7 +30,7 @@ function App() {
     localStorage.removeItem('userRole');
   };
 
-  let headerComponent = () => {
+  const renderHeader = () => {
     if (isLoggedIn) {
       if (role === 'estudiante') {
         return <HeaderEst onLogout={handleLogout} />;
@@ -41,9 +43,14 @@ function App() {
 
   return (
     <MainFrame className='main'>
-      {headerComponent()}
-      <NavB/>
-      <Footer/>
+      {renderHeader()}
+      <NavB />
+      <Routes>
+        {/* Puedes agregar más rutas aquí según tus necesidades <Route path="/home" element={<Home />} />*/}
+        <Route path="/" element={<Navigate to="/home" />} />
+        {/* Puedes agregar más rutas aquí según tus necesidades */}
+      </Routes>
+      <Footer />
     </MainFrame>
   );
 }
