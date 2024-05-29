@@ -41,6 +41,7 @@ function CrearCurso() {
   const onSubmit = async (data) => {
     if (!errors.titulo && !errors.precio) {
       console.log(inputTexts);
+      console.log();
       const response = await fetch('http://localhost:80/IngenieriaDeSoftware/estu_prime/src/api/curso.php', {
         method: 'POST',
         credentials: 'include',
