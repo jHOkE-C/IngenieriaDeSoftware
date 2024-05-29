@@ -224,6 +224,7 @@ function CrearCurso() {
     }
   }); 
  }
+
   const handleName = (e) => {
     setTitulo(e.target.value);
     setValue('titulo', e.target.value);
@@ -236,7 +237,62 @@ function CrearCurso() {
     setPrecio(e.target.value);
     setValue('precio', e.target.value);
   };
+  async function eliminarCurso (){
+    Swal.fire({
+      icon: 'warning',
+      text: 'Se Borrara el curso, esta Seguro?',
+      background:'#F2E9E4',
+      confirmButtonColor:'#15292E',
+      showCancelButton: true,
+      confirmButtonText: "Borrar",
+    }).then(result => {
+      if (result.isConfirmed) {
+        let cadena = window.location.pathname;
+        let cadena2 = cadena.split('/');
+        let id = cadena2[cadena2.length-1];
+        fetch('http://localhost:80/IngenieriaDeSoftware/estu_prime/src/api/cursoEliminar.php', {
+            method: 'POST',
+            credentials: 'include',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              cursoIden : id,
+            }),
+        }).then((response)=>{
+          if(response.ok){
+            return response.json();
+          }
+        })
+        .then(responseJson =>{
+          if(responseJson.messange === 'Curso eliminado Con Exito'){
+            Swal.fire({
+              icon: 'success',
+              text: 'Curso elimino con exito',
+              background:'#F2E9E4',
+              confirmButtonColor:'#15292E',
+            }).then(result => {
+              if (result.isConfirmed) {
+                navigate('/LoginDocente', { replace: true }) 
+                window.location.reload();
+              }
+            }); 
+          }else{
+            Swal.fire({
+              icon: 'error',
+              text: 'Succedio algun error al eliminar el curso',
+              background:'#F2E9E4',
+              confirmButtonColor:'#15292E',
+            })
+          }
+        }).catch( (error)=>{
+          console.error(error)
+        })
 
+      }
+    }); 
+    
+  }
   return (
     <CrearCursoContainer>
       <div id='divInline' >
@@ -244,6 +300,7 @@ function CrearCurso() {
           <div id='laminaBotonesRight'>
             <button type='submit'className='buttonImg'><img src={Save} alt= '' className='imgA' /></button>
             <button  type='button' onClick={cancelarTodo} className='buttonImg'><img src={Cancelar} alt=""className='imgA' /></button>
+            <button type='button' className='buttonImg' onClick={eliminarCurso} ><img src={Trash} alt=""className='imgA' /></button>
           </div>
           <h2>Actualizar Curso</h2>
           <div>
@@ -322,7 +379,8 @@ export default CrearCurso
 const CrearCursoContainer = styled.nav`
   display: flex;
   min-height: calc(65vh);
-  margin: 5vw;
+  margin-top: 1vw;
+  margin-bottom: 2vw;
   margin-left: 20vw;
   #componentesFlex{
     width: 100%;
@@ -332,6 +390,7 @@ const CrearCursoContainer = styled.nav`
   }
   #divInline{
     display: inline;
+    position: relative;
     min-height: calc(65vh);
     width: 77%;
   }
