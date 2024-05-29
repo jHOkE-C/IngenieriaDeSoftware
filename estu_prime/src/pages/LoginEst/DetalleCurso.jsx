@@ -78,55 +78,71 @@ function DetalleCurso() {
   };
 
   const buyNow = () => {
-    console.log(idCurso);
-    setMensaje(null); // Resetear el mensaje
-    fetch('http://localhost:80/IngenieriaDeSoftware/estu_prime/src/api/comprarCurso.php', {
-      method: 'POST',
-      credentials: 'include', // Esto es necesario si tu PHP utiliza sesiones
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ idCurso })
-    })
-    .then(response => {
-      if (!response.ok) {
-        throw new Error('Error al realizar la compra');
+    Swal.fire({
+      icon: 'question',
+      text: 'Se comprara el curso por el Precio de: '+curso.precio+', esta seguro?',
+      background:'#F2E9E4',
+      confirmButtonColor:'#15292E',
+      showCancelButton: true,
+      confirmButtonText: "Comprar",
+    }).then(result => {
+      if (result.isConfirmed) {
+        console.log(idCurso);
+        setMensaje(null); // Resetear el mensaje
+        fetch('http://localhost:80/IngenieriaDeSoftware/estu_prime/src/api/comprarCurso.php', {
+          method: 'POST',
+          credentials: 'include', // Esto es necesario si tu PHP utiliza sesiones
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ idCurso })
+        })
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Error al realizar la compra');
+          }
+          return response.json();
+        })
+        .then(data => {
+          if (data.success) {
+            Swal.fire({
+              title: 'Compra realizada con éxito',
+              icon: 'success',
+              confirmButtonText: 'OK',
+              background:'#F2E9E4',
+              confirmButtonColor:'#15292E',
+            }).then(() => {
+              // Recargar la página
+              window.location.reload();
+            }); 
+          } else {
+            Swal.fire({
+              title: 'Error al realizar la compra',
+              icon: 'error',
+              text: data.message || 'Por favor, inténtelo de nuevo más tarde',
+              confirmButtonText: 'OK',
+              background:'#F2E9E4',
+              confirmButtonColor:'#15292E',
+            }).then(() => {
+              // Recargar la página
+              window.location.reload();
+            }); 
+          }
+        })
+        .catch(error => {
+          Swal.fire({
+            title: 'Error',
+            icon: 'error',
+            text: `Error: ${error.message}`,
+            confirmButtonText: 'OK'
+          }).then(() => {
+            // Recargar la página
+            window.location.reload();
+          }); 
+        });
       }
-      return response.json();
-    })
-    .then(data => {
-      if (data.success) {
-        Swal.fire({
-          title: 'Compra realizada con éxito',
-          icon: 'success',
-          confirmButtonText: 'OK'
-        }).then(() => {
-          // Recargar la página
-          window.location.reload();
-        }); 
-      } else {
-        Swal.fire({
-          title: 'Error al realizar la compra',
-          icon: 'error',
-          text: data.message || 'Por favor, inténtelo de nuevo más tarde',
-          confirmButtonText: 'OK'
-        }).then(() => {
-          // Recargar la página
-          window.location.reload();
-        }); 
-      }
-    })
-    .catch(error => {
-      Swal.fire({
-        title: 'Error',
-        icon: 'error',
-        text: `Error: ${error.message}`,
-        confirmButtonText: 'OK'
-      }).then(() => {
-        // Recargar la página
-        window.location.reload();
-      }); 
-    });
+    }); 
+    
   };
 
   if (loading) {

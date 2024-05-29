@@ -2,37 +2,39 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import trash from '../../assents/basurero.png';
 
-function InputA({ eliminarComponente, onChangeVideo, index}) {
-  const [video, setVideo] = useState("");
+function InputA({ eliminarComponente, onChangeVideo, index }) {
+  const [video, setVideo] = useState(null);
 
   const onChange = (e) => {
-    setVideo(e.target.value);
-    
+    const file = e.target.files[0];
+    setVideo(file);
   };
-  useEffect(()=>{
-    onChangeVideo(video, index);
-  },[video])
-  
+
+  useEffect(() => {
+    if (video) {
+      onChangeVideo(video, index);
+      console.log(video);
+    }
+  }, [video, index, onChangeVideo]);
+
   const handleClickEliminar = (e) => {
-    e.preventDefault();  // Previene la recarga de la página
+    e.preventDefault(); // Previene la recarga de la página
     eliminarComponente(index);
   };
 
   return (
     <InputSubmitContainer>
-      
-        <form id='inputsT'>
-          <input
-            type="file"
-            id="fileInput"
-            value={video}
-            accept=".mp4, .mkv, .AVI, .H.264"
-            onChange={onChange}
-          />
-          <button className="buttonImg" onClick={handleClickEliminar}>
-            <img src={trash} alt="" className="imgA" />
-          </button>
-        </form>
+      <form id='inputsT'>
+        <input
+          type="file"
+          id="fileInput"
+          accept=".mp4, .mkv, .AVI, .H.264"
+          onChange={onChange}
+        />
+        <button className="buttonImg" onClick={handleClickEliminar}>
+          <img src={trash} alt="Eliminar" className="imgA" />
+        </button>
+      </form>
     </InputSubmitContainer>
   );
 }
